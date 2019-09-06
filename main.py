@@ -19,18 +19,21 @@ log = logging.getLogger(__name__)
 
 def run(args):
     from pajbot.utils import load_config
+
     config = load_config(args.config)
 
-    if 'main' not in config:
-        log.error('Missing section [main] in config')
+    if "main" not in config:
+        log.error("Missing section [main] in config")
         sys.exit(1)
 
-    if 'sql' in config:
-        log.error('The [sql] section in config is no longer used. See config.example.ini for the new format under [main].')
+    if "sql" in config:
+        log.error(
+            "The [sql] section in config is no longer used. See the example config for the new format under [main]."
+        )
         sys.exit(1)
 
-    if 'db' not in config['main']:
-        log.error('Missing required db config in the [main] section.')
+    if "db" not in config["main"]:
+        log.error("Missing required db config in the [main] section.")
         sys.exit(1)
 
     pajbot = Bot(config, args)
@@ -51,15 +54,24 @@ def run(args):
 
 
 def handle_exceptions(exctype, value, tb):
-    log.error('Logging an uncaught exception', exc_info=(exctype, value, tb))
+    log.error("Logging an uncaught exception", exc_info=(exctype, value, tb))
+    with open("/srv/admiralbullbot/errors.txt", "a") as f:
+        newString = "{}\n{}\n{}\n".format(exctype, value, tb)
+        f.write(newString)
 
 
-if __name__ == '__main__':
-    from pajbot.utils import init_logging
+if __name__ == "__main__":
+    from pajbot.utils import init_logging, dump_threads
 
+    def on_sigusr1(signal, frame):
+        log.info("Process was interrupted with SIGUSR1, dumping all thread stack traces")
+        dump_threads()
+
+    # dump all stack traces on SIGUSR1
+    signal.signal(signal.SIGUSR1, on_sigusr1)
     sys.excepthook = handle_exceptions
 
     args = Bot.parse_args()
 
-    init_logging('pajbot')
+    init_logging("pajbot")
     run(args)

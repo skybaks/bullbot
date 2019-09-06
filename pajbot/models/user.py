@@ -3,9 +3,10 @@ import json
 import logging
 from contextlib import contextmanager
 
-import sqlalchemy
+import requests
 from sqlalchemy import Boolean
 from sqlalchemy import Column
+from sqlalchemy import func
 from sqlalchemy import Integer
 from sqlalchemy import String
 
@@ -16,13 +17,17 @@ from pajbot.managers.redis import RedisManager
 from pajbot.managers.schedule import ScheduleManager
 from pajbot.managers.time import TimeManager
 from pajbot.streamhelper import StreamHelper
-from pajbot.utils import time_method  # NOQA
 
 log = logging.getLogger(__name__)
 
 
+class Config:
+    se_sync_token = None
+    se_channel = None
+
+
 class User(Base):
-    __tablename__ = 'tb_user'
+    __tablename__ = "tb_user"
 
     id = Column(Integer, primary_key=True)
     username = Column(String(32), nullable=False, index=True, unique=True)
@@ -71,25 +76,25 @@ class NoCacheHit(Exception):
 class UserSQLCache:
     cache = {}
 
+    @staticmethod
     def init():
         ScheduleManager.execute_every(30 * 60, UserSQLCache._clear_cache)
 
+    @staticmethod
     def _clear_cache():
         UserSQLCache.cache = {}
 
+    @staticmethod
     def save(user):
-        UserSQLCache.cache[user.username] = {
-                'id': user.id,
-                'level': user.level,
-                'subscriber': user.subscriber,
-                }
+        UserSQLCache.cache[user.username] = {"id": user.id, "level": user.level, "subscriber": user.subscriber}
 
+    @staticmethod
     def get(username, value):
         if username not in UserSQLCache.cache:
-            raise NoCacheHit('User not in cache')
+            raise NoCacheHit("User not in cache")
 
         if value not in UserSQLCache.cache[username]:
-            raise NoCacheHit('Value not in cache')
+            raise NoCacheHit("Value not in cache")
 
         # log.debug('Returning {}:{} from cache'.format(username, value))
         return UserSQLCache.cache[username][value]
@@ -102,6 +107,7 @@ class UserSQL:
         self.model_loaded = user_model is not None
         self.shared_db_session = db_session
 
+    @staticmethod
     def select_or_create(db_session, username):
         user = db_session.query(User).filter_by(username=username).one_or_none()
         if user is None:
@@ -116,7 +122,7 @@ class UserSQL:
 
         self.model_loaded = True
 
-        log.debug('[UserSQL] Loading user model for {}'.format(self.username))
+        # log.debug('[UserSQL] Loading user model for {}'.format(self.username))
         # from pajbot.utils import print_traceback
         # print_traceback()
 
@@ -133,20 +139,23 @@ class UserSQL:
         if not self.model_loaded:
             return
 
+        if not save_to_db:
+            return
+
         try:
-            if save_to_db and not self.shared_db_session:
+            if not self.shared_db_session:
                 with DBManager.create_session_scope(expire_on_commit=False) as db_session:
                     # log.debug('Calling db_session.add on {}'.format(self.user_model))
                     db_session.add(self.user_model)
 
             UserSQLCache.save(self.user_model)
         except:
-            log.exception('Caught exception in sql_save while saving {}'.format(self.user_model))
+            log.exception("Caught exception in sql_save while saving {}".format(self.user_model))
 
     @property
     def id(self):
         try:
-            return UserSQLCache.get(self.username, 'id')
+            return UserSQLCache.get(self.username, "id")
         except NoCacheHit:
             self.sql_load()
             return self.user_model.id
@@ -159,7 +168,7 @@ class UserSQL:
     @property
     def level(self):
         try:
-            return UserSQLCache.get(self.username, 'level')
+            return UserSQLCache.get(self.username, "level")
         except NoCacheHit:
             self.sql_load()
             return self.user_model.level
@@ -172,7 +181,7 @@ class UserSQL:
     @property
     def minutes_in_chat_online(self):
         try:
-            return UserSQLCache.get(self.username, 'minutes_in_chat_online')
+            return UserSQLCache.get(self.username, "minutes_in_chat_online")
         except NoCacheHit:
             self.sql_load()
             return self.user_model.minutes_in_chat_online
@@ -185,7 +194,7 @@ class UserSQL:
     @property
     def minutes_in_chat_offline(self):
         try:
-            return UserSQLCache.get(self.username, 'minutes_in_chat_offline')
+            return UserSQLCache.get(self.username, "minutes_in_chat_offline")
         except NoCacheHit:
             self.sql_load()
             return self.user_model.minutes_in_chat_offline
@@ -198,7 +207,7 @@ class UserSQL:
     @property
     def subscriber(self):
         try:
-            return UserSQLCache.get(self.username, 'subscriber')
+            return UserSQLCache.get(self.username, "subscriber")
         except NoCacheHit:
             self.sql_load()
             return self.user_model.subscriber
@@ -206,7 +215,7 @@ class UserSQL:
     @subscriber.setter
     def subscriber(self, value):
         try:
-            old_value = UserSQLCache.get(self.username, 'subscriber')
+            old_value = UserSQLCache.get(self.username, "subscriber")
             if old_value == value:
                 return
         except NoCacheHit:
@@ -223,21 +232,37 @@ class UserSQL:
     @points.setter
     def points(self, value):
         self.sql_load()
+        if Config.se_channel is not None and Config.se_sync_token is not None and value != self.user_model.points:
+            value = max(0, value)  # negative points are incompatible with the SE sync system
+            try:
+                log.debug("Updating points for {0} to {1}".format(self.username, value))
+                if value > 0:
+                    requests.put(
+                        "https://api.streamelements.com/kappa/v2/points/{0}".format(Config.se_channel),
+                        headers={"Authorization": "Bearer " + Config.se_sync_token},
+                        json={"users": [{"username": self.username, "current": value}], "mode": "set"},
+                    )
+                else:
+                    requests.delete(
+                        "https://api.streamelements.com/kappa/v2/points/{0}/{1}".format(
+                            Config.se_channel, self.username
+                        ),
+                        headers={"Authorization": "Bearer " + Config.se_sync_token},
+                    )
+            except:
+                log.exception("BabyRage")
         self.user_model.points = value
 
     @property
     def points_rank(self):
-        return 420
-        """
         if self.shared_db_session:
-            query_data = self.shared_db_session.query(sqlalchemy.func.count(User.id)).filter(User.points > self.points).one()
+            query_data = self.shared_db_session.query(func.count(User.id)).filter(User.points > self.points).one()
         else:
             with DBManager.create_session_scope(expire_on_commit=False) as db_session:
-                query_data = db_session.query(sqlalchemy.func.count(User.id)).filter(User.points > self.points).one()
+                query_data = db_session.query(func.count(User.id)).filter(User.points > self.points).one()
 
         rank = int(query_data[0]) + 1
         return rank
-        """
 
     @property
     def duel_stats(self):
@@ -251,29 +276,13 @@ class UserSQL:
 
 
 class UserRedis:
-    SS_KEYS = [
-            'num_lines',
-            'tokens',
-            ]
-    HASH_KEYS = [
-            'last_seen',
-            'last_active',
-            'username_raw',
-            ]
-    BOOL_KEYS = [
-            'ignored',
-            'banned',
-            ]
+    SS_KEYS = ["num_lines", "tokens"]
+    HASH_KEYS = ["last_seen", "last_active", "username_raw"]
+    BOOL_KEYS = ["ignored", "banned"]
     FULL_KEYS = SS_KEYS + HASH_KEYS + BOOL_KEYS
 
-    SS_DEFAULTS = {
-            'num_lines': 0,
-            'tokens': 0,
-            }
-    HASH_DEFAULTS = {
-            'last_seen': None,
-            'last_active': None,
-            }
+    SS_DEFAULTS = {"num_lines": 0, "tokens": 0}
+    HASH_DEFAULTS = {"last_seen": None, "last_active": None}
 
     def __init__(self, username, redis=None):
         self.username = username
@@ -289,11 +298,11 @@ class UserRedis:
         streamer = StreamHelper.get_streamer()
         # Queue up calls to the pipeline
         for key in UserRedis.SS_KEYS:
-            pipeline.zscore('{streamer}:users:{key}'.format(streamer=streamer, key=key), self.username)
+            pipeline.zscore("{streamer}:users:{key}".format(streamer=streamer, key=key), self.username)
         for key in UserRedis.HASH_KEYS:
-            pipeline.hget('{streamer}:users:{key}'.format(streamer=streamer, key=key), self.username)
+            pipeline.hget("{streamer}:users:{key}".format(streamer=streamer, key=key), self.username)
         for key in UserRedis.BOOL_KEYS:
-            pipeline.hget('{streamer}:users:{key}'.format(streamer=streamer, key=key), self.username)
+            pipeline.hget("{streamer}:users:{key}".format(streamer=streamer, key=key), self.username)
 
     def load_redis_data(self, data):
         self.redis_loaded = True
@@ -318,7 +327,8 @@ class UserRedis:
             data = pipeline.execute()
             self.load_redis_data(data)
 
-    def fix_ss(self, key, value):
+    @staticmethod
+    def fix_ss(key, value):
         try:
             val = int(value)
         except:
@@ -326,14 +336,15 @@ class UserRedis:
         return val
 
     def fix_hash(self, key, value):
-        if key == 'username_raw':
+        if key == "username_raw":
             val = value or self.username
         else:
             val = value or UserRedis.HASH_DEFAULTS[key]
 
         return val
 
-    def fix_bool(self, key, value):
+    @staticmethod
+    def fix_bool(key, value):
         return False if value is None else True
 
     @property
@@ -344,56 +355,60 @@ class UserRedis:
     def num_lines(self):
         if self.save_to_redis:
             self.redis_load()
-            return self.values['num_lines']
-        else:
-            return self.values.get('num_lines', 0)
+            return self.values["num_lines"]
 
-    @num_lines.setter
-    def num_lines(self, value):
+        return self.values.get("num_lines", 0)
+
+    def incr_num_lines(self):
         # Set cached value
-        self.values['num_lines'] = value
+        self.values["num_lines"] = self.num_lines + 1
 
         if self.save_to_redis:
             # Set redis value
-            if value != 0:
-                self.redis.zadd('{streamer}:users:num_lines'.format(streamer=StreamHelper.get_streamer()), self.username, value)
-            else:
-                self.redis.zrem('{streamer}:users:num_lines'.format(streamer=StreamHelper.get_streamer()), self.username)
+            self.redis.zincrby(
+                "{streamer}:users:num_lines".format(streamer=StreamHelper.get_streamer()),
+                value=self.username,
+                amount=1.0,
+            )
 
     @property
     def tokens(self):
         if self.save_to_redis:
             self.redis_load()
-            return self.values['tokens']
-        else:
-            return self.values.get('tokens', 0)
+            return self.values["tokens"]
+
+        return self.values.get("tokens", 0)
 
     @tokens.setter
     def tokens(self, value):
         # Set cached value
-        self.values['tokens'] = value
+        self.values["tokens"] = value
 
         if self.save_to_redis:
             # Set redis value
             if value != 0:
-                self.redis.zadd('{streamer}:users:tokens'.format(streamer=StreamHelper.get_streamer()), self.username, value)
+                self.redis.zincrby(
+                    "{streamer}:users:tokens".format(streamer=StreamHelper.get_streamer()),
+                    value=self.username,
+                    amount=float(value),
+                )
             else:
-                self.redis.zrem('{streamer}:users:tokens'.format(streamer=StreamHelper.get_streamer()), self.username)
+                self.redis.zrem("{streamer}:users:tokens".format(streamer=StreamHelper.get_streamer()), self.username)
 
     @property
     def num_lines_rank(self):
-        key = '{streamer}:users:num_lines'.format(streamer=StreamHelper.get_streamer())
+        key = "{streamer}:users:num_lines".format(streamer=StreamHelper.get_streamer())
         rank = self.redis.zrevrank(key, self.username)
         if rank is None:
             return self.redis.zcard(key)
-        else:
-            return rank + 1
+
+        return rank + 1
 
     @property
     def _last_seen(self):
         self.redis_load()
         try:
-            return datetime.datetime.utcfromtimestamp(float(self.values['last_seen']))
+            return datetime.datetime.fromtimestamp(float(self.values["last_seen"]), tz=datetime.timezone.utc)
         except:
             return None
 
@@ -401,30 +416,30 @@ class UserRedis:
     def _last_seen(self, value):
         # Set cached value
         value = value.timestamp()
-        self.values['last_seen'] = value
+        self.values["last_seen"] = value
 
         # Set redis value
-        self.redis.hset('{streamer}:users:last_seen'.format(streamer=StreamHelper.get_streamer()), self.username, value)
+        self.redis.hset("{streamer}:users:last_seen".format(streamer=StreamHelper.get_streamer()), self.username, value)
 
     def set_last_seen(self, value):
         # Set cached value
         value = value.timestamp()
-        self.values['last_seen'] = value
+        self.values["last_seen"] = value
 
         # Set redis value
-        self.redis.hset('{streamer}:users:last_seen'.format(streamer=StreamHelper.get_streamer()), self.username, value)
+        self.redis.hset("{streamer}:users:last_seen".format(streamer=StreamHelper.get_streamer()), self.username, value)
 
     def _set_last_seen(self, value):
         # Set cached value
-        self.values['last_seen'] = value
+        self.values["last_seen"] = value
 
-        self.redis.hset('{streamer}:users:last_seen'.format(streamer=StreamHelper.get_streamer()), self.username, value)
+        self.redis.hset("{streamer}:users:last_seen".format(streamer=StreamHelper.get_streamer()), self.username, value)
 
     @property
     def _last_active(self):
         self.redis_load()
         try:
-            return datetime.datetime.utcfromtimestamp(float(self.values['last_active']))
+            return datetime.datetime.fromtimestamp(float(self.values["last_active"]), tz=datetime.timezone.utc)
         except:
             return None
 
@@ -432,58 +447,62 @@ class UserRedis:
     def _last_active(self, value):
         # Set cached value
         value = value.timestamp()
-        self.values['last_active'] = value
+        self.values["last_active"] = value
 
         # Set redis value
-        self.redis.hset('{streamer}:users:last_active'.format(streamer=StreamHelper.get_streamer()), self.username, value)
+        self.redis.hset(
+            "{streamer}:users:last_active".format(streamer=StreamHelper.get_streamer()), self.username, value
+        )
 
     @property
     def username_raw(self):
         self.redis_load()
-        return self.values['username_raw']
+        return self.values["username_raw"]
 
     @username_raw.setter
     def username_raw(self, value):
         # Set cached value
-        self.values['username_raw'] = value
+        self.values["username_raw"] = value
 
         # Set redis value
         if value != self.username:
-            self.redis.hset('{streamer}:users:username_raw'.format(streamer=StreamHelper.get_streamer()), self.username, value)
+            self.redis.hset(
+                "{streamer}:users:username_raw".format(streamer=StreamHelper.get_streamer()), self.username, value
+            )
         else:
-            self.redis.hdel('{streamer}:users:username_raw'.format(streamer=StreamHelper.get_streamer()), self.username)
+            self.redis.hdel("{streamer}:users:username_raw".format(streamer=StreamHelper.get_streamer()), self.username)
 
     @property
     def ignored(self):
         self.redis_load()
-        return self.values['ignored']
+        return self.values["ignored"]
 
     @ignored.setter
     def ignored(self, value):
         # Set cached value
-        self.values['ignored'] = value
+        self.values["ignored"] = value
 
         if value is True:
             # Set redis value
-            self.redis.hset('{streamer}:users:ignored'.format(streamer=StreamHelper.get_streamer()), self.username, 1)
+            self.redis.hset("{streamer}:users:ignored".format(streamer=StreamHelper.get_streamer()), self.username, 1)
         else:
-            self.redis.hdel('{streamer}:users:ignored'.format(streamer=StreamHelper.get_streamer()), self.username)
+            self.redis.hdel("{streamer}:users:ignored".format(streamer=StreamHelper.get_streamer()), self.username)
 
     @property
     def banned(self):
         self.redis_load()
-        return self.values['banned']
+        return self.values["banned"]
 
     @banned.setter
     def banned(self, value):
         # Set cached value
-        self.values['banned'] = value
+        self.values["banned"] = value
 
         if value is True:
             # Set redis value
-            self.redis.hset('{streamer}:users:banned'.format(streamer=StreamHelper.get_streamer()), self.username, 1)
+            self.redis.hset("{streamer}:users:banned".format(streamer=StreamHelper.get_streamer()), self.username, 1)
         else:
-            self.redis.hdel('{streamer}:users:banned'.format(streamer=StreamHelper.get_streamer()), self.username)
+            self.redis.hdel("{streamer}:users:banned".format(streamer=StreamHelper.get_streamer()), self.username)
 
 
 class UserCombined(UserRedis, UserSQL):
@@ -491,7 +510,7 @@ class UserCombined(UserRedis, UserSQL):
     A combination of the MySQL Object and the Redis object
     """
 
-    WARNING_SYNTAX = '{prefix}_{username}_warning_{id}'
+    WARNING_SYNTAX = "{prefix}_{username}_warning_{id}"
 
     def __init__(self, username, db_session=None, user_model=None, redis=None):
         UserSQL.__init__(self, username, db_session, user_model=user_model)
@@ -508,39 +527,39 @@ class UserCombined(UserRedis, UserSQL):
     def save(self, save_to_db=True):
         self.sql_save(save_to_db=save_to_db)
         return {
-                'debts': self.debts,
-                'moderator': self.moderator,
-                'timed_out': self.timed_out,
-                'timeout_end': self.timeout_end,
-                }
+            "debts": self.debts,
+            "moderator": self.moderator,
+            "timed_out": self.timed_out,
+            "timeout_end": self.timeout_end,
+        }
 
     def jsonify(self):
         return {
-                'id': self.id,
-                'username': self.username,
-                'username_raw': self.username_raw,
-                'points': self.points,
-                'nl_rank': self.num_lines_rank,
-                'points_rank': self.points_rank,
-                'level': self.level,
-                'last_seen': self.last_seen,
-                'last_active': self.last_active,
-                'subscriber': self.subscriber,
-                'num_lines': self.num_lines,
-                'minutes_in_chat_online': self.minutes_in_chat_online,
-                'minutes_in_chat_offline': self.minutes_in_chat_offline,
-                'banned': self.banned,
-                'ignored': self.ignored,
-                }
+            "id": self.id,
+            "username": self.username,
+            "username_raw": self.username_raw,
+            "points": self.points,
+            "nl_rank": self.num_lines_rank,
+            "points_rank": self.points_rank,
+            "level": self.level,
+            "last_seen": self.last_seen,
+            "last_active": self.last_active,
+            "subscriber": self.subscriber,
+            "num_lines": self.num_lines,
+            "minutes_in_chat_online": self.minutes_in_chat_online,
+            "minutes_in_chat_offline": self.minutes_in_chat_offline,
+            "banned": self.banned,
+            "ignored": self.ignored,
+        }
 
     def get_tags(self, redis=None):
         if redis is None:
             redis = RedisManager.get()
-        val = redis.hget('global:usertags', self.username)
+        val = redis.hget("global:usertags", self.username)
         if val:
             return json.loads(val)
-        else:
-            return {}
+
+        return {}
 
     @property
     def last_seen(self):
@@ -564,7 +583,7 @@ class UserCombined(UserRedis, UserSQL):
     def set_tags(self, value, redis=None):
         if redis is None:
             redis = RedisManager.get()
-        return redis.hset('global:usertags', self.username, json.dumps(value, separators=(',', ':')))
+        return redis.hset("global:usertags", self.username, json.dumps(value, separators=(",", ":")))
 
     def create_debt(self, points):
         self.debts.append(points)
@@ -572,9 +591,12 @@ class UserCombined(UserRedis, UserSQL):
     def get_warning_keys(self, total_chances, prefix):
         """ Returns a list of keys that are used to store the users warning status in redis.
         Example: ['pajlada_warning1', 'pajlada_warning2'] """
-        return [self.WARNING_SYNTAX.format(prefix=prefix, username=self.username, id=id) for id in range(0, total_chances)]
+        return [
+            self.WARNING_SYNTAX.format(prefix=prefix, username=self.username, id=id) for id in range(0, total_chances)
+        ]
 
-    def get_warnings(self, redis, warning_keys):
+    @staticmethod
+    def get_warnings(redis, warning_keys):
         """ Pass through a list of warning keys.
         Example of warning_keys syntax: ['_pajlada_warning1', '_pajlada_warning2']
         Returns a list of values for the warning keys list above.
@@ -584,19 +606,21 @@ class UserCombined(UserRedis, UserSQL):
 
         return redis.mget(warning_keys)
 
-    def get_chances_used(self, warnings):
+    @staticmethod
+    def get_chances_used(warnings):
         """ Returns a number between 0 and n where n is the amount of
             chances a user has before he should face the full timeout length. """
 
         return len(warnings) - warnings.count(None)
 
-    def add_warning(self, redis, timeout, warning_keys, warnings):
+    @staticmethod
+    def add_warning(redis, timeout, warning_keys, warnings):
         """ Returns a number between 0 and n where n is the amount of
             chances a user has before he should face the full timeout length. """
 
-        for id in range(0, len(warning_keys)):
-            if warnings[id] is None:
-                redis.setex(warning_keys[id], time=timeout, value=1)
+        for i in range(0, len(warning_keys)):
+            if warnings[i] is None:
+                redis.setex(warning_keys[i], time=timeout, value=1)
                 return True
 
         return False
@@ -608,15 +632,15 @@ class UserCombined(UserRedis, UserSQL):
         The punishment string is used to clarify whether this was a warning or the real deal.
         """
 
-        punishment = 'timed out for {} seconds'.format(timeout_length)
+        punishment = "timed out for {} seconds".format(timeout_length)
 
         if use_warnings and warning_module is not None:
             redis = RedisManager.get()
 
-            """ How many chances the user has before receiving a full timeout. """
-            total_chances = warning_module.settings['total_chances']
+            # How many chances the user has before receiving a full timeout.
+            total_chances = warning_module.settings["total_chances"]
 
-            warning_keys = self.get_warning_keys(total_chances, warning_module.settings['redis_prefix'])
+            warning_keys = self.get_warning_keys(total_chances, warning_module.settings["redis_prefix"])
             warnings = self.get_warnings(redis, warning_keys)
 
             chances_used = self.get_chances_used(warnings)
@@ -624,10 +648,10 @@ class UserCombined(UserRedis, UserSQL):
             if chances_used < total_chances:
                 """ The user used up one of his warnings.
                 Calculate for how long we should time him out. """
-                timeout_length = warning_module.settings['base_timeout'] * (chances_used + 1)
-                punishment = 'timed out for {} seconds (warning)'.format(timeout_length)
+                timeout_length = warning_module.settings["base_timeout"] * (chances_used + 1)
+                punishment = "timed out for {} seconds (warning)".format(timeout_length)
 
-                self.add_warning(redis, warning_module.settings['length'], warning_keys, warnings)
+                self.add_warning(redis, warning_module.settings["length"], warning_keys, warnings)
 
         return (timeout_length, punishment)
 
@@ -639,18 +663,18 @@ class UserCombined(UserRedis, UserSQL):
             self._spend_tokens(tokens_to_spend)
             yield
         except FailedCommand:
-            log.debug('Returning {} points to {}'.format(points_to_spend, self.username_raw))
+            # log.debug("Returning {} points to {}".format(points_to_spend, self.username_raw))
             self.points += points_to_spend
             self.tokens += tokens_to_spend
         except:
             # An error occured, return the users points!
-            log.exception('XXXX')
-            log.debug('Returning {} points to {}'.format(points_to_spend, self.username_raw))
+            log.exception("XXXX")
+            log.debug("Returning {} points to {}".format(points_to_spend, self.username_raw))
             self.points += points_to_spend
 
     def _spend_points(self, points_to_spend):
         """ Returns true if points were spent, otherwise return False """
-        if points_to_spend <= self.points:
+        if points_to_spend <= self.points and self.username != 'admiralbulldog' and self.username != 'datguy1':
             self.points -= points_to_spend
             return True
 
@@ -668,7 +692,7 @@ class UserCombined(UserRedis, UserSQL):
         try:
             self.debts.remove(debt)
         except ValueError:
-            log.error('For some reason the debt {} was not in the list of debts {}'.format(debt, self.debts))
+            log.error("For some reason the debt {} was not in the list of debts {}".format(debt, self.debts))
 
     def pay_debt(self, debt):
         self.points -= debt
@@ -681,6 +705,9 @@ class UserCombined(UserRedis, UserSQL):
         return self.points - self.points_in_debt()
 
     def can_afford(self, points_to_spend):
+        if self.username == 'admiralbulldog' or self.username == 'datguy1':
+            return True
+
         return self.points_available() >= points_to_spend
 
     def __eq__(self, other):

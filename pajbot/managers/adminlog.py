@@ -1,7 +1,7 @@
-import datetime
 import json
 import logging
 
+import pajbot.utils
 from pajbot.managers.redis import RedisManager
 from pajbot.streamhelper import StreamHelper
 
@@ -19,54 +19,63 @@ class LogEntryTemplate:
 class AdminLogManager:
     KEY = None
     TEMPLATES = {
-            'Banphrase added': LogEntryTemplate('Added banphrase "{}"'),
-            'Banphrase edited': LogEntryTemplate('Edited banphrase from "{}"'),
-            'Banphrase removed': LogEntryTemplate('Removed banphrase "{}"'),
-            'Banphrase toggled': LogEntryTemplate('{} banphrase "{}"'),
-            'Blacklist link added': LogEntryTemplate('Added blacklist link "{}"'),
-            'Blacklist link removed': LogEntryTemplate('Removed blacklisted link "{}"'),
-            'Module edited': LogEntryTemplate('Edited module "{}"'),
-            'Module toggled': LogEntryTemplate('{} module "{}"'),
-            'Timer added': LogEntryTemplate('Added timer "{}"'),
-            'Timer removed': LogEntryTemplate('Removed timer "{}"'),
-            'Timer toggled': LogEntryTemplate('{} timer "{}"'),
-            'Whitelist link added': LogEntryTemplate('Added whitelist link "{}"'),
-            'Whitelist link removed': LogEntryTemplate('Removed whitelisted link "{}"'),
-            }
+        "Banphrase added": LogEntryTemplate('Added banphrase "{}"'),
+        "Banphrase edited": LogEntryTemplate('Edited banphrase from "{}"'),
+        "Banphrase removed": LogEntryTemplate('Removed banphrase "{}"'),
+        "Banphrase toggled": LogEntryTemplate('{} banphrase "{}"'),
+        "Blacklist link added": LogEntryTemplate('Added blacklist link "{}"'),
+        "Blacklist link removed": LogEntryTemplate('Removed blacklisted link "{}"'),
+        "Module edited": LogEntryTemplate('Edited module "{}"'),
+        "Module toggled": LogEntryTemplate('{} module "{}"'),
+        "Timer added": LogEntryTemplate('Added timer "{}"'),
+        "Timer removed": LogEntryTemplate('Removed timer "{}"'),
+        "Timer toggled": LogEntryTemplate('{} timer "{}"'),
+        "Whitelist link added": LogEntryTemplate('Added whitelist link "{}"'),
+        "Whitelist link removed": LogEntryTemplate('Removed whitelisted link "{}"'),
+    }
 
+    @staticmethod
     def get_key():
         if AdminLogManager.KEY is None:
             streamer = StreamHelper.get_streamer()
-            AdminLogManager.KEY = '{streamer}:logs:admin'.format(streamer=streamer)
+            AdminLogManager.KEY = "{streamer}:logs:admin".format(streamer=streamer)
         return AdminLogManager.KEY
 
-    def add_entry(type, source, message, data={}):
+    @staticmethod
+    def add_entry(entry_type, source, message, data={}):
         redis = RedisManager.get()
 
         payload = {
-                'type': type,
-                'user_id': source.id,
-                'message': message,
-                'created_at': str(datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')),
-                'data': data,
-                }
+            "type": entry_type,
+            "user_id": source.id,
+            "message": message,
+            "created_at": str(pajbot.utils.now().strftime("%Y-%m-%d %H:%M:%S %Z")),
+            "data": data,
+        }
 
         redis.lpush(AdminLogManager.get_key(), json.dumps(payload))
 
+    @staticmethod
     def get_entries(offset=0, limit=50):
         redis = RedisManager.get()
 
-        return [json.loads(entry) for entry in redis.lrange(AdminLogManager.get_key(), offset, limit)]
+        entries = []
 
-    def post(type, source, *args, data={}):
-        if type not in AdminLogManager.TEMPLATES:
-            log.warn('{} has no template'.format(type))
+        for entry in redis.lrange(AdminLogManager.get_key(), offset, limit):
+            try:
+                entries.append(json.loads(entry))
+            except:
+                log.exception("babyrage")
+
+        return entries
+
+    @staticmethod
+    def post(entry_type, source, *args, data={}):
+        if entry_type not in AdminLogManager.TEMPLATES:
+            log.warning("{} has no template".format(type))
             return False
 
-        message = AdminLogManager.TEMPLATES[type].get_message(*args)
-        AdminLogManager.add_entry(
-                type, source,
-                message,
-                data=data)
+        message = AdminLogManager.TEMPLATES[entry_type].get_message(*args)
+        AdminLogManager.add_entry(entry_type, source, message, data=data)
 
         return True

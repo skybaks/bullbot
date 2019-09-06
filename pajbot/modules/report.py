@@ -1,6 +1,6 @@
 import logging
 
-import pajbot.models
+from pajbot.models.command import Command
 from pajbot.actions import ActionQueue
 from pajbot.modules import BaseModule
 from pajbot.modules import ModuleSetting

@@ -11,111 +11,98 @@ from pajbot.managers.db import Base
 from pajbot.managers.db import DBManager
 from pajbot.utils import find
 
-log = logging.getLogger('pajbot')
+log = logging.getLogger("pajbot")
 
 
 class Module(Base):
-    __tablename__ = 'tb_module'
+    __tablename__ = "tb_module"
 
     id = Column(String(64), primary_key=True)
-    enabled = Column(Boolean,
-            nullable=False,
-            default=False,
-            server_default=sqlalchemy.sql.expression.false())
-    settings = Column(TEXT,
-            nullable=True,
-            default=None,
-            server_default=sqlalchemy.sql.expression.null())
+    enabled = Column(Boolean, nullable=False, default=False, server_default=sqlalchemy.sql.expression.false())
+    settings = Column(TEXT, nullable=True, default=None, server_default=sqlalchemy.sql.expression.null())
 
-    def __init__(self, id, **options):
-        self.id = id
-        self.enabled = options.get('enabled', False)
+    def __init__(self, module_id, **options):
+        self.id = module_id
+        self.enabled = options.get("enabled", False)
         self.settings = None
 
 
 class ModuleManager:
     def __init__(self, socket_manager, bot=None):
+        # List of all enabled modules
         self.modules = []
+
+        # List of all available modules, both enabled and disabled
         self.all_modules = []
+
         self.bot = bot
 
         if socket_manager:
-            socket_manager.add_handler('module.update', self.on_module_update)
+            socket_manager.add_handler("module.update", self.on_module_update)
 
-    def on_module_update(self, data, conn):
-        log.info('ModuleManager: module.update begin ({})'.format(data))
-        # self.reload()
-        new_state = data.get('new_state', None)
+    def get_module(self, module_id):
+        return find(lambda m: m.ID == module_id, self.all_modules)
+
+    def on_module_update(self, data):
+        new_state = data.get("new_state", None)
         if new_state is True:
-            self.enable_module(data['id'])
+            self.enable_module(data["id"])
         elif new_state is False:
-            self.disable_module(data['id'])
+            self.disable_module(data["id"])
         else:
-            module = find(lambda m: m.ID == data['id'], self.all_modules)
-            self.load_module(module)
-        log.info('ModuleManager: module.update done')
+            module = self.get_module(data["id"])
+
+            if module:
+                module.load()
 
     def enable_module(self, module_id):
-        log.debug('Enabling module {}'.format(module_id))
-        module = find(lambda m: m.ID == module_id, self.all_modules)
+        module = self.get_module(module_id)
         if module is None:
-            log.error('No module with the ID {} found.'.format(module_id))
+            log.error("No module with the ID {} found.".format(module_id))
             return False
 
         module.enable(self.bot)
 
         if module in self.modules:
-            log.error('Module {} is already in the list of enabled modules pajaW'.format(module_id))
+            log.error("Module %s is already in the list of enabled modules pajaW", module_id)
             return False
 
         self.modules.append(module)
 
-        self.load_module(module)
+        module.load()
 
-    def load_module(self, module):
-        if module is None:
-            return False
+        return True
 
-        with DBManager.create_session_scope() as db_session:
-            db_module = db_session.query(Module).filter_by(id=module.ID).one_or_none()
-            options = {}
-            if db_module is not None:
-                if db_module.settings is not None:
-                    try:
-                        options['settings'] = json.loads(db_module.settings)
-                    except ValueError:
-                        log.warn('Invalid JSON in the settings for module {}'.format(module.ID))
-
-            module.load(**options)
-
-    def disable_module(self, module_id, reload_commands=False):
-        module = find(lambda m: m.ID == module_id, self.all_modules)
-        if module is None:
-            log.error('No module with the ID {} found.'.format(module_id))
+    def disable_module(self, module_id):
+        module = self.get_module(module_id)
+        if not module:
+            log.error("No module with the ID {} found.".format(module_id))
             return False
 
         module.disable(self.bot)
 
         if module not in self.modules:
-            log.error('Module {} is not in the list of enabled modules pajaW'.format(module_id))
+            log.error("Module {} is not in the list of enabled modules pajaW".format(module_id))
             return False
 
         self.modules.remove(module)
+
+        return True
 
     def load(self, do_reload=True):
         """ Load module classes """
 
         from pajbot.modules import available_modules
 
-        self.all_modules = [module() for module in available_modules]
+        self.all_modules = [module(self.bot) for module in available_modules]
 
         with DBManager.create_session_scope() as db_session:
             # Make sure there's a row in the DB for each module that's available
             db_modules = db_session.query(Module).all()
             for module in self.all_modules:
-                mod = find(lambda m: m.id == module.ID, db_modules)
+                mod = find(lambda db_module, registered_module=module: db_module.id == registered_module.ID, db_modules)
                 if mod is None:
-                    log.info('Creating row in DB for module {}'.format(module.ID))
+                    log.info("Creating row in DB for module {}".format(module.ID))
                     mod = Module(module.ID, enabled=module.ENABLED_DEFAULT)
                     db_session.add(mod)
 
@@ -128,24 +115,22 @@ class ModuleManager:
         # TODO: Make disable/enable better, so we don't need to disable modules
         # that we're just going to enable again further down below.
         for module in self.modules:
-            log.debug('Disabling {module.NAME}'.format(module=module))
             module.disable(self.bot)
 
         self.modules = []
 
         with DBManager.create_session_scope() as db_session:
             for enabled_module in db_session.query(Module).filter_by(enabled=True):
-                module = find(lambda m: m.ID == enabled_module.id, self.all_modules)
+                module = self.get_module(enabled_module.id)
                 if module is not None:
                     options = {}
                     if enabled_module.settings is not None:
                         try:
-                            options['settings'] = json.loads(enabled_module.settings)
+                            options["settings"] = json.loads(enabled_module.settings)
                         except ValueError:
-                            log.warn('Invalid JSON')
+                            log.warning("Invalid JSON")
 
                     self.modules.append(module.load(**options))
-                    log.debug('Enabling {module.NAME}'.format(module=module))
                     module.enable(self.bot)
 
         to_be_removed = []
@@ -159,12 +144,11 @@ class ModuleManager:
                     parent.submodules.append(module)
                     module.parent_module = parent
                 else:
-                    log.warn('Missing parent for module {}, disabling it.'.format(module.NAME))
+                    # log.warning('Missing parent for module {}, disabling it.'.format(module.NAME))
                     module.parent_module = None
                     to_be_removed.append(module)
 
         for module in to_be_removed:
-            log.debug('Disabling (2) {module.NAME}'.format(module=module))
             module.disable(self.bot)
             self.modules.remove(module)
 

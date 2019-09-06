@@ -1,0 +1,94 @@
+{% extends "admin/layout.html" %}
+{% set active_page = 'user_snipers' %}
+{% block title %}Snipers{% endblock %}
+{% block body %}
+<h2>Snipers</h2>
+<div id="message-box" class="ui message hidden">
+    <i class="close icon" id="message-box-hide-icon"></i>
+    <div class="header" id="message-text">
+    </div>
+</div>
+<h3>Manage kill submissions</h3>
+<table class="ui compact table">
+    <thead>
+    <tr>
+        <th class="collapsing">Username</th>
+        <th>Link</th>
+        <th class="collapsing">Submission time</th>
+        <th class="collapsing" style="min-width: 120px">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for submission in sniperSubmissions %}
+        <tr>
+            <td>{{ submission.username }}</td>
+            <td>
+                <form class="submission-form" id="form-{{ submission.id }}"></form>
+                <input form="form-{{ submission.id }}" type="hidden" name="username" value="{{ submission.username }}">
+                <a href="{{ submission.link }}">{{ submission.link }}</a>
+                <input form="form-{{ submission.id }}" type="hidden" name="link" value="{{ submission.link }}">
+            </td>
+            <td>
+                <div class="min-height-container">
+                    <input form="form-{{ submission.id }}" type="hidden" name="recent_kill" value="{{ submission.submission_time }}">
+                    {{ submission.submission_time }}
+                </div>
+            </td>
+            <td>
+                <div class="actions-buttons-container">
+                    <button form="form-{{ submission.id }}"
+                            class="submission-submit-accept ui compact positive button" type="submit">Accept
+                    </button>
+                    <button form="form-{{ submission.id }}"
+                            class="submission-submit-deny ui compact negative button" type="button">Deny
+                    </button>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<h3>Manage the Leaderboard</h3>
+<table class="ui compact table">
+    <thead>
+    <tr>
+        <th class="collapsing">Username</th>
+        <th class="collapsing">Kills</th>
+        <th class="collapsing" style="min-width: 120px">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for sniper in sniperLeaderboard %}
+        <tr>
+            <td>{{ sniper.username }}</td>
+            <td>
+                <form class="sniper-form" id="form-{{ sniper.username }}"></form>
+                <input form="form-{{ sniper.username }}" type="hidden" name="username" value="{{ sniper.username }}">
+                <div class="grow ui input compact">
+                    <input autocomplete="off" form="form-{{ sniper.username }}" type="number" required
+                           placeholder="Number of kills" name="kills" value="{{ sniper.kills }}">
+                </div>
+            </td>
+            <td>
+                <div class="actions-buttons-container">
+                    <button form="form-{{ sniper.username }}"
+                            class="sniper-submit-save ui compact positive button" type="submit">Save
+                    </button>
+                    <button form="form-{{ sniper.username }}"
+                            class="sniper-submit-delete ui compact negative button" type="button">Delete
+                    </button>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+{% block footer %}
+    {% assets 'base_js', 'sniper_admin_js' %}
+        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+    {% assets 'sniper_admin_css' %}
+        <link rel="stylesheet" href="{{ ASSET_URL }}">
+    {% endassets %}
+{% endblock %}

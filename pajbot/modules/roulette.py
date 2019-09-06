@@ -5,9 +5,11 @@ from numpy import random
 
 import pajbot.exc
 import pajbot.models
-import pajbot.utils
+from pajbot import utils
 from pajbot.managers.db import DBManager
 from pajbot.managers.handler import HandlerManager
+from pajbot.models.command import Command
+from pajbot.models.command import CommandExample
 from pajbot.models.roulette import Roulette
 from pajbot.modules import BaseModule
 from pajbot.modules import ModuleSetting
@@ -17,177 +19,175 @@ log = logging.getLogger(__name__)
 
 class RouletteModule(BaseModule):
 
-    ID = __name__.split('.')[-1]
-    NAME = 'Roulette'
-    DESCRIPTION = 'Lets players roulette with themselves for points'
-    CATEGORY = 'Game'
+    ID = __name__.split(".")[-1]
+    NAME = "Roulette"
+    DESCRIPTION = "Lets players roulette with themselves for points"
+    CATEGORY = "Game"
     SETTINGS = [
             ModuleSetting(
-                key='message_won',
-                label='Won message | Available arguments: {bet}, {points}, {user}',
-                type='text',
+                key="message_won",
+                label="Won message | Available arguments: {bet}, {points}, {user}",
+                type="text",
                 required=True,
-                placeholder='{user} won {bet} points in roulette and now has {points} points! FeelsGoodMan',
-                default='{user} won {bet} points in roulette and now has {points} points! FeelsGoodMan',
+                placeholder="{user} won {bet} points in roulette and now has {points} points! FeelsGoodMan",
+                default="{user} won {bet} points in roulette and now has {points} points! FeelsGoodMan",
                 constraints={
-                    'min_str_len': 10,
-                    'max_str_len': 400,
+                    "min_str_len": 10,
+                    "max_str_len": 400,
                 }),
             ModuleSetting(
-                key='message_lost',
-                label='Lost message | Available arguments: {bet}, {points}, {user}',
-                type='text',
+                key="message_lost",
+                label="Lost message | Available arguments: {bet}, {points}, {user}",
+                type="text",
                 required=True,
-                placeholder='{user} lost {bet} points in roulette and now has {points} points! FeelsBadMan',
-                default='{user} lost {bet} points in roulette and now has {points} points! FeelsBadMan',
+                placeholder="{user} lost {bet} points in roulette and now has {points} points! FeelsBadMan",
+                default="{user} lost {bet} points in roulette and now has {points} points! FeelsBadMan",
                 constraints={
-                    'min_str_len': 10,
-                    'max_str_len': 400,
+                    "min_str_len": 10,
+                    "max_str_len": 400,
                 }),
             ModuleSetting(
-                key='rigged_percentage',
-                label='Rigged %, lower = more chance of winning. 50 = 50% of winning. 25 = 75% of winning',
-                type='number',
+                key="rigged_percentage",
+                label="Rigged %, lower = more chance of winning. 50 = 50% of winning. 25 = 75% of winning",
+                type="number",
                 required=True,
-                placeholder='',
+                placeholder="",
                 default=50,
                 constraints={
-                    'min_value': 1,
-                    'max_value': 100,
+                    "min_value": 1,
+                    "max_value": 100,
                     }),
             ModuleSetting(
-                key='online_global_cd',
-                label='Global cooldown (seconds)',
-                type='number',
+                key="online_global_cd",
+                label="Global cooldown (seconds)",
+                type="number",
                 required=True,
-                placeholder='',
+                placeholder="",
                 default=0,
                 constraints={
-                    'min_value': 0,
-                    'max_value': 120,
+                    "min_value": 0,
+                    "max_value": 120,
                     }),
             ModuleSetting(
-                key='online_user_cd',
-                label='Per-user cooldown (seconds)',
-                type='number',
+                key="online_user_cd",
+                label="Per-user cooldown (seconds)",
+                type="number",
                 required=True,
-                placeholder='',
+                placeholder="",
                 default=60,
                 constraints={
-                    'min_value': 0,
-                    'max_value': 240,
+                    "min_value": 0,
+                    "max_value": 240,
                     }),
             ModuleSetting(
-                key='min_roulette_amount',
-                label='Minimum roulette amount',
-                type='number',
+                key="min_roulette_amount",
+                label="Minimum roulette amount",
+                type="number",
                 required=True,
-                placeholder='',
+                placeholder="",
                 default=1,
                 constraints={
-                    'min_value': 1,
-                    'max_value': 3000,
+                    "min_value": 1,
+                    "max_value": 3000,
                     }),
             ModuleSetting(
-                key='can_execute_with_whisper',
-                label='Allow users to roulette in whispers',
-                type='boolean',
+                key="can_execute_with_whisper",
+                label="Allow users to roulette in whispers",
+                type="boolean",
                 required=True,
                 default=False),
             ModuleSetting(
-                key='options_output',
-                label='Result output options',
-                type='options',
+                key="options_output",
+                label="Result output options",
+                type="options",
                 required=True,
-                default='1. Show results in chat',
+                default="1. Show results in chat",
                 options=[
-                    '1. Show results in chat',
-                    '2. Show results in whispers',
-                    '3. Show results in chat if it\'s over X points else it will be whispered.',
+                    "1. Show results in chat",
+                    "2. Show results in whispers",
+                    "3. Show results in chat if it\"s over X points else it will be whispered.",
                     ]),
             ModuleSetting(
-                key='min_show_points',
-                label='Min points you need to win or lose (if options 3)',
-                type='number',
+                key="min_show_points",
+                label="Min points you need to win or lose (if options 3)",
+                type="number",
                 required=True,
-                placeholder='',
+                placeholder="",
                 default=100,
                 constraints={
-                    'min_value': 1,
-                    'max_value': 150000,
+                    "min_value": 1,
+                    "max_value": 150000,
                     }),
             ModuleSetting(
-                key='only_roulette_after_sub',
-                label='Only allow roulettes after sub',
-                type='boolean',
+                key="only_roulette_after_sub",
+                label="Only allow roulettes after sub",
+                type="boolean",
                 required=True,
                 default=False),
             ModuleSetting(
-                key='after_sub_roulette_time',
-                label='How long after a sub people can roulette (seconds)',
-                type='number',
+                key="after_sub_roulette_time",
+                label="How long after a sub people can roulette (seconds)",
+                type="number",
                 required=True,
-                placeholder='',
+                placeholder="",
                 default=30,
                 constraints={
-                    'min_value': 5,
-                    'max_value': 3600,
+                    "min_value": 5,
+                    "max_value": 3600,
                     }),
                 ]
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, bot):
+        super().__init__(bot)
         self.last_sub = None
 
     def load_commands(self, **options):
-        self.commands['roulette'] = pajbot.models.command.Command.raw_command(self.roulette,
-                delay_all=self.settings['online_global_cd'],
-                delay_user=self.settings['online_user_cd'],
-                description='Roulette for points',
-                can_execute_with_whisper=self.settings['can_execute_with_whisper'],
+        self.commands["roulette"] = Command.raw_command(
+                self.roulette,
+                delay_all=self.settings["online_global_cd"],
+                delay_user=self.settings["online_user_cd"],
+                description="Roulette for points",
+                can_execute_with_whisper=self.settings["can_execute_with_whisper"],
                 examples=[
-                    pajbot.models.command.CommandExample(None, 'Roulette for 69 points',
-                        chat='user:!roulette 69\n'
-                        'bot:pajlada won 69 points in roulette! FeelsGoodMan',
-                        description='Do a roulette for 69 points').parse(),
+                    CommandExample(None, "Roulette for all of your 69 points " \
+                        "({}% winrate)".format(100 - self.settings["rigged_percentage"]),
+                        chat="user:!roulette\n"
+                        "bot:datguy1 won 69 points in roulette and now has 138 points! Always lucky PogChamp",
+                        description="Do a roulette for 69 points").parse(),
                     ],
                 )
 
     def rigged_random_result(self):
-        return random.randint(1, 100) > self.settings['rigged_percentage']
+        return random.randint(1, 100) > self.settings["rigged_percentage"]
 
     def roulette(self, **options):
-        if self.settings['only_roulette_after_sub']:
+        if self.settings["only_roulette_after_sub"]:
             if self.last_sub is None:
                 return False
-            if datetime.datetime.now() - self.last_sub > datetime.timedelta(seconds=self.settings['after_sub_roulette_time']):
+            if utils.now() - self.last_sub > datetime.timedelta(seconds=self.settings["after_sub_roulette_time"]):
                 return False
 
-        message = options['message']
-        user = options['source']
-        bot = options['bot']
+        message = options["message"]
+        user = options["source"]
+        bot = options["bot"]
 
-        if message is None:
-            bot.whisper(user.username, 'I didn\'t recognize your bet! Usage: !roulette 150 to bet 150 points')
+        if message:
+            bot.whisper(user.username, "The command is only !roulette and it wagers all your points SmileyFace")
             return False
 
-        msg_split = message.split(' ')
         try:
-            bet = pajbot.utils.parse_points_amount(user, msg_split[0])
+            bet = pajbot.utils.parse_points_amount(user, "all")
         except pajbot.exc.InvalidPointAmount as e:
             bot.whisper(user.username, str(e))
             return False
 
-        if not user.can_afford(bet):
-            bot.whisper(user.username, 'You don\'t have enough points to do a roulette for {} points :('.format(bet))
-            return False
-
-        if bet < self.settings['min_roulette_amount']:
-            bot.whisper(user.username, 'You have to bet at least {} point! :('.format(self.settings['min_roulette_amount']))
+        if bet < 500:
+            bot.whisper(user.username, "You can only roulette for 500+ points FeelsWeirdMan")
             return False
 
         # Calculating the result
         result = self.rigged_random_result()
+
         points = bet if result else -bet
         user.points += points
 
@@ -196,44 +196,39 @@ class RouletteModule(BaseModule):
             db_session.add(r)
 
         arguments = {
-            'bet': bet,
-            'user': user.username_raw,
-            'points': user.points_available()
+            "bet": bet,
+            "user": user.username_raw,
+            "points": user.points_available()
         }
 
         if points > 0:
-            out_message = self.get_phrase('message_won', **arguments)
+            out_message = self.get_phrase("message_won", **arguments)
         else:
-            out_message = self.get_phrase('message_lost', **arguments)
+            out_message = self.get_phrase("message_lost", **arguments)
 
-        if self.settings['options_output'] == '1. Show results in chat':
+        if user.subscriber:
             bot.me(out_message)
-        if self.settings['options_output'] == '2. Show results in whispers':
+        else:
             bot.whisper(user.username, out_message)
-        if self.settings['options_output'] == '3. Show results in chat if it\'s over X points else it will be whispered.':
-            if abs(points) >= self.settings['min_show_points']:
-                bot.me(out_message)
-            else:
-                bot.whisper(user.username, out_message)
 
-        HandlerManager.trigger('on_roulette_finish', user, points)
+        HandlerManager.trigger("on_roulette_finish", user=user, points=points)
 
-    def on_user_sub(self, user):
-        self.last_sub = datetime.datetime.now()
-        if self.settings['only_roulette_after_sub']:
-            self.bot.say('Rouletting is now allowed for {} seconds! PogChamp'.format(self.settings['after_sub_roulette_time']))
+    def on_user_sub(self, **rest):
+        self.last_sub = utils.now()
+        if self.settings["only_roulette_after_sub"]:
+            self.bot.say("Rouletting is now allowed for {} seconds! PogChamp".format(self.settings["after_sub_roulette_time"]))
 
-    def on_user_resub(self, user, num_months):
-        self.last_sub = datetime.datetime.now()
-        if self.settings['only_roulette_after_sub']:
-            self.bot.say('Rouletting is now allowed for {} seconds! PogChamp'.format(self.settings['after_sub_roulette_time']))
+    def on_user_resub(self, **rest):
+        self.last_sub = utils.now()
+        if self.settings["only_roulette_after_sub"]:
+            self.bot.say("Rouletting is now allowed for {} seconds! PogChamp".format(self.settings["after_sub_roulette_time"]))
 
     def enable(self, bot):
         self.bot = bot
 
-        HandlerManager.add_handler('on_user_sub', self.on_user_sub)
-        HandlerManager.add_handler('on_user_resub', self.on_user_resub)
+        HandlerManager.add_handler("on_user_sub", self.on_user_sub)
+        HandlerManager.add_handler("on_user_resub", self.on_user_resub)
 
     def disable(self, bot):
-        HandlerManager.remove_handler('on_user_sub', self.on_user_sub)
-        HandlerManager.remove_handler('on_user_resub', self.on_user_resub)
+        HandlerManager.remove_handler("on_user_sub", self.on_user_sub)
+        HandlerManager.remove_handler("on_user_resub", self.on_user_resub)

@@ -9,17 +9,25 @@ __pycache__
 # PID files
 .*.pid
 
-# Log folder
+# Logs
 logs/
+errors.txt
 
-# Config folder
+# Config stuff
 configs/
 uwsgiconfigs/
 config.ini
 /*.ini
+!uwsgi_cache.ini
+!uwsgi_shared.ini
+*.pid
+*.sh
 
 # User created code
 userdispatch.py
+*.so
 
 # Ignore virtual environment folder
-myvenv/
+venv/
+
+.idea/

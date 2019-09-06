@@ -1,0 +1,26 @@
+.grow, .grow * {
+    width: 100%;
+}
+
+.min-height-container {
+    display: flex;
+    align-items: center;
+
+    /** same height as the semantic compact input fields */
+    /** 0.375em margin * 2 + 1.2142em line-height + 2 * 1px border */
+    min-height: calc((.375em * 2) + 1.2142em + 2px) !important;
+}
+
+.actions-buttons-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: stretch;
+    margin-bottom: -.5em !important;
+}
+
+.actions-buttons-container > * {
+    margin-bottom: .5em !important;
+}

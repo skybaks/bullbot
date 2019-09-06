@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css?family=Chewy");
 .pulsebig {
   -webkit-animation-name: pulsebig;
   animation-name: pulsebig;
@@ -33,9 +34,6 @@
     transform: scale3d(1, 1, 1);
   }
 }
-* {
-  overflow: hidden !important;
-}
 
 body {
   font-family: "Arial", sans-serif;
@@ -50,20 +48,21 @@ div.exploding {
 
 img.absemote {
   position: absolute;
+  transform: scale(1.6);
 }
 
 div.notifications {
   position: absolute;
   bottom: 5px;
   left: 5px;
-  font-size: 1.25em;
+  font-size: 1.7em;
   font-weight: 600;
 }
 div.notifications div {
   color: white;
-  font-size: 1.25em;
+  font-size: 1.7em;
   font-weight: bold;
-  font-family: "Comic Sans MS";
+  font-family: "Chewy", cursive;
   -webkit-text-stroke: 1px black;
   text-shadow: 3px 3px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
@@ -74,30 +73,82 @@ div.notifications div span.word4 {
   color: #ffdfdf;
 }
 
-#hsbet {
-  width: 270px;
+#winpercent {
+  display: absolute;
+  padding-top: 66px;
+  text-align: center;
+}
+
+#winpercent #winText {
+  position: relative;
+  top: -2px;
+  font-size: 2em;
+  font-weight: bold;
+  font-family: "Chewy", cursive;
+  color: #fff;
+  -webkit-text-stroke: 1px black;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#winpercent #radiantImg {
+  display: inline-block;
+  left: auto;
+  right: auto;
+  width: 30px;
+  height: 30px;
+  margin-left: 15px;
+}
+
+#winpercent #direImg {
+  display: inline-block;
+  left: auto;
+  right: auto;
+  width: 30px;
+  height: 30px;
+}
+
+#dotabet {
+  width: 500px;
   position: absolute;
-  top: 150px;
+  top: 550px;
+  left: 20px;
   display: none;
 }
-#hsbet td, #hsbet div {
-  font-size: 1.15em;
+#dotabet td, #dotabet div {
+  font-size: 1.7em;
   font-weight: bold;
-  font-family: "Roboto";
+  font-family: "Chewy", cursive;
 }
 #hsbet .chart {
   width: 70%;
 }
-#hsbet .win {
+#dotabet #winbetters {
+  color: #fff;
+  -webkit-text-stroke: 1px black;
+}
+#dotabet #lossbetters {
+  color: #fff;
+  -webkit-text-stroke: 1px black;
+}
+#dotabet #winpoints {
+  color: #fff;
+  -webkit-text-stroke: 1px black;
+}
+#dotabet #losspoints {
+  color: #fff;
+  -webkit-text-stroke: 1px black;
+}
+#dotabet .win {
   color: #64DD17;
 }
-#hsbet .lose {
+#dotabet .lose {
   color: #D50000;
 }
-#hsbet div.left {
+#dotabet div.left {
   float: left;
 }
-#hsbet div.right {
+#dotabet div.right {
   position: absolute;
   bottom: 0;
   right: 50;

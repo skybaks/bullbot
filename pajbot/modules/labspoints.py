@@ -1,14 +1,14 @@
 import logging
 import threading
 
-import pajbot.models
+from pajbot.managers.schedule import ScheduleManager
 from pajbot.modules import BaseModule
 from pajbot.modules import ModuleSetting
 from socketIO_client_nexus import SocketIO
 
 log = logging.getLogger(__name__)
 
-class asyncSocketIo():
+class asyncSocketIO():
     def __init__(self, bot, settings):
         self.bot = bot
         self.settings = settings
@@ -26,12 +26,13 @@ class asyncSocketIo():
         self.receive_events_thread = threading.Thread(target=self._receive_events_thread)
         self.receive_events_thread.daemon = True
         self.receive_events_thread.start()
-    
+
     def on_event(self, *args):
         DonationPointsModule.updatePoints(args, self.bot, self.settings)
 
     def on_disconnect(self, *args):
         log.error('Socket disconnected. Donations no longer monitored')
+        ScheduleManager.execute_delayed(30, DonationPointsModule.restartClass)
 
     def _receive_events_thread(self):
         self.socketio.wait()
@@ -52,7 +53,7 @@ class DonationPointsModule(BaseModule):
 
             ModuleSetting(
                 key='multiplynum',
-                label='How much of the donation to multiply by',
+                label='One usd equals how many points',
                 type='number',
                 required=True),
 
@@ -60,7 +61,11 @@ class DonationPointsModule(BaseModule):
 
     def enable(self, bot):
         self.bot = bot
-        asyncSocketIo(self.bot, self.settings)
+        self.socketClass = asyncSocketIO(self.bot, self.settings)
+
+    def restartClass(self):
+        del self.socketClass
+        self.socketClass = asyncSocketIO(self.bot, self.settings)
 
     def updatePoints(args, bot, settings):
         if args[0]['type'] != 'donation':

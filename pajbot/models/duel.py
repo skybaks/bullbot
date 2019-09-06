@@ -1,4 +1,3 @@
-import datetime
 import logging
 
 from sqlalchemy import Column
@@ -9,6 +8,7 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import backref
 from sqlalchemy.orm import relationship
 
+from pajbot import utils
 from pajbot.managers.db import Base
 from pajbot.managers.db import DBManager
 
@@ -16,9 +16,9 @@ log = logging.getLogger(__name__)
 
 
 class UserDuelStats(Base):
-    __tablename__ = 'tb_user_duel_stats'
+    __tablename__ = "tb_user_duel_stats"
 
-    user_id = Column(Integer, ForeignKey('tb_user.id'), primary_key=True, autoincrement=False)
+    user_id = Column(Integer, ForeignKey("tb_user.id"), primary_key=True, autoincrement=False)
     duels_won = Column(Integer, nullable=False, default=0)
     duels_total = Column(Integer, nullable=False, default=0)
     points_won = Column(Integer, nullable=False, default=0)
@@ -28,13 +28,9 @@ class UserDuelStats(Base):
     longest_winstreak = Column(Integer, nullable=False, default=0)
     longest_losestreak = Column(Integer, nullable=False, default=0)
 
-    user = relationship('User',
-            cascade='',
-            uselist=False,
-            backref=backref('duel_stats',
-                uselist=False,
-                cascade='',
-                lazy='select'))
+    user = relationship(
+        "User", cascade="", uselist=False, backref=backref("duel_stats", uselist=False, cascade="", lazy="select")
+    )
 
     def __init__(self, user_id):
         self.user_id = user_id
@@ -60,12 +56,14 @@ class UserDuelStats(Base):
 
 
 class DuelManager:
+    @staticmethod
     def get_user_duel_stats(user, db_session):
         if user.duel_stats is None:
             user.duel_stats = UserDuelStats(user.id)
             db_session.add(user.duel_stats)
         return user.duel_stats
 
+    @staticmethod
     def user_won(user, points_won):
         """
         Arguments:
@@ -79,7 +77,7 @@ class DuelManager:
             user_duel_stats.duels_won += 1
             user_duel_stats.duels_total += 1
             user_duel_stats.points_won += points_won
-            user_duel_stats.last_duel = datetime.datetime.now()
+            user_duel_stats.last_duel = utils.now()
 
             if user_duel_stats.current_streak > 0:
                 user_duel_stats.current_streak += 1
@@ -90,6 +88,7 @@ class DuelManager:
 
             return user_duel_stats
 
+    @staticmethod
     def user_lost(user, points_lost):
         """
         Arguments:
@@ -102,7 +101,7 @@ class DuelManager:
             user_duel_stats = DuelManager.get_user_duel_stats(user, db_session)
             user_duel_stats.duels_total += 1
             user_duel_stats.points_lost += points_lost
-            user_duel_stats.last_duel = datetime.datetime.now()
+            user_duel_stats.last_duel = utils.now()
 
             if user_duel_stats.current_streak < 0:
                 user_duel_stats.current_streak -= 1

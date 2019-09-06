@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% set active_page = 'user_snipers' %}
+{% block title %}Snipers{% endblock %}
+{% block body %}
+<div id="message-box" class="ui message hidden">
+    <i class="close icon" id="message-box-hide-icon"></i>
+    <div class="header" id="message-text">
+    </div>
+</div>
+<h3>Submit a kill</h3>
+<div>
+    <div>
+        <form class="ui action input" id="submit-kill-form">
+            <input type="text" name="username" placeholder="Username of sniper" style="width: 300px;"
+                   required>
+            <input autocomplete="off" type="url" name="link" class="link-input middle-input"
+                   placeholder="Proof of kill, screenshot/clip"
+                   style="width: 300px;" required>
+            <button class="ui button positive" id="#submit-kill-button" type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+<h3>Leaderboard of snipers</h3>
+<table class="ui collapsing single line compact table">
+    <thead>
+    <tr>
+        <th>Username</th>
+        <th>Kills</th>
+        <th>Most recent kill</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for sniper in snipers %}
+        <tr>
+            <td>{{ sniper.username }}</td>
+            <td>{{ sniper.kills }}</td>
+            <td>{{ sniper.recent_kill }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+{% block footer %}
+    {% assets 'base_js', 'sniper_js' %}
+        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+{% endblock %}

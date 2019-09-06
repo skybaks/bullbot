@@ -1,57 +1,34 @@
-# Change Log
+# Changelog
 
-## [Unreleased]
-### Changed
-- Quests can now reward points and any variable amount of tokens.
-- Tokens no longer expire after 3 streams. You instead have a maximum amount of tokens.
+## v1.36
 
-### Added
-- New API endpoint: /api/v1/pleblist/top - lists the top pleblist songs
-- Reasons to most timeouts
-- New websocket event: refresh/reload - refreshes the clr page
-- New websocket event: show_custom_image - shows a custom image URL on screen
-- New Handler: send_whisper(user, message)
+- Breaking: In your `config.ini`, rename `[webtwitchapi]` to `[twitchapi]` and
+  delete the old `[twitchapi]` config file entry. See
+  [the example config](https://github.com/pajbot/pajbot/blob/677651d416fa60c80ef939df8666bf554237ae0d/install-docs/debian9/kkonatestbroadcaster.ini#L62)
+  for example values.
+- Breaking: a `redirect_uri` is now always required under `[twitchapi]` in your
+  `config.ini`.
+- Breaking: If you want to continue fetching subscribers, you will need to have
+  the streamer log in once with `/streamer_login`. Then the bot will
+  automatically start fetching a list of subscribers regularly.
+- Major: To be able to use game and title updates with `!settitle` and
+  `!setgame`, re-authenticate the bot with `/bot_login`. Then ask the streamer
+  to add the bot as a channel editor.
+- Major: Dependency on `twitch-api-v3-proxy` has been removed. You can uninstall
+  that service if you were running it. (The bot now uses the new Twitch v5 and
+  Helix APIs)
+- Feature: Dubtrack module can now show requester
+- Feature: Dubtrack module can automatically post a message when a new song
+  starts playing
+- Bugfix: Fix a recurring error that could appear when fetching the stream
+  live/offline status.
+- Bugfix: Make subscriber fetch routine more accurate (will now fetch the
+  correct/accurate number of subscribers)
+- Bugfix: `!settitle` and `!setgame` are now packaged as a module, you no longer
+  need to add these commands as `funccommand`s.
+- Bugfix: Updated link checker module to use the latest version of the safe
+  browsing API.
 
-### Fixed
-- @-replacements now work properly in Paid Timeouts
+## Older versions
 
-## [2.8.1] - 2016-05-13
-### Changed
-- Greatly optimized the update_chatters method
-- Trimmed the size of username/username_raw in the user table
-- Added an index to points in the user table
-- BTTV Channel emotes are now stored as a hash with the emote_hash instead of a list.
-- /api/v1/user/<username> now returns points_rank instead of rank for the points rank.
-- Refactored all the API code to be better structured
-- Reorganized how the web app is started, cleaning up app.py a lot
-- The HSbet reminders now print stats about how many points are bet on win and how many points are
-  bet on lose.
-- Added navigation links on the /pleblist/history page
-
-### Added
-- New broadcaster command: !editpoints - creates or removes points to a user
-- New HSbet command: !hsbet stats - whispers you the current win/lose points that are bet on the game.
-- A flag to commands to specify whether they should whisper you if you don't have enough points
-
-### Fixed
-- The User check on /points no longer 500's
-- The /stats page no longer 500's
-- Fixed a mysterious bug where username_raw was being HDEL'd all the time :sunglasses:
-- The /user profile page now shows messages in chat properly
-
-## [2.8.0] - 2016-04-22
-### Removed
-- Removed the following deprecated dispatch methods:
-  - paid_timeout
-  - unban_source
-  - untimeout_source
-  - last_seen
-
-### Changed
-- Major change to the way we store and cache users. Previously we cached users in-memory for 10 minutes before pushing any changes to the MySQL database. We have no removed this layer entirely, and changes made in the bot will be pushed immediately. This will greatly reduce the memory footprint of pajbot, but put a bigger strain on the database.
-- Moved a bunch of columns from MySQL to redis. (num_lines, last_seen, last_active, banned, ignored)
-- A bunch of more things that I don't remember, first changelog :sunglasses::ok_hand:
-
-[Unreleased]: https://github.com/pajlada/pajbot/compare/2.8.0...HEAD
-[2.8.0]: https://github.com/pajlada/pajbot/compare/2.7.4...2.8.0
-[2.8.1]: https://github.com/pajlada/pajbot/compare/2.8.0...2.8.1
+Changelogs were not maintained for older pajbot versions.

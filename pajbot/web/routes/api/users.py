@@ -6,15 +6,14 @@ from pajbot.streamhelper import StreamHelper
 
 
 class APIUser(Resource):
-    def get(self, username):
+    @staticmethod
+    def get(username):
         user = UserManager.find_static(username)
         if not user:
-            return {
-                    'error': 'Not found'
-                    }, 404
+            return {"error": "Not found"}, 404
 
         redis = RedisManager.get()
-        key = '{streamer}:users:num_lines'.format(streamer=StreamHelper.get_streamer())
+        key = "{streamer}:users:num_lines".format(streamer=StreamHelper.get_streamer())
         rank = redis.zrevrank(key, user.username)
         if rank is None:
             rank = redis.zcard(key)
@@ -25,4 +24,4 @@ class APIUser(Resource):
 
 
 def init(api):
-    api.add_resource(APIUser, '/users/<username>')
+    api.add_resource(APIUser, "/users/<username>")
