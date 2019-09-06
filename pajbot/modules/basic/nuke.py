@@ -11,7 +11,6 @@ from pajbot.managers.db import DBManager
 from pajbot.models.banphrase import Banphrase
 from pajbot.models.sock import SocketClientManager
 from pajbot.modules import BaseModule
-from pajbot.modules import ModuleType
 from pajbot.modules.basic import BasicCommandsModule
 
 log = logging.getLogger(__name__)

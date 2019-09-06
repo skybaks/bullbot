@@ -1,14 +1,13 @@
-import base64
 import datetime
 import logging
 import math
 import random
 from collections import Counter
-from word2number import w2n
-
-import requests
 
 import Levenshtein
+import requests
+from word2number import w2n
+
 from pajbot import utils
 from pajbot.managers.db import DBManager
 from pajbot.managers.handler import HandlerManager
@@ -352,7 +351,7 @@ class TriviaModule(BaseModule):
             stopOutput = "The trivia has been stopped. The top five participants are: "
             c = Counter(self.correct_dict)
             for player, correct in c.most_common(5):
-                stopOutput += f"{player}, with {correct} correct guesses. "
+                stopOutput += "{}, with {} correct guesses. ".format(player, correct)
 
             self.bot.safe_me(stopOutput)
 

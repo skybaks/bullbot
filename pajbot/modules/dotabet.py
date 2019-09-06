@@ -104,10 +104,12 @@ class DotaBetModule(BaseModule):
         self.lossPoints = 0
         self.bets = {}
 
+    def create_solve_formula(x, y):
+        return  1.0 + (float(x) / (float(y)))
+
     def get_odds_ratio(self, winPoints, lossPoints):
-        solveFormula = lambda x, y: 1.0 + (float(x) / (float(y)))
-        winRatio = solveFormula(lossPoints, winPoints)
-        lossRatio = solveFormula(winPoints, lossPoints)
+        winRatio = create_solve_formula(lossPoints, winPoints)
+        lossRatio = create_solve_formula(winPoints, lossPoints)
 
         ratioList = [winRatio, lossRatio]
 
@@ -348,7 +350,6 @@ class DotaBetModule(BaseModule):
 
     def command_stats(self, **options):
         bot = options["bot"]
-        source = options["source"]
 
         bot.say(
             "{}/{} betters on {}/{} points".format(self.winBetters, self.lossBetters, self.winPoints, self.lossPoints)
@@ -394,7 +395,6 @@ class DotaBetModule(BaseModule):
     def command_restart(self, **options):
         bot = options["bot"]
         message = options["message"]
-        source = options["source"]
         reason = ""
 
         if not message:

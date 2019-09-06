@@ -212,17 +212,17 @@ class SubAlertModule(BaseModule):
         if tags["msg-id"] == "resub":
             monthText = ""
             num_months = -1
-            substreak_count = 0
+            # substreak_count = 0
             if "msg-param-months" in tags:
                 num_months = int(tags["msg-param-months"])
             if "msg-param-cumulative-months" in tags:
                 num_months = int(tags["msg-param-cumulative-months"])
-            if "msg-param-streak-months" in tags:
-                substreak_count = int(tags["msg-param-streak-months"])
-            if "msg-param-should-share-streak" in tags:
-                should_share = bool(tags["msg-param-should-share-streak"])
-                # if not should_share:
-                #     substreak_count = 0
+            # if "msg-param-streak-months" in tags:
+            #     substreak_count = int(tags["msg-param-streak-months"])
+            # if "msg-param-should-share-streak" in tags:
+            #     should_share = bool(tags["msg-param-should-share-streak"])
+            #     if not should_share:
+            #         substreak_count = 0
 
             if num_months > 1:
                 monthText = "for {} months ".format(num_months)

@@ -1,5 +1,6 @@
 import logging
 import re
+
 import requests
 
 from pajbot.models.command import Command
@@ -50,7 +51,7 @@ class QuoteModule(BaseModule):
                     bot.say("Error with fetching website: {}".format(r.status_code))
                     return False
 
-                if f"{username} was timed out for " in r.text:
+                if "{} was timed out for ".format(username) in r.text:
                     continue
 
                 bot.say("{}: {}".format(username, r.text))

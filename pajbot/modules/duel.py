@@ -105,7 +105,7 @@ class DuelModule(BaseModule):
         self.duel_requests = {}
         self.duel_request_price = {}
         self.duel_targets = {}
-        self.blUsers = ['admiralbulldog', 'infinitegachi']
+        self.blUsers = ["admiralbulldog", "infinitegachi"]
 
     def initiate_duel(self, **options):
         """
@@ -136,9 +136,12 @@ class DuelModule(BaseModule):
             try:
                 duel_price = pajbot.utils.parse_points_amount(source, msg_split[1])
                 if duel_price < 300:
-                    bot.whisper(source.username, 'You may only duel for 300+ points, no pussy')
-                    bot.whisper(user.username, '{} tried to duel you for less than 300 points. What a ' \
-                                               'cheapskate EleGiggle'.format(source.username_raw))
+                    bot.whisper(source.username, "You may only duel for 300+ points, no pussy")
+                    bot.whisper(
+                        user.username,
+                        "{} tried to duel you for less than 300 points. What a "
+                        "cheapskate EleGiggle".format(source.username_raw),
+                    )
                     return False
 
             except pajbot.exc.InvalidPointAmount as e:
@@ -203,8 +206,8 @@ class DuelModule(BaseModule):
             del self.duel_targets[self.duel_requests[initiator]]
             del self.duel_requests[initiator]
 
-            bot.whisper(initiator, 'Your duel request against {} has expired. Ditched OMEGALUL'.format(target))
-            bot.whisper(target, 'Chu ignoring {} for, his duel request against you expired cmonBruh'.format(initiator))
+            bot.whisper(initiator, "Your duel request against {} has expired. Ditched OMEGALUL".format(target))
+            bot.whisper(target, "Chu ignoring {} for, his duel request against you expired cmonBruh".format(initiator))
 
     def cancel_duel(self, **options):
         """
@@ -277,11 +280,7 @@ class DuelModule(BaseModule):
         DuelManager.user_won(winner, duel_price * 2)
         DuelManager.user_lost(loser, duel_price)
 
-        arguments = {
-            "winner": winner.username,
-            "loser": loser.username,
-            "total_pot": duel_price
-        }
+        arguments = {"winner": winner.username, "loser": loser.username, "total_pot": duel_price}
 
         message = self.get_phrase("message_won_points", **arguments)
 

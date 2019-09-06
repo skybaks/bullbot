@@ -17,6 +17,7 @@ errors.txt
 # Config stuff
 configs/
 uwsgiconfigs/
+.uwsgi_plugins_builder/
 config.ini
 /*.ini
 !uwsgi_cache.ini

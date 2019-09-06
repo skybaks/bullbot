@@ -19,8 +19,14 @@ class LongTimeout(Base):
     timeout_end = Column(DateTime, nullable=False)
     timeout_author = Column(String(32), nullable=False)
 
-    def __init__(self, username, timeout_start, timeout_end, timeout_author,
-                 timeout_recent_end = (datetime.datetime.now() + datetime.timedelta(days=14)).strftime("%Y-%m-%d %H:%M:%S")):
+    def __init__(
+        self,
+        username,
+        timeout_start,
+        timeout_end,
+        timeout_author,
+        timeout_recent_end=(datetime.datetime.now() + datetime.timedelta(days=14)).strftime("%Y-%m-%d %H:%M:%S"),
+    ):
         self.username = username
         self.timeout_start = timeout_start
         self.timeout_recent_end = timeout_recent_end

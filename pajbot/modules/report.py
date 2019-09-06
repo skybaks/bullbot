@@ -1,5 +1,7 @@
 import logging
 
+from pajbot.models.command import Command
+from pajbot.models.command import CommandExample
 from pajbot.modules import BaseModule
 from pajbot.modules import ModuleSetting
 
@@ -65,7 +67,7 @@ class ReportModule(BaseModule):
             bot.whisper(source.username, "Successfully reported '{}'".format(username))
 
     def load_commands(self, **options):
-        self.commands["report"] = pajbot.models.command.Command.raw_command(
+        self.commands["report"] = Command.raw_command(
             self.report_command,
             can_execute_with_whisper=True,
             level=250,
@@ -73,12 +75,12 @@ class ReportModule(BaseModule):
             delay_user=5,
             description="Report a user, which times them out for {} seconds".format(self.settings["timeout_duration"]),
             examples=[
-                pajbot.models.command.CommandExample(
+                CommandExample(
                     None,
                     "Report user Darth_Henry",
                     chat="user:!report Darth_Henry\n" "bot>user:Successfully reported 'Darth_Henry'",
                 ).parse(),
-                pajbot.models.command.CommandExample(
+                CommandExample(
                     None,
                     "Report user Ji3Dan with the reason 'Racism'",
                     chat="user:!report Ji3dan Racism\n" "bot>user:Successfully reported 'Ji3dan'",

@@ -1,12 +1,12 @@
 import logging
 
-from pajbot.modules import BaseModule
-from pajbot.modules import ModuleSetting
 from pajbot.managers.db import DBManager
 from pajbot.managers.redis import RedisManager
 from pajbot.managers.user import UserManager
 from pajbot.models.command import Command
 from pajbot.models.command import CommandExample
+from pajbot.modules import BaseModule
+from pajbot.modules import ModuleSetting
 
 log = logging.getLogger(__name__)
 
@@ -88,4 +88,8 @@ class MassPointsModule(BaseModule):
                     else:
                         userInstance.points += givePoints
 
-        bot.say(f"{source.username_raw} just gave {numUsers} viewers {givePoints} points each! Enjoy FeelsGoodMan")
+        bot.say(
+            "{} just gave {} viewers {} points each! Enjoy FeelsGoodMan".format(
+                source.username_raw, numUsers, givePoints
+            )
+        )

@@ -33,7 +33,7 @@ class DotaBetBet(Base):
 
     id = Column(Integer, primary_key=True)
     game_time = Column(DateTime, default=datetime.datetime.now())
-    user_id = Column(Integer, nullable=False, index=True) # TODO: Change this to foreign key, same as duel_stats
+    user_id = Column(Integer, nullable=False, index=True)  # TODO: Change this to foreign key, same as duel_stats
     outcome = Column(Enum("win", "loss", name="win_or_loss"), nullable=False)
     points = Column(Integer, nullable=False)
     profit = Column(Integer, nullable=False)

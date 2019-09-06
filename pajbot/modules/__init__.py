@@ -86,7 +86,6 @@ available_modules = [
     BanphraseModule,
     BasicCommandsModule,
     BingoModule,
-    ChattersModule,
     CheckModModule,
     CircleModule,
     DBManageModule,
