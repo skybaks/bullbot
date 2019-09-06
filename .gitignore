@@ -21,7 +21,7 @@ config.ini
 !uwsgi_cache.ini
 !uwsgi_shared.ini
 *.pid
-*.sh
+/*.sh
 
 # User created code
 userdispatch.py
