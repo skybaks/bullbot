@@ -30,7 +30,6 @@ class WebSocketServer:
                     log.info("Binary message received: {0} bytes".format(len(payload)))
                 else:
                     log.info("Text message received: {0}".format(payload.decode("utf8")))
-
                     if not self.websocket_origin:
                         for client in WebSocketServer.clients:
                             client.sendMessage(payload, False)

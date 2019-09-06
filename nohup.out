@@ -9739,3 +9739,1926 @@ requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected(
 [2019-09-06 10:20:49,500] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1852.592 ms
 [2019-09-06 10:20:49,500] [[1m[37mINFO[0m   ] Successfully updated 4567 subscribers
 [2019-09-06 10:20:49,500] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2426.812 ms
+[2019-09-06 10:29:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 10:29:41,464] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 28.612 ms
+[2019-09-06 10:30:03,028] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 10:30:08,232] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 10:30:11,633] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 10:30:12,036] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 10:30:18,783] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 10:30:28,923] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 10:30:30,794] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 10:30:31,421] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 10:30:33,197] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 10:30:33,386] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 10:30:39,741] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 582.188 ms
+[2019-09-06 10:30:41,917] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 2176.023 ms
+[2019-09-06 10:30:41,918] [[1m[37mINFO[0m   ] Successfully updated 4565 subscribers
+[2019-09-06 10:30:41,918] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2760.531 ms
+[2019-09-06 10:37:27,907] [[1m[37mINFO[0m   ] Client connecting: http://chatbot.admiralbulldog.live
+[2019-09-06 10:37:27,908] [[1m[37mINFO[0m   ] WebSocket connection open
+[2019-09-06 10:39:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 10:39:41,409] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 40.286 ms
+[2019-09-06 10:40:01,806] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 10:40:06,895] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 10:40:10,595] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 10:40:11,245] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 10:40:17,976] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 10:40:28,779] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 10:40:30,648] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 10:40:31,046] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 10:40:33,009] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 10:40:33,184] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 10:40:39,421] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 620.322 ms
+[2019-09-06 10:40:41,225] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1802.777 ms
+[2019-09-06 10:40:41,225] [[1m[37mINFO[0m   ] Successfully updated 4563 subscribers
+[2019-09-06 10:40:41,225] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2424.773 ms
+[2019-09-06 10:49:40,118] [[1m[34mDEBUG[0m  ] Cache Miss: api:bttv:global-emotes
+[2019-09-06 10:49:40,122] [[1m[34mDEBUG[0m  ] Cache Miss: api:ffz:global-emotes
+[2019-09-06 10:49:40,125] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:kraken:v5:global-emotes
+[2019-09-06 10:49:40,194] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:legacy:channel-emotes:admiralbulldog
+[2019-09-06 10:49:40,203] [[1m[34mDEBUG[0m  ] Cache Miss: api:ffz:channel-emotes:admiralbulldog
+[2019-09-06 10:49:40,296] [[1m[34mDEBUG[0m  ] Cache Miss: api:bttv:channel-emotes:admiralbulldog
+[2019-09-06 10:49:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 10:49:41,406] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 42.176 ms
+[2019-09-06 10:50:03,101] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 10:50:08,129] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 10:50:11,439] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 10:50:12,178] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 10:50:18,929] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 10:50:29,435] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 10:50:31,267] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 10:50:31,684] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 10:50:33,593] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 10:50:33,776] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 10:50:40,127] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 631.829 ms
+[2019-09-06 10:50:41,908] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1780.406 ms
+[2019-09-06 10:50:41,908] [[1m[37mINFO[0m   ] Successfully updated 4561 subscribers
+[2019-09-06 10:50:41,908] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2414.203 ms
+[2019-09-06 10:59:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 10:59:41,482] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 33.680 ms
+[2019-09-06 11:00:03,819] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 11:00:08,982] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 11:00:12,310] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 11:00:12,921] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 11:00:20,801] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 11:00:31,946] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 11:00:33,831] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 11:00:34,668] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 11:00:36,553] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 11:00:36,725] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 11:00:42,885] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 604.265 ms
+[2019-09-06 11:00:44,783] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1897.023 ms
+[2019-09-06 11:00:44,783] [[1m[37mINFO[0m   ] Successfully updated 4560 subscribers
+[2019-09-06 11:00:44,783] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2502.606 ms
+[2019-09-06 11:03:45,995] [[1m[37mINFO[0m   ] Client connecting: http://chatbot.admiralbulldog.live
+[2019-09-06 11:03:45,995] [[1m[37mINFO[0m   ] WebSocket connection open
+[2019-09-06 11:05:54,250] [[1m[37mINFO[0m   ] Client connecting: http://chatbot.admiralbulldog.live
+[2019-09-06 11:05:54,251] [[1m[37mINFO[0m   ] WebSocket connection open
+[2019-09-06 11:09:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 11:09:41,454] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 49.195 ms
+[2019-09-06 11:10:02,628] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 11:10:07,337] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 11:10:10,616] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 11:10:11,268] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 11:10:17,466] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 11:10:28,657] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 11:10:30,492] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 11:10:30,881] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 11:10:32,688] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 11:10:32,883] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 11:10:39,659] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 563.936 ms
+[2019-09-06 11:10:41,325] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1665.085 ms
+[2019-09-06 11:10:41,325] [[1m[37mINFO[0m   ] Successfully updated 4560 subscribers
+[2019-09-06 11:10:41,325] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2230.205 ms
+[2019-09-06 11:10:41,326] [[1m[37mINFO[0m   ] Attempting to create a stream!
+[2019-09-06 11:10:41,330] [[1m[37mINFO[0m   ] checking if there is an active stream already
+[2019-09-06 11:10:41,337] [[1m[37mINFO[0m   ] No active stream, create new!
+[2019-09-06 11:10:41,345] [[1m[37mINFO[0m   ] Successfully added stream!
+[2019-09-06 11:10:41,358] [[1m[37mINFO[0m   ] Created stream chunk
+[2019-09-06 11:10:41,359] [[1m[37mINFO[0m   ] Successfully created a stream
+[2019-09-06 11:14:40,345] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 11:14:40,346] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 11:16:40,860] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(singfangay69)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '1583705_HF'
+[2019-09-06 11:17:15,438] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(singfangay69)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '1583705_HF'
+[2019-09-06 11:17:19,950] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(singfangay69)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '1583705_HF'
+[2019-09-06 11:19:40,331] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 11:19:40,331] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 11:19:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 11:19:41,454] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 37.898 ms
+[2019-09-06 11:20:02,267] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 11:20:07,061] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 11:20:10,210] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 11:20:10,845] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 11:20:16,675] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 11:20:27,476] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 11:20:29,244] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 11:20:29,644] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 11:20:31,541] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 11:20:31,726] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 11:20:37,743] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 660.332 ms
+[2019-09-06 11:20:39,719] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1975.458 ms
+[2019-09-06 11:20:39,719] [[1m[37mINFO[0m   ] Successfully updated 4559 subscribers
+[2019-09-06 11:20:39,720] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2637.598 ms
+[2019-09-06 11:20:39,851] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(lonelonegaming)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '1034496_HF'
+[2019-09-06 11:21:02,783] [[1m[34mDEBUG[0m  ] Unhandled msg-id: giftpaidupgrade - tags: {'badge-info': 'subscriber/2', 'badges': 'subscriber/0', 'color': '#FF0000', 'display-name': 'racist_name123', 'emotes': None, 'flags': None, 'id': '254a35de-78d5-4dea-8f14-7ffc5efb7f7b', 'login': 'racist_name123', 'mod': '0', 'msg-id': 'giftpaidupgrade', 'msg-param-sender-login': 'gachiprotector', 'msg-param-sender-name': 'GachiProtector', 'room-id': '30816637', 'subscriber': '1', 'system-msg': 'racist_name123 is continuing the Gift Sub they got from GachiProtector!', 'tmi-sent-ts': '1567768862683', 'user-id': '206144660', 'user-type': None}
+[2019-09-06 11:22:22,359] [[1m[34mDEBUG[0m  ] Command was run 1.42 seconds ago, waiting...
+[2019-09-06 11:22:39,658] [[1m[34mDEBUG[0m  ] Unhandled msg-id: primepaidupgrade - tags: {'badge-info': 'subscriber/1', 'badges': 'subscriber/0,premium/1', 'color': None, 'display-name': 'Cokane_', 'emotes': None, 'flags': None, 'id': 'e4ed9ee0-ab1a-4a14-b05a-8436bcc619ae', 'login': 'cokane_', 'mod': '0', 'msg-id': 'primepaidupgrade', 'msg-param-sub-plan': '1000', 'room-id': '30816637', 'subscriber': '1', 'system-msg': 'Cokane_ converted from a Twitch Prime sub to a Tier 1 sub!', 'tmi-sent-ts': '1567768959556', 'user-id': '152759137', 'user-type': None}
+[2019-09-06 11:24:40,502] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 11:24:40,502] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 11:27:30,824] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/Mbaf0.mp3", "volume": 12}
+[2019-09-06 11:29:40,400] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 11:29:40,401] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 11:29:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 11:29:41,399] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 48.027 ms
+[2019-09-06 11:30:02,254] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 11:30:07,414] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 11:30:10,870] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 11:30:11,297] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 11:30:17,643] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 11:30:28,227] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 11:30:29,987] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 11:30:30,618] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 11:30:32,147] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 11:30:32,346] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 11:30:38,824] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 684.804 ms
+[2019-09-06 11:30:40,612] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1786.770 ms
+[2019-09-06 11:30:40,612] [[1m[37mINFO[0m   ] Successfully updated 4564 subscribers
+[2019-09-06 11:30:40,613] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2473.845 ms
+[2019-09-06 11:31:40,771] [[1m[34mDEBUG[0m  ] Replacing $(1) with KEKW
+[2019-09-06 11:34:40,350] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 11:34:40,350] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 11:34:54,333] [[1m[34mDEBUG[0m  ] Replacing $(1) with KEKW
+[2019-09-06 11:34:54,333] [[1m[34mDEBUG[0m  ] Replacing $(2) with 
+[2019-09-06 11:34:54,335] [[1m[37mINFO[0m   ] Not sending message "█ KEKW ]▄▄▄▄▄▄▄  ...........................▂▄▅█████████▅▄▃▂ ......................███████████████████] ........................◥⊙▲⊙▲⊙▲⊙▲⊙▲⊙▲⊙◤" because check "banphrase" failed.
+[2019-09-06 11:35:03,789] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:user-id:endousama
+[2019-09-06 11:35:03,986] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:user-id:admiralbulldog
+[2019-09-06 11:35:04,156] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:follow-since:107886507:30816637
+[2019-09-06 11:35:16,168] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:user-id:progameraziz
+[2019-09-06 11:35:16,340] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:follow-since:436836214:30816637
+[2019-09-06 11:35:18,323] [[1m[34mDEBUG[0m  ] Command was run 2.16 seconds ago, waiting...
+[2019-09-06 11:35:21,824] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:user-id:1perseus1lonten
+[2019-09-06 11:35:22,018] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:follow-since:52978105:30816637
+[2019-09-06 11:39:40,582] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 11:39:40,583] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 11:39:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 11:39:41,552] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 48.333 ms
+[2019-09-06 11:40:02,823] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 11:40:07,428] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 11:40:10,890] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 11:40:11,516] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 11:40:18,139] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 11:40:29,788] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 11:40:31,580] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 11:40:32,313] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 11:40:33,940] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 11:40:34,126] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 11:40:40,180] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 620.381 ms
+[2019-09-06 11:40:41,833] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1653.110 ms
+[2019-09-06 11:40:41,834] [[1m[37mINFO[0m   ] Successfully updated 4565 subscribers
+[2019-09-06 11:40:41,834] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2275.407 ms
+[2019-09-06 11:41:20,602] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/2w5uT.mp3", "volume": 24}
+[2019-09-06 11:41:32,620] [[1m[37mINFO[0m   ] WebSocket connection closed: None
+[2019-09-06 11:42:40,976] [[1m[33mWARNING[0m] Run time of job "EpmManager.epm_decr (trigger: date[2019-09-06 11:42:39 UTC], next run at: 2019-09-06 11:42:39 UTC)" was missed by 0:00:01.425404
+[2019-09-06 11:42:41,095] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/GRLCv.mp3", "volume": 8}
+[2019-09-06 11:44:40,374] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 11:44:40,375] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 11:47:38,902] [[1m[34mDEBUG[0m  ] Command was run 2.25 seconds ago, waiting...
+[2019-09-06 11:47:41,472] [[1m[34mDEBUG[0m  ] Command was run 4.82 seconds ago, waiting...
+[2019-09-06 11:49:40,117] [[1m[34mDEBUG[0m  ] Cache Miss: api:bttv:global-emotes
+[2019-09-06 11:49:40,121] [[1m[34mDEBUG[0m  ] Cache Miss: api:ffz:global-emotes
+[2019-09-06 11:49:40,124] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:kraken:v5:global-emotes
+[2019-09-06 11:49:40,137] [[1m[31mERROR[0m  ] Job "GenericChannelEmoteManager.update_all (trigger: interval[1:00:00], next run at: 2019-09-06 12:49:40 UTC)" raised an exception
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 600, in urlopen
+    chunked=chunked)
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 384, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 380, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/usr/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/usr/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/dist-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 638, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/util/retry.py", line 368, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/packages/six.py", line 685, in reraise
+    raise value.with_traceback(tb)
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 600, in urlopen
+    chunked=chunked)
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 384, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 380, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/usr/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/usr/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/dist-packages/apscheduler/executors/base.py", line 125, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 64, in update_all
+    self.update_global_emotes()
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 52, in update_global_emotes
+    self.global_emotes = self.api.get_global_emotes(force_fetch=True)
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/kraken_v5.py", line 82, in get_global_emotes
+    force_fetch=force_fetch,
+  File "/srv/admiralbullbot/pajbot/apiwrappers/response_cache.py", line 98, in cache_fetch_fn
+    fetch_result = fetch_fn()
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/kraken_v5.py", line 79, in <lambda>
+    fetch_fn=lambda: self.fetch_global_emotes(),
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/kraken_v5.py", line 73, in fetch_global_emotes
+    resp = self.get("/chat/emoticon_images", params={"emotesets": "0"})
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/base.py", line 69, in get
+    return self.request("GET", endpoint, params, headers, authorization).json()
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/base.py", line 50, in request
+    return super().request(method, endpoint, params, headers, json)
+  File "/srv/admiralbullbot/pajbot/apiwrappers/base.py", line 80, in request
+    method, full_url, params=params, headers=headers, json=json, timeout=self.timeout, **request_options
+  File "/usr/local/lib/python3.7/dist-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/local/lib/python3.7/dist-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/local/lib/python3.7/dist-packages/requests/adapters.py", line 498, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+[2019-09-06 11:49:40,179] [[1m[34mDEBUG[0m  ] Cache Miss: api:ffz:channel-emotes:admiralbulldog
+[2019-09-06 11:49:40,309] [[1m[34mDEBUG[0m  ] Cache Miss: api:bttv:channel-emotes:admiralbulldog
+[2019-09-06 11:49:40,614] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 11:49:40,614] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 11:49:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 11:49:41,511] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 29.583 ms
+[2019-09-06 11:50:03,416] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 11:50:08,202] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 11:50:11,625] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 11:50:12,172] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/LTAgK.mp3", "volume": 24}
+[2019-09-06 11:50:12,336] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 11:50:18,664] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 11:50:30,103] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 11:50:32,305] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 11:50:33,033] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 11:50:34,652] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 11:50:34,827] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 11:50:41,266] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 819.679 ms
+[2019-09-06 11:50:43,245] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1979.440 ms
+[2019-09-06 11:50:43,246] [[1m[37mINFO[0m   ] Successfully updated 4565 subscribers
+[2019-09-06 11:50:43,246] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2800.420 ms
+[2019-09-06 11:53:00,537] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(ferdl_)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '1259953_SG'
+[2019-09-06 11:54:40,390] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 11:54:40,390] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 11:59:40,881] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 11:59:40,881] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 11:59:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 11:59:41,522] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 96.384 ms
+[2019-09-06 12:00:03,083] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 12:00:08,146] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 12:00:12,343] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 12:00:13,085] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 12:00:19,358] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 12:00:30,495] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 12:00:32,311] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 12:00:33,052] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 12:00:34,751] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 12:00:34,958] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 12:00:41,060] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 665.723 ms
+[2019-09-06 12:00:43,088] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 2027.706 ms
+[2019-09-06 12:00:43,088] [[1m[37mINFO[0m   ] Successfully updated 4567 subscribers
+[2019-09-06 12:00:43,089] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2695.591 ms
+[2019-09-06 12:04:10,909] [[1m[34mDEBUG[0m  ] Command was run 2.37 seconds ago, waiting...
+[2019-09-06 12:04:40,460] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 12:04:40,460] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 12:09:40,608] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 12:09:40,608] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 12:09:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 12:09:41,515] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 43.915 ms
+[2019-09-06 12:10:03,562] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 12:10:08,370] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 12:10:11,972] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 12:10:12,673] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 12:10:19,753] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 12:10:32,693] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 12:10:34,796] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 12:10:35,535] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 12:10:37,240] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 12:10:37,440] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 12:10:44,194] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 632.550 ms
+[2019-09-06 12:10:46,028] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1834.106 ms
+[2019-09-06 12:10:46,029] [[1m[37mINFO[0m   ] Successfully updated 4566 subscribers
+[2019-09-06 12:10:46,029] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2467.947 ms
+[2019-09-06 12:11:48,261] [[1m[34mDEBUG[0m  ] Command was run 2.67 seconds ago, waiting...
+[2019-09-06 12:12:49,115] [[1m[34mDEBUG[0m  ] Command was run 1.90 seconds ago, waiting...
+[2019-09-06 12:12:51,228] [[1m[34mDEBUG[0m  ] Command was run 4.02 seconds ago, waiting...
+[2019-09-06 12:14:40,506] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 12:14:40,507] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 12:19:40,408] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 12:19:40,408] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 12:19:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 12:19:41,458] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 40.418 ms
+[2019-09-06 12:20:02,388] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 12:20:06,925] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 12:20:10,342] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 12:20:10,976] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 12:20:17,214] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 12:20:27,591] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 12:20:29,717] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 12:20:30,117] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 12:20:31,791] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 12:20:31,964] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 12:20:38,108] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 662.681 ms
+[2019-09-06 12:20:39,917] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1808.731 ms
+[2019-09-06 12:20:39,917] [[1m[37mINFO[0m   ] Successfully updated 4567 subscribers
+[2019-09-06 12:20:39,917] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2473.210 ms
+[2019-09-06 12:24:13,719] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(singfangay69)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '1583705_HF'
+[2019-09-06 12:24:40,516] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 12:24:40,518] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 12:24:43,612] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/wsb50.mp3", "volume": 26}
+[2019-09-06 12:25:21,551] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/n3wdQ.mp3", "volume": 32}
+[2019-09-06 12:26:26,831] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/dDPeH.mp3", "volume": 12}
+[2019-09-06 12:27:18,369] [[1m[34mDEBUG[0m  ] Command was run 8.68 seconds ago, waiting...
+[2019-09-06 12:27:27,375] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/seSXL.mp3", "volume": 12}
+[2019-09-06 12:27:47,323] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/rdvI8.mp3", "volume": 12}
+[2019-09-06 12:28:12,572] [[1m[34mDEBUG[0m  ] Replacing $(1) with 
+[2019-09-06 12:28:39,653] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/mfErW.mp3", "volume": 30}
+[2019-09-06 12:29:25,627] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/QtBB7.mp3", "volume": 20}
+[2019-09-06 12:29:40,358] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 12:29:40,359] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 12:29:41,296] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 12:29:41,536] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 47.592 ms
+[2019-09-06 12:29:45,515] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/uh5vW.mp3", "volume": 22}
+[2019-09-06 12:30:03,435] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 12:30:08,837] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 12:30:13,043] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 12:30:13,759] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 12:30:20,729] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 12:30:31,979] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 12:30:34,140] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 12:30:34,598] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 12:30:36,339] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 12:30:36,765] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 12:30:42,987] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 736.341 ms
+[2019-09-06 12:30:44,954] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1966.624 ms
+[2019-09-06 12:30:44,954] [[1m[37mINFO[0m   ] Successfully updated 4568 subscribers
+[2019-09-06 12:30:44,954] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2704.637 ms
+[2019-09-06 12:30:53,922] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/Ynd_f.mp3", "volume": 12}
+[2019-09-06 12:32:12,200] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/ZOVUd.mp3", "volume": 40}
+[2019-09-06 12:33:13,494] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/6sLwr.mp3", "volume": 12}
+[2019-09-06 12:33:33,018] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/-bx6j.mp3", "volume": 24}
+[2019-09-06 12:33:44,999] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/-bx6j.mp3", "volume": 32}
+[2019-09-06 12:34:05,006] [[1m[37mINFO[0m   ] WebSocket connection closed: connection was closed uncleanly (WebSocket ping timeout (peer did not respond with pong in time))
+[2019-09-06 12:34:08,545] [[1m[37mINFO[0m   ] Client connecting: http://chatbot.admiralbulldog.live
+[2019-09-06 12:34:08,545] [[1m[37mINFO[0m   ] WebSocket connection open
+[2019-09-06 12:34:40,485] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 12:34:40,485] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 12:34:44,524] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/9vuJx.mp3", "volume": 28}
+[2019-09-06 12:36:00,919] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/VOMWL.mp3", "volume": 12}
+[2019-09-06 12:39:02,109] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/o6ygq.mp3", "volume": 12}
+[2019-09-06 12:39:40,628] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 12:39:40,629] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 12:39:41,296] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 12:39:41,533] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 101.783 ms
+[2019-09-06 12:40:03,167] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 12:40:07,723] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 12:40:11,370] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 12:40:12,028] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 12:40:18,028] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 12:40:28,937] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 12:40:30,834] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 12:40:31,237] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 12:40:33,055] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 12:40:33,225] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 12:40:36,069] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/Ehg3J.mp3", "volume": 12}
+[2019-09-06 12:40:39,462] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 770.120 ms
+[2019-09-06 12:40:41,441] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1978.768 ms
+[2019-09-06 12:40:41,441] [[1m[37mINFO[0m   ] Successfully updated 4573 subscribers
+[2019-09-06 12:40:41,442] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2750.815 ms
+[2019-09-06 12:43:15,302] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/qE3Ty.mp3", "volume": 28}
+[2019-09-06 12:43:31,605] [[1m[34mDEBUG[0m  ] Unhandled msg-id: raid - tags: {'badge-info': None, 'badges': 'moderator/1,partner/1', 'color': '#FF69B4', 'display-name': 'Bamboe', 'emotes': None, 'flags': None, 'id': 'fe800049-c9f7-4993-83d7-5453edef05fb', 'login': 'bamboe', 'mod': '1', 'msg-id': 'raid', 'msg-param-displayName': 'Bamboe', 'msg-param-login': 'bamboe', 'msg-param-profileImageURL': 'https://static-cdn.jtvnw.net/jtv_user_pictures/4c137857-c907-4689-a852-ea41d3b107b7-profile_image-70x70.png', 'msg-param-viewerCount': '1465', 'room-id': '30816637', 'subscriber': '0', 'system-msg': '1465 raiders from Bamboe have joined!', 'tmi-sent-ts': '1567773811511', 'user-id': '22580017', 'user-type': 'mod'}
+[2019-09-06 12:43:36,863] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(ninedao)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '1034496_SG'
+[2019-09-06 12:43:42,760] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(rileks)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '1420231_HF'
+[2019-09-06 12:43:49,313] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(rileks)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '1420231_HF'
+[2019-09-06 12:43:58,444] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(ayushsharma)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '1259953_BW'
+[2019-09-06 12:44:07,328] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(sakminis)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '1420231_BW'
+[2019-09-06 12:44:35,762] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(naturo666)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '960062_HF'
+[2019-09-06 12:44:40,393] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 12:44:40,393] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 12:45:25,473] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:user-id:meav004
+[2019-09-06 12:45:25,656] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:user-id:admiralbulldog
+[2019-09-06 12:45:25,827] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:follow-since:189701637:30816637
+[2019-09-06 12:49:40,117] [[1m[34mDEBUG[0m  ] Cache Miss: api:bttv:global-emotes
+[2019-09-06 12:49:40,120] [[1m[34mDEBUG[0m  ] Cache Miss: api:ffz:global-emotes
+[2019-09-06 12:49:40,123] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:kraken:v5:global-emotes
+[2019-09-06 12:49:40,179] [[1m[34mDEBUG[0m  ] Cache Miss: api:ffz:channel-emotes:admiralbulldog
+[2019-09-06 12:49:40,193] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:legacy:channel-emotes:admiralbulldog
+[2019-09-06 12:49:40,272] [[1m[34mDEBUG[0m  ] Cache Miss: api:bttv:channel-emotes:admiralbulldog
+[2019-09-06 12:49:40,363] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 12:49:40,363] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 12:49:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 12:49:41,523] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 134.115 ms
+[2019-09-06 12:50:02,911] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 12:50:07,949] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 12:50:11,461] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 12:50:12,077] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 12:50:18,609] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 12:50:29,120] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 12:50:31,321] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 12:50:31,706] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 12:50:33,577] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 12:50:33,742] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 12:50:40,920] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 682.847 ms
+[2019-09-06 12:50:42,828] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1908.411 ms
+[2019-09-06 12:50:42,829] [[1m[37mINFO[0m   ] Successfully updated 4574 subscribers
+[2019-09-06 12:50:42,829] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2592.877 ms
+[2019-09-06 12:52:07,509] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/5byw5.mp3", "volume": 12}
+[2019-09-06 12:52:14,993] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/5byw5.mp3", "volume": 12}
+[2019-09-06 12:52:16,529] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/5byw5.mp3", "volume": 12}
+[2019-09-06 12:52:16,781] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/5byw5.mp3", "volume": 12}
+[2019-09-06 12:52:16,907] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/5byw5.mp3", "volume": 12}
+[2019-09-06 12:52:17,034] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/5byw5.mp3", "volume": 12}
+[2019-09-06 12:52:17,368] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/5byw5.mp3", "volume": 12}
+[2019-09-06 12:52:17,507] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/5byw5.mp3", "volume": 12}
+[2019-09-06 12:52:17,630] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/5byw5.mp3", "volume": 12}
+[2019-09-06 12:52:17,799] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/5byw5.mp3", "volume": 12}
+[2019-09-06 12:52:17,951] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/5byw5.mp3", "volume": 12}
+[2019-09-06 12:54:19,203] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/wC7PL.mp3", "volume": 12}
+[2019-09-06 12:54:40,445] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 12:54:40,445] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 12:56:31,853] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/Ht3a1.mp3", "volume": 12}
+[2019-09-06 12:59:40,429] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 12:59:40,430] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 12:59:41,298] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 12:59:41,533] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 45.534 ms
+[2019-09-06 13:00:03,502] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 13:00:08,841] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 13:00:12,214] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 13:00:12,858] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 13:00:19,355] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 13:00:30,437] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 13:00:32,213] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 13:00:32,640] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 13:00:34,601] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 13:00:34,781] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 13:00:40,964] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 606.910 ms
+[2019-09-06 13:00:42,881] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1917.022 ms
+[2019-09-06 13:00:42,882] [[1m[37mINFO[0m   ] Successfully updated 4577 subscribers
+[2019-09-06 13:00:42,882] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2525.511 ms
+[2019-09-06 13:04:40,636] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 13:04:40,636] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 13:05:14,736] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(singfangay69)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '1583705_HF'
+[2019-09-06 13:09:37,350] [[1m[33mWARNING[0m] Run time of job "EpmManager.epm_decr (trigger: date[2019-09-06 13:09:35 UTC], next run at: 2019-09-06 13:09:35 UTC)" was missed by 0:00:01.816842
+[2019-09-06 13:09:37,351] [[1m[33mWARNING[0m] Run time of job "EpmManager.epm_decr (trigger: date[2019-09-06 13:09:35 UTC], next run at: 2019-09-06 13:09:35 UTC)" was missed by 0:00:01.767223
+[2019-09-06 13:09:37,354] [[1m[33mWARNING[0m] Run time of job "EpmManager.epm_decr (trigger: date[2019-09-06 13:09:36 UTC], next run at: 2019-09-06 13:09:36 UTC)" was missed by 0:00:01.329409
+[2019-09-06 13:09:37,354] [[1m[33mWARNING[0m] Run time of job "EpmManager.epm_decr (trigger: date[2019-09-06 13:09:36 UTC], next run at: 2019-09-06 13:09:36 UTC)" was missed by 0:00:01.311254
+[2019-09-06 13:09:37,355] [[1m[33mWARNING[0m] Run time of job "EpmManager.epm_decr (trigger: date[2019-09-06 13:09:36 UTC], next run at: 2019-09-06 13:09:36 UTC)" was missed by 0:00:01.277917
+[2019-09-06 13:09:37,355] [[1m[33mWARNING[0m] Run time of job "EpmManager.epm_decr (trigger: date[2019-09-06 13:09:36 UTC], next run at: 2019-09-06 13:09:36 UTC)" was missed by 0:00:01.078903
+[2019-09-06 13:09:37,355] [[1m[33mWARNING[0m] Run time of job "EpmManager.epm_decr (trigger: date[2019-09-06 13:09:36 UTC], next run at: 2019-09-06 13:09:36 UTC)" was missed by 0:00:01.077850
+[2019-09-06 13:09:37,351] [[1m[33mWARNING[0m] Run time of job "EpmManager.epm_decr (trigger: date[2019-09-06 13:09:35 UTC], next run at: 2019-09-06 13:09:35 UTC)" was missed by 0:00:01.565784
+[2019-09-06 13:09:37,354] [[1m[33mWARNING[0m] Run time of job "EpmManager.epm_decr (trigger: date[2019-09-06 13:09:35 UTC], next run at: 2019-09-06 13:09:35 UTC)" was missed by 0:00:01.438788
+[2019-09-06 13:09:37,353] [[1m[33mWARNING[0m] Run time of job "EpmManager.epm_decr (trigger: date[2019-09-06 13:09:35 UTC], next run at: 2019-09-06 13:09:35 UTC)" was missed by 0:00:01.460611
+[2019-09-06 13:09:37,352] [[1m[33mWARNING[0m] Run time of job "EpmManager.epm_decr (trigger: date[2019-09-06 13:09:35 UTC], next run at: 2019-09-06 13:09:35 UTC)" was missed by 0:00:01.505286
+[2019-09-06 13:09:40,674] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 13:09:40,674] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 13:09:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 13:09:41,508] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 31.280 ms
+[2019-09-06 13:10:04,119] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 13:10:09,256] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 13:10:12,378] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 13:10:13,077] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 13:10:19,256] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 13:10:30,716] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 13:10:32,519] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 13:10:32,946] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 13:10:34,805] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 13:10:34,994] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 13:10:41,318] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 690.084 ms
+[2019-09-06 13:10:43,367] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 2047.994 ms
+[2019-09-06 13:10:43,367] [[1m[37mINFO[0m   ] Successfully updated 4577 subscribers
+[2019-09-06 13:10:43,367] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2739.919 ms
+[2019-09-06 13:12:49,017] [[1m[34mDEBUG[0m  ] Command was run 5.70 seconds ago, waiting...
+[2019-09-06 13:14:40,555] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 13:14:40,555] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 13:14:58,690] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/LTAgK.mp3", "volume": 24}
+[2019-09-06 13:16:59,346] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(onestepxx)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '1034496_HF'
+[2019-09-06 13:18:18,719] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/zPo0K.mp3", "volume": 14}
+[2019-09-06 13:19:40,434] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 13:19:40,434] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 13:19:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 13:19:41,614] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 151.772 ms
+[2019-09-06 13:20:02,837] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 13:20:07,912] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 13:20:11,346] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 13:20:11,986] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 13:20:18,257] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 13:20:28,932] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 13:20:30,894] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 13:20:31,299] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 13:20:33,062] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 13:20:33,255] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 13:20:39,714] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 625.757 ms
+[2019-09-06 13:20:41,345] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1630.589 ms
+[2019-09-06 13:20:41,346] [[1m[37mINFO[0m   ] Successfully updated 4579 subscribers
+[2019-09-06 13:20:41,346] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2257.978 ms
+[2019-09-06 13:24:40,592] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 13:24:40,592] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 13:25:08,991] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/WcxAH.mp3", "volume": 12}
+[2019-09-06 13:29:40,465] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 13:29:40,465] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 13:29:41,296] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 13:29:41,458] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 57.475 ms
+[2019-09-06 13:30:02,780] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 13:30:07,957] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 13:30:11,269] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 13:30:11,879] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 13:30:18,617] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 13:30:29,585] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 13:30:31,365] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 13:30:31,784] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 13:30:33,590] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 13:30:33,782] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 13:30:40,110] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 558.181 ms
+[2019-09-06 13:30:42,005] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1895.084 ms
+[2019-09-06 13:30:42,007] [[1m[37mINFO[0m   ] Successfully updated 4580 subscribers
+[2019-09-06 13:30:42,007] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2455.656 ms
+[2019-09-06 13:34:40,355] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 13:34:40,355] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 13:38:00,442] [[1m[34mDEBUG[0m  ] Command was run 1.02 seconds ago, waiting...
+[2019-09-06 13:39:01,017] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/AAvzI.mp3", "volume": 12}
+[2019-09-06 13:39:40,504] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 13:39:40,504] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 13:39:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 13:39:41,563] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 56.233 ms
+[2019-09-06 13:40:03,232] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 13:40:08,240] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 13:40:11,593] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 13:40:12,679] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 13:40:19,117] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 13:40:30,382] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 13:40:32,230] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 13:40:32,639] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 13:40:34,440] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 13:40:34,612] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 13:40:41,369] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 621.215 ms
+[2019-09-06 13:40:43,361] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1991.932 ms
+[2019-09-06 13:40:43,362] [[1m[37mINFO[0m   ] Successfully updated 4581 subscribers
+[2019-09-06 13:40:43,362] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2614.984 ms
+[2019-09-06 13:44:40,488] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 13:44:40,488] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 13:47:42,338] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/zPo0K.mp3", "volume": 14}
+[2019-09-06 13:48:10,013] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(singfangay69)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '877915_HF'
+[2019-09-06 13:48:33,334] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(singfangay69)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '877915_HF'
+[2019-09-06 13:49:40,099] [[1m[31mERROR[0m  ] Logging an uncaught exception (ActionQueue)
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 600, in urlopen
+    chunked=chunked)
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 384, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 380, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/usr/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/usr/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/dist-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 638, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/util/retry.py", line 368, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/packages/six.py", line 685, in reraise
+    raise value.with_traceback(tb)
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 600, in urlopen
+    chunked=chunked)
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 384, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 380, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/usr/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/usr/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/actions.py", line 45, in _action_parser
+    action.run()
+  File "/srv/admiralbullbot/pajbot/actions.py", line 19, in run
+    self.func(*self.args, **self.kwargs)
+  File "/srv/admiralbullbot/pajbot/models/stream.py", line 275, in refresh_stream_status_stage1
+    status = self.bot.twitch_v5_api.get_stream_status(self.bot.streamer_user_id)
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/kraken_v5.py", line 23, in get_stream_status
+    data = self.get(["streams", user_id])
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/base.py", line 69, in get
+    return self.request("GET", endpoint, params, headers, authorization).json()
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/base.py", line 50, in request
+    return super().request(method, endpoint, params, headers, json)
+  File "/srv/admiralbullbot/pajbot/apiwrappers/base.py", line 80, in request
+    method, full_url, params=params, headers=headers, json=json, timeout=self.timeout, **request_options
+  File "/usr/local/lib/python3.7/dist-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/local/lib/python3.7/dist-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/local/lib/python3.7/dist-packages/requests/adapters.py", line 498, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+[2019-09-06 13:49:40,117] [[1m[34mDEBUG[0m  ] Cache Miss: api:bttv:global-emotes
+[2019-09-06 13:49:40,119] [[1m[34mDEBUG[0m  ] Cache Miss: api:ffz:global-emotes
+[2019-09-06 13:49:40,121] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:kraken:v5:global-emotes
+[2019-09-06 13:49:40,177] [[1m[34mDEBUG[0m  ] Cache Miss: api:ffz:channel-emotes:admiralbulldog
+[2019-09-06 13:49:40,185] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:legacy:channel-emotes:admiralbulldog
+[2019-09-06 13:49:40,304] [[1m[34mDEBUG[0m  ] Cache Miss: api:bttv:channel-emotes:admiralbulldog
+[2019-09-06 13:49:40,394] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 13:49:40,395] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 13:49:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 13:49:41,297] [[1m[34mDEBUG[0m  ] Refreshing OAuth token
+[2019-09-06 13:49:41,533] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 51.424 ms
+[2019-09-06 13:50:04,248] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 13:50:09,562] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 13:50:13,086] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 13:50:13,816] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 13:50:20,966] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 13:50:33,788] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 13:50:35,748] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 13:50:36,138] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 13:50:38,374] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 13:50:38,547] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 13:50:44,936] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 782.205 ms
+[2019-09-06 13:50:46,969] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 2033.515 ms
+[2019-09-06 13:50:46,971] [[1m[37mINFO[0m   ] Successfully updated 4583 subscribers
+[2019-09-06 13:50:46,972] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2819.059 ms
+[2019-09-06 13:50:46,993] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(singfangay69)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '877915_HF'
+[2019-09-06 13:50:46,994] [[1m[34mDEBUG[0m  ] kagamishuna ran command 55.16 seconds ago, waiting...
+[2019-09-06 13:51:09,985] [[1m[34mDEBUG[0m  ] fappicinofreddy ran command 55.71 seconds ago, waiting...
+[2019-09-06 13:52:18,361] [[1m[34mDEBUG[0m  ] fappicinofreddy ran command 14.90 seconds ago, waiting...
+[2019-09-06 13:54:40,332] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 13:54:40,332] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 13:54:47,596] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:user-id:goro__56
+[2019-09-06 13:54:47,772] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:user-id:admiralbulldog
+[2019-09-06 13:54:47,937] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:follow-since:216858930:30816637
+[2019-09-06 13:55:27,741] [[1m[34mDEBUG[0m  ] messiah222 ran command 59.79 seconds ago, waiting...
+[2019-09-06 13:58:49,244] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/qE3Ty.mp3", "volume": 28}
+[2019-09-06 13:59:40,392] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 13:59:40,392] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 13:59:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 13:59:41,465] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 69.925 ms
+[2019-09-06 14:00:03,183] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 14:00:08,809] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 14:00:12,146] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 14:00:12,791] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 14:00:19,253] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 14:00:30,152] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 14:00:32,000] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 14:00:32,414] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 14:00:34,219] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 14:00:34,407] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 14:00:40,898] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 616.722 ms
+[2019-09-06 14:00:42,806] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1908.031 ms
+[2019-09-06 14:00:42,807] [[1m[37mINFO[0m   ] Successfully updated 4585 subscribers
+[2019-09-06 14:00:42,807] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2526.667 ms
+[2019-09-06 14:03:36,346] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(singfangay69)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '877915_HF'
+[2019-09-06 14:04:40,445] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 14:04:40,446] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 14:09:40,450] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 14:09:40,450] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 14:09:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 14:09:41,546] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 103.669 ms
+[2019-09-06 14:09:43,404] [[1m[31mERROR[0m  ] Logging an uncaught exception (ActionQueue)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/actions.py", line 45, in _action_parser
+    action.run()
+  File "/srv/admiralbullbot/pajbot/actions.py", line 19, in run
+    self.func(*self.args, **self.kwargs)
+  File "/srv/admiralbullbot/pajbot/modules/subscriber_fetch.py", line 32, in update_subscribers_stage1
+    self.bot.streamer_user_id, access_token_manager
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/helix.py", line 221, in fetch_all_subscribers
+    return self.fetch_all_pages(self.fetch_subscribers_page, broadcaster_id, authorization)
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/helix.py", line 41, in fetch_all_pages
+    response, pagination_cursor = page_fetch_fn(after_pagination_cursor=pagination_cursor, *args, **kwargs)
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/helix.py", line 163, in fetch_subscribers_page
+    authorization=authorization,
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/base.py", line 69, in get
+    return self.request("GET", endpoint, params, headers, authorization).json()
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/base.py", line 60, in request
+    raise e
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/base.py", line 50, in request
+    return super().request(method, endpoint, params, headers, json)
+  File "/srv/admiralbullbot/pajbot/apiwrappers/base.py", line 82, in request
+    response.raise_for_status()
+  File "/usr/local/lib/python3.7/dist-packages/requests/models.py", line 940, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 500 Server Error: Internal Server Error for url: https://api.twitch.tv/helix/subscriptions?broadcaster_id=30816637&after=eyJiIjp7Ik9mZnNldCI6MjB9LCJhIjp7Ik9mZnNldCI6NjB9fQ
+[2019-09-06 14:11:38,063] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/e2g6h.mp3", "volume": 40}
+[2019-09-06 14:14:40,432] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 14:14:40,432] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 14:16:10,445] [[1m[34mDEBUG[0m  ] maskedman554 ran command 26.33 seconds ago, waiting...
+[2019-09-06 14:16:23,488] [[1m[34mDEBUG[0m  ] maskedman554 ran command 39.38 seconds ago, waiting...
+[2019-09-06 14:19:40,494] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 14:19:40,495] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 14:19:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 14:19:41,883] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 386.063 ms
+[2019-09-06 14:20:03,523] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 14:20:08,754] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 14:20:12,300] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 14:20:13,010] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 14:20:19,774] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 14:20:31,219] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 14:20:33,095] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 14:20:33,709] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 14:20:35,442] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 14:20:35,623] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 14:20:38,960] [[1m[34mDEBUG[0m  ] maskedman554 ran command 12.18 seconds ago, waiting...
+[2019-09-06 14:20:42,402] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 636.197 ms
+[2019-09-06 14:20:44,081] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1678.148 ms
+[2019-09-06 14:20:44,081] [[1m[37mINFO[0m   ] Successfully updated 4588 subscribers
+[2019-09-06 14:20:44,081] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2315.718 ms
+[2019-09-06 14:21:00,839] [[1m[34mDEBUG[0m  ] maskedman554 ran command 34.06 seconds ago, waiting...
+[2019-09-06 14:21:06,334] [[1m[34mDEBUG[0m  ] maskedman554 ran command 39.55 seconds ago, waiting...
+[2019-09-06 14:21:42,041] [[1m[34mDEBUG[0m  ] maskedman554 ran command 5.15 seconds ago, waiting...
+[2019-09-06 14:22:14,695] [[1m[34mDEBUG[0m  ] maskedman554 ran command 37.80 seconds ago, waiting...
+[2019-09-06 14:24:40,394] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 14:24:40,394] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 14:24:43,191] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(yen40)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '1541777_SG'
+[2019-09-06 14:25:31,510] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(ferdl_)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '1259953_SG'
+[2019-09-06 14:28:38,176] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(rileks)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '1034496_HF'
+[2019-09-06 14:29:40,482] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 14:29:40,482] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 14:29:41,296] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 14:29:41,619] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 132.330 ms
+[2019-09-06 14:30:02,715] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 14:30:03,786] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(rileks)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '1034496_HF'
+[2019-09-06 14:30:07,318] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 14:30:10,800] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 14:30:11,509] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 14:30:17,518] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 14:30:28,958] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 14:30:30,790] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 14:30:31,475] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 14:30:33,089] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 14:30:33,494] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 14:30:40,070] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 739.646 ms
+[2019-09-06 14:30:42,068] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1997.644 ms
+[2019-09-06 14:30:42,069] [[1m[37mINFO[0m   ] Successfully updated 4591 subscribers
+[2019-09-06 14:30:42,069] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2738.934 ms
+[2019-09-06 14:34:40,500] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 14:34:40,500] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 14:39:40,404] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 14:39:40,404] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 14:39:41,296] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 14:39:41,462] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 55.696 ms
+[2019-09-06 14:40:03,620] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 14:40:08,632] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 14:40:12,147] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 14:40:12,790] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 14:40:18,938] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 14:40:29,286] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 14:40:31,313] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 14:40:31,702] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 14:40:33,669] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 14:40:33,837] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 14:40:39,862] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 593.366 ms
+[2019-09-06 14:40:42,022] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 2159.958 ms
+[2019-09-06 14:40:42,023] [[1m[37mINFO[0m   ] Successfully updated 4593 subscribers
+[2019-09-06 14:40:42,023] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2754.901 ms
+[2019-09-06 14:44:24,864] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(singfangay69)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '1583705_HF'
+[2019-09-06 14:44:40,428] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 14:44:40,428] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 14:49:40,117] [[1m[34mDEBUG[0m  ] Cache Miss: api:bttv:global-emotes
+[2019-09-06 14:49:40,120] [[1m[34mDEBUG[0m  ] Cache Miss: api:ffz:global-emotes
+[2019-09-06 14:49:40,122] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:kraken:v5:global-emotes
+[2019-09-06 14:49:40,166] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:legacy:channel-emotes:admiralbulldog
+[2019-09-06 14:49:40,195] [[1m[34mDEBUG[0m  ] Cache Miss: api:ffz:channel-emotes:admiralbulldog
+[2019-09-06 14:49:40,254] [[1m[34mDEBUG[0m  ] Cache Miss: api:bttv:channel-emotes:admiralbulldog
+[2019-09-06 14:49:40,356] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 14:49:40,356] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 14:49:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 14:49:41,532] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 50.197 ms
+[2019-09-06 14:50:02,311] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 14:50:07,109] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 14:50:10,359] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 14:50:10,998] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 14:50:17,304] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 14:50:28,155] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 14:50:29,967] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 14:50:30,361] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 14:50:32,159] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 14:50:32,338] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 14:50:38,807] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 649.003 ms
+[2019-09-06 14:50:40,967] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 2159.691 ms
+[2019-09-06 14:50:40,967] [[1m[37mINFO[0m   ] Successfully updated 4596 subscribers
+[2019-09-06 14:50:40,968] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2810.258 ms
+[2019-09-06 14:50:48,667] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/tY5y7.mp3", "volume": 12}
+[2019-09-06 14:53:13,524] [[1m[34mDEBUG[0m  ] Unhandled msg-id: primepaidupgrade - tags: {'badge-info': 'subscriber/7', 'badges': 'subscriber/6', 'color': None, 'display-name': 'Zexhall', 'emotes': None, 'flags': None, 'id': '5707750e-9240-4483-9192-518183636472', 'login': 'zexhall', 'mod': '0', 'msg-id': 'primepaidupgrade', 'msg-param-sub-plan': '1000', 'room-id': '30816637', 'subscriber': '1', 'system-msg': 'Zexhall converted from a Twitch Prime sub to a Tier 1 sub!', 'tmi-sent-ts': '1567781593410', 'user-id': '75852246', 'user-type': None}
+[2019-09-06 14:54:40,344] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 14:54:40,344] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 14:56:08,654] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(singfangay69)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '877915_HF'
+[2019-09-06 14:59:40,494] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 14:59:40,495] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 14:59:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 14:59:41,518] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 54.739 ms
+[2019-09-06 14:59:55,847] [[1m[33mWARNING[0m] Run time of job "EpmManager.epm_decr (trigger: date[2019-09-06 14:59:54 UTC], next run at: 2019-09-06 14:59:54 UTC)" was missed by 0:00:01.123496
+[2019-09-06 15:00:02,639] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 15:00:07,343] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 15:00:10,956] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 15:00:11,631] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 15:00:17,801] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 15:00:28,487] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 15:00:30,323] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 15:00:30,696] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 15:00:32,448] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 15:00:32,632] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 15:00:39,292] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 667.489 ms
+[2019-09-06 15:00:41,477] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 2184.961 ms
+[2019-09-06 15:00:41,477] [[1m[37mINFO[0m   ] Successfully updated 4597 subscribers
+[2019-09-06 15:00:41,478] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2853.816 ms
+[2019-09-06 15:04:40,435] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 15:04:40,435] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 15:05:27,963] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/fVkui.mp3", "volume": 12}
+[2019-09-06 15:07:01,802] [[1m[34mDEBUG[0m  ] born_villain123 ran command 34.35 seconds ago, waiting...
+[2019-09-06 15:09:40,359] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 15:09:40,359] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 15:09:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 15:09:41,398] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 36.604 ms
+[2019-09-06 15:10:03,439] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 15:10:08,527] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 15:10:12,133] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 15:10:12,848] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 15:10:19,318] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 15:10:30,596] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 15:10:32,508] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 15:10:32,928] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 15:10:34,917] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 15:10:35,150] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 15:10:41,578] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 839.273 ms
+[2019-09-06 15:10:43,275] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1696.349 ms
+[2019-09-06 15:10:43,275] [[1m[37mINFO[0m   ] Successfully updated 4599 subscribers
+[2019-09-06 15:10:43,275] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2537.051 ms
+[2019-09-06 15:14:40,711] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 15:14:40,711] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 15:19:40,523] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 15:19:40,524] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 15:19:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 15:19:41,565] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 39.260 ms
+[2019-09-06 15:20:02,622] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 15:20:04,082] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(ferdl_)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '1259953_SG'
+[2019-09-06 15:20:08,242] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 15:20:11,998] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 15:20:12,649] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 15:20:19,076] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 15:20:29,826] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 15:20:32,169] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 15:20:32,580] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 15:20:34,451] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 15:20:34,621] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 15:20:41,282] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 695.508 ms
+[2019-09-06 15:20:43,256] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1972.754 ms
+[2019-09-06 15:20:43,256] [[1m[37mINFO[0m   ] Successfully updated 4604 subscribers
+[2019-09-06 15:20:43,256] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2669.872 ms
+[2019-09-06 15:23:02,593] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(ferdl_)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '1259953_SG'
+[2019-09-06 15:24:20,517] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(ferdl_)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '1259953_SG'
+[2019-09-06 15:24:40,361] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 15:24:40,362] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 15:28:10,997] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:user-id:defenseofwarcraft
+[2019-09-06 15:28:11,170] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:user-id:admiralbulldog
+[2019-09-06 15:28:11,330] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:follow-since:50087927:30816637
+[2019-09-06 15:29:40,478] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 15:29:40,479] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 15:29:41,296] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 15:29:41,548] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 59.454 ms
+[2019-09-06 15:30:03,657] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 15:30:08,690] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 15:30:12,271] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 15:30:13,066] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 15:30:19,546] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 15:30:30,512] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 15:30:32,361] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 15:30:33,040] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 15:30:34,621] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 15:30:35,037] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 15:30:41,095] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 595.075 ms
+[2019-09-06 15:30:42,983] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1888.173 ms
+[2019-09-06 15:30:42,984] [[1m[37mINFO[0m   ] Successfully updated 4614 subscribers
+[2019-09-06 15:30:42,984] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2484.870 ms
+[2019-09-06 15:34:40,446] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 15:34:40,446] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 15:39:40,407] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 15:39:40,408] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 15:39:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 15:39:41,468] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 54.881 ms
+[2019-09-06 15:40:02,278] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 15:40:07,551] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 15:40:11,033] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 15:40:11,769] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 15:40:18,202] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 15:40:29,637] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 15:40:31,504] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 15:40:31,906] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 15:40:33,865] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 15:40:34,035] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 15:40:40,592] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 685.005 ms
+[2019-09-06 15:40:42,525] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1932.886 ms
+[2019-09-06 15:40:42,525] [[1m[37mINFO[0m   ] Successfully updated 4618 subscribers
+[2019-09-06 15:40:42,525] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2619.054 ms
+[2019-09-06 15:44:40,452] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 15:44:40,453] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 15:45:56,161] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/WJiu6.mp3", "volume": 32}
+[2019-09-06 15:46:16,009] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(rileks)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '1034496_HF'
+[2019-09-06 15:46:57,615] [[1m[34mDEBUG[0m  ] Command was run 5.28 seconds ago, waiting...
+[2019-09-06 15:47:01,543] [[1m[34mDEBUG[0m  ] Command was run 9.21 seconds ago, waiting...
+[2019-09-06 15:49:40,092] [[1m[31mERROR[0m  ] Logging an uncaught exception (ActionQueue)
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 600, in urlopen
+    chunked=chunked)
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 384, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 380, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/usr/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/usr/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/dist-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 638, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/util/retry.py", line 368, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/packages/six.py", line 685, in reraise
+    raise value.with_traceback(tb)
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 600, in urlopen
+    chunked=chunked)
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 384, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 380, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/usr/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/usr/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/actions.py", line 45, in _action_parser
+    action.run()
+  File "/srv/admiralbullbot/pajbot/actions.py", line 19, in run
+    self.func(*self.args, **self.kwargs)
+  File "/srv/admiralbullbot/pajbot/models/stream.py", line 275, in refresh_stream_status_stage1
+    status = self.bot.twitch_v5_api.get_stream_status(self.bot.streamer_user_id)
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/kraken_v5.py", line 23, in get_stream_status
+    data = self.get(["streams", user_id])
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/base.py", line 69, in get
+    return self.request("GET", endpoint, params, headers, authorization).json()
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/base.py", line 50, in request
+    return super().request(method, endpoint, params, headers, json)
+  File "/srv/admiralbullbot/pajbot/apiwrappers/base.py", line 80, in request
+    method, full_url, params=params, headers=headers, json=json, timeout=self.timeout, **request_options
+  File "/usr/local/lib/python3.7/dist-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/local/lib/python3.7/dist-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/local/lib/python3.7/dist-packages/requests/adapters.py", line 498, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+[2019-09-06 15:49:40,118] [[1m[34mDEBUG[0m  ] Cache Miss: api:bttv:global-emotes
+[2019-09-06 15:49:40,118] [[1m[34mDEBUG[0m  ] Cache Miss: api:ffz:global-emotes
+[2019-09-06 15:49:40,119] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:kraken:v5:global-emotes
+[2019-09-06 15:49:40,168] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:legacy:channel-emotes:admiralbulldog
+[2019-09-06 15:49:40,175] [[1m[34mDEBUG[0m  ] Cache Miss: api:ffz:channel-emotes:admiralbulldog
+[2019-09-06 15:49:40,305] [[1m[34mDEBUG[0m  ] Cache Miss: api:bttv:channel-emotes:admiralbulldog
+[2019-09-06 15:49:40,490] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 15:49:40,491] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 15:49:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 15:49:41,537] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 42.743 ms
+[2019-09-06 15:50:03,457] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 15:50:08,306] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 15:50:11,723] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 15:50:12,426] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 15:50:12,592] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(singfangay69)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '1583705_HF'
+[2019-09-06 15:50:18,657] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 15:50:29,853] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 15:50:31,794] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 15:50:32,209] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 15:50:34,231] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 15:50:34,421] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 15:50:40,644] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 609.357 ms
+[2019-09-06 15:50:42,386] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1741.843 ms
+[2019-09-06 15:50:42,387] [[1m[37mINFO[0m   ] Successfully updated 4619 subscribers
+[2019-09-06 15:50:42,387] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2353.258 ms
+[2019-09-06 15:51:17,664] [[1m[37mINFO[0m   ] 14400
+[2019-09-06 15:51:22,058] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:user-id:broodhoodman
+[2019-09-06 15:51:22,238] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:user-id:admiralbulldog
+[2019-09-06 15:51:22,411] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:follow-since:87845303:30816637
+[2019-09-06 15:51:31,226] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:user-id:xdarmawan
+[2019-09-06 15:51:31,412] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:follow-since:62201038:30816637
+[2019-09-06 15:51:39,258] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:user-id:the_joy_of_painting
+[2019-09-06 15:51:39,443] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:follow-since:105873543:30816637
+[2019-09-06 15:52:23,346] [[1m[37mINFO[0m   ] 12600
+[2019-09-06 15:52:53,029] [[1m[37mINFO[0m   ] 5400
+[2019-09-06 15:53:28,509] [[1m[37mINFO[0m   ] 15900
+[2019-09-06 15:54:02,559] [[1m[37mINFO[0m   ] 16500
+[2019-09-06 15:54:40,438] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 15:54:40,439] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 15:58:24,908] [[1m[34mDEBUG[0m  ] Command was run 2.69 seconds ago, waiting...
+[2019-09-06 15:59:40,506] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 15:59:40,507] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 15:59:41,296] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 15:59:41,450] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 43.454 ms
+[2019-09-06 16:00:02,496] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 16:00:07,620] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 16:00:10,866] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 16:00:11,715] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 16:00:18,037] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 16:00:29,437] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 16:00:31,194] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 16:00:31,602] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 16:00:33,470] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 16:00:33,648] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 16:00:39,752] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 646.940 ms
+[2019-09-06 16:00:41,986] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 2233.736 ms
+[2019-09-06 16:00:41,987] [[1m[37mINFO[0m   ] Successfully updated 4620 subscribers
+[2019-09-06 16:00:41,987] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2882.574 ms
+[2019-09-06 16:04:41,025] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 16:04:41,025] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 16:09:40,363] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 16:09:40,364] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 16:09:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 16:09:41,475] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 51.000 ms
+[2019-09-06 16:10:02,645] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 16:10:08,291] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 16:10:11,477] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 16:10:12,141] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 16:10:18,403] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 16:10:29,156] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 16:10:31,014] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 16:10:31,448] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 16:10:33,253] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 16:10:33,424] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 16:10:39,926] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 582.419 ms
+[2019-09-06 16:10:41,633] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1707.215 ms
+[2019-09-06 16:10:41,634] [[1m[37mINFO[0m   ] Successfully updated 4621 subscribers
+[2019-09-06 16:10:41,634] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2291.159 ms
+[2019-09-06 16:14:40,383] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 16:14:40,383] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 16:17:46,032] [[1m[31mERROR[0m  ] Uncaught exception in UserManager::get_user(ls_degree)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/managers/user.py", line 46, in get_user_context
+    yield user
+  File "/srv/admiralbullbot/pajbot/bot.py", line 814, in on_pubmsg
+    >>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
+  File "/srv/admiralbullbot/pajbot/bot.py", line 716, in parse_message
+    elif tag["key"] == "user-type":
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 210, in parse_all_emotes
+    twitch_emote_instances = self.parse_twitch_emotes_tag(twitch_emotes_tag, message)
+  File "/srv/admiralbullbot/pajbot/managers/emote.py", line 177, in parse_twitch_emotes_tag
+    emote_id = int(emote_id)
+ValueError: invalid literal for int() with base 10: '300580747_SG'
+[2019-09-06 16:18:47,702] [[1m[34mDEBUG[0m  ] Playsound module is emitting payload: {"link": "https://i.nuuls.com/jixVp.mp3", "volume": 12}
+[2019-09-06 16:19:40,512] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 16:19:40,513] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 16:19:41,296] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 16:19:41,431] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 79.284 ms
+[2019-09-06 16:20:02,874] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 16:20:08,158] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 16:20:11,302] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 16:20:11,930] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 16:20:18,513] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 16:20:29,501] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 16:20:31,263] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 16:20:31,674] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 16:20:33,586] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 16:20:33,781] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 16:20:40,404] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 709.888 ms
+[2019-09-06 16:20:42,514] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 2109.634 ms
+[2019-09-06 16:20:42,514] [[1m[37mINFO[0m   ] Successfully updated 4622 subscribers
+[2019-09-06 16:20:42,514] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2820.991 ms
+[2019-09-06 16:24:40,484] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 16:24:40,484] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 16:24:45,313] [[1m[37mINFO[0m   ] WebSocket connection closed: None
+[2019-09-06 16:28:10,824] [[1m[37mINFO[0m   ] WebSocket connection closed: None
+[2019-09-06 16:29:20,472] [[1m[37mINFO[0m   ] Offline. 0
+[2019-09-06 16:29:40,341] [[1m[37mINFO[0m   ] Offline. 1
+[2019-09-06 16:29:40,542] [[1m[37mINFO[0m   ] Attempting to fetch video url for broadcast 35562330096
+[2019-09-06 16:29:40,542] [[1m[37mINFO[0m   ] No video for broadcast found
+[2019-09-06 16:29:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 16:29:41,591] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 46.451 ms
+[2019-09-06 16:30:02,208] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 16:30:07,594] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 16:30:11,384] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 16:30:12,006] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 16:30:18,865] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 16:30:29,497] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 16:30:31,258] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 16:30:31,667] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 16:30:33,529] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 16:30:33,700] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 16:30:40,396] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 702.759 ms
+[2019-09-06 16:30:42,535] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 2138.118 ms
+[2019-09-06 16:30:42,535] [[1m[37mINFO[0m   ] Successfully updated 4622 subscribers
+[2019-09-06 16:30:42,535] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2842.656 ms
+[2019-09-06 16:30:42,536] [[1m[37mINFO[0m   ] Offline. 2
+[2019-09-06 16:30:42,539] [[1m[37mINFO[0m   ] Offline. 3
+[2019-09-06 16:30:42,941] [[1m[37mINFO[0m   ] Offline. 4
+[2019-09-06 16:31:00,353] [[1m[37mINFO[0m   ] Offline. 5
+[2019-09-06 16:31:20,496] [[1m[37mINFO[0m   ] Offline. 6
+[2019-09-06 16:31:40,426] [[1m[37mINFO[0m   ] Offline. 7
+[2019-09-06 16:32:00,454] [[1m[37mINFO[0m   ] Offline. 8
+[2019-09-06 16:32:20,476] [[1m[37mINFO[0m   ] Offline. 9
+[2019-09-06 16:32:40,408] [[1m[37mINFO[0m   ] Offline. 10
+[2019-09-06 16:32:40,408] [[1m[37mINFO[0m   ] Switching to offline state!
+[2019-09-06 16:39:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 16:39:41,582] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 32.195 ms
+[2019-09-06 16:40:03,790] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 16:40:10,125] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 16:40:13,307] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 16:40:13,928] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 16:40:20,544] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 16:40:32,274] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 16:40:34,008] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 16:40:34,442] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 16:40:36,184] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 16:40:36,362] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 16:40:42,673] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 646.827 ms
+[2019-09-06 16:40:44,391] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1717.064 ms
+[2019-09-06 16:40:44,391] [[1m[37mINFO[0m   ] Successfully updated 4622 subscribers
+[2019-09-06 16:40:44,392] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2365.406 ms
+[2019-09-06 16:49:40,117] [[1m[34mDEBUG[0m  ] Cache Miss: api:bttv:global-emotes
+[2019-09-06 16:49:40,122] [[1m[34mDEBUG[0m  ] Cache Miss: api:ffz:global-emotes
+[2019-09-06 16:49:40,122] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:kraken:v5:global-emotes
+[2019-09-06 16:49:40,191] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:legacy:channel-emotes:admiralbulldog
+[2019-09-06 16:49:40,204] [[1m[34mDEBUG[0m  ] Cache Miss: api:ffz:channel-emotes:admiralbulldog
+[2019-09-06 16:49:40,275] [[1m[34mDEBUG[0m  ] Cache Miss: api:bttv:channel-emotes:admiralbulldog
+[2019-09-06 16:49:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 16:49:41,516] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 30.817 ms
+[2019-09-06 16:50:03,713] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 16:50:09,468] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 16:50:12,904] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 16:50:13,584] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 16:50:20,218] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 16:50:31,893] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 16:50:33,810] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 16:50:34,347] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 16:50:36,317] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 16:50:36,506] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 16:50:42,762] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 603.899 ms
+[2019-09-06 16:50:44,615] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1852.941 ms
+[2019-09-06 16:50:44,616] [[1m[37mINFO[0m   ] Successfully updated 4622 subscribers
+[2019-09-06 16:50:44,616] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2458.636 ms
+[2019-09-06 16:59:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 16:59:41,492] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 5.649 ms
+[2019-09-06 17:00:04,222] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 17:00:09,551] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 17:00:13,252] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 17:00:13,878] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 17:00:20,315] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 17:00:30,773] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 17:00:32,674] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 17:00:33,084] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 17:00:34,978] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 17:00:35,163] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 17:00:41,937] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 775.914 ms
+[2019-09-06 17:00:43,900] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1963.031 ms
+[2019-09-06 17:00:43,901] [[1m[37mINFO[0m   ] Successfully updated 4621 subscribers
+[2019-09-06 17:00:43,901] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2740.604 ms
+[2019-09-06 17:09:41,296] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 17:09:41,296] [[1m[34mDEBUG[0m  ] Refreshing OAuth token
+[2019-09-06 17:09:41,545] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 18.773 ms
+[2019-09-06 17:10:04,044] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 17:10:09,115] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 17:10:12,551] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 17:10:13,201] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 17:10:20,073] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 17:10:31,304] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 17:10:33,406] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 17:10:33,875] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 17:10:36,075] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 17:10:36,240] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 17:10:43,097] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 558.736 ms
+[2019-09-06 17:10:44,964] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1866.698 ms
+[2019-09-06 17:10:44,964] [[1m[37mINFO[0m   ] Successfully updated 4622 subscribers
+[2019-09-06 17:10:44,964] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2427.011 ms
+[2019-09-06 17:19:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 17:19:41,834] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 353.666 ms
+[2019-09-06 17:20:03,324] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 17:20:08,535] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 17:20:11,803] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 17:20:12,445] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 17:20:18,900] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 17:20:30,160] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 17:20:32,073] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 17:20:32,486] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 17:20:34,249] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 17:20:34,440] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 17:20:40,675] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 548.574 ms
+[2019-09-06 17:20:42,745] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 2069.902 ms
+[2019-09-06 17:20:42,746] [[1m[37mINFO[0m   ] Successfully updated 4621 subscribers
+[2019-09-06 17:20:42,746] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2620.569 ms
+[2019-09-06 17:29:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 17:29:41,480] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 34.785 ms
+[2019-09-06 17:30:02,514] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 17:30:07,743] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 17:30:11,182] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 17:30:11,924] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 17:30:18,390] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 17:30:30,565] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 17:30:32,397] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 17:30:32,877] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 17:30:34,691] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 17:30:34,866] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 17:30:41,778] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 785.802 ms
+[2019-09-06 17:30:43,574] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1795.382 ms
+[2019-09-06 17:30:43,574] [[1m[37mINFO[0m   ] Successfully updated 4621 subscribers
+[2019-09-06 17:30:43,575] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2583.008 ms
+[2019-09-06 17:39:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 17:39:41,501] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 109.694 ms
+[2019-09-06 17:40:03,511] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 17:40:08,459] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 17:40:11,672] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 17:40:12,422] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 17:40:18,975] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 17:40:29,565] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 17:40:31,490] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 17:40:31,923] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 17:40:34,303] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 17:40:34,482] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 17:40:41,043] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 593.568 ms
+[2019-09-06 17:40:42,997] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1953.900 ms
+[2019-09-06 17:40:42,998] [[1m[37mINFO[0m   ] Successfully updated 4621 subscribers
+[2019-09-06 17:40:42,998] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2549.077 ms
+[2019-09-06 17:49:39,998] [[1m[31mERROR[0m  ] Logging an uncaught exception (ActionQueue)
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 600, in urlopen
+    chunked=chunked)
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 384, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 380, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/usr/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/usr/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/dist-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 638, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/util/retry.py", line 368, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/packages/six.py", line 685, in reraise
+    raise value.with_traceback(tb)
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 600, in urlopen
+    chunked=chunked)
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 384, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 380, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/lib/python3.7/http/client.py", line 1321, in getresponse
+    response.begin()
+  File "/usr/lib/python3.7/http/client.py", line 296, in begin
+    version, status, reason = self._read_status()
+  File "/usr/lib/python3.7/http/client.py", line 265, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/actions.py", line 45, in _action_parser
+    action.run()
+  File "/srv/admiralbullbot/pajbot/actions.py", line 19, in run
+    self.func(*self.args, **self.kwargs)
+  File "/srv/admiralbullbot/pajbot/models/stream.py", line 275, in refresh_stream_status_stage1
+    status = self.bot.twitch_v5_api.get_stream_status(self.bot.streamer_user_id)
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/kraken_v5.py", line 23, in get_stream_status
+    data = self.get(["streams", user_id])
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/base.py", line 69, in get
+    return self.request("GET", endpoint, params, headers, authorization).json()
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/base.py", line 50, in request
+    return super().request(method, endpoint, params, headers, json)
+  File "/srv/admiralbullbot/pajbot/apiwrappers/base.py", line 80, in request
+    method, full_url, params=params, headers=headers, json=json, timeout=self.timeout, **request_options
+  File "/usr/local/lib/python3.7/dist-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/local/lib/python3.7/dist-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/local/lib/python3.7/dist-packages/requests/adapters.py", line 498, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+[2019-09-06 17:49:40,118] [[1m[34mDEBUG[0m  ] Cache Miss: api:bttv:global-emotes
+[2019-09-06 17:49:40,118] [[1m[34mDEBUG[0m  ] Cache Miss: api:ffz:global-emotes
+[2019-09-06 17:49:40,122] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:kraken:v5:global-emotes
+[2019-09-06 17:49:40,186] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:legacy:channel-emotes:admiralbulldog
+[2019-09-06 17:49:40,190] [[1m[34mDEBUG[0m  ] Cache Miss: api:ffz:channel-emotes:admiralbulldog
+[2019-09-06 17:49:40,351] [[1m[34mDEBUG[0m  ] Cache Miss: api:bttv:channel-emotes:admiralbulldog
+[2019-09-06 17:49:41,298] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 17:49:41,404] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 4.725 ms
+[2019-09-06 17:50:04,074] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 17:50:09,510] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 17:50:12,908] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 17:50:13,609] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 17:50:20,504] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 17:50:31,876] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 17:50:33,910] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 17:50:34,343] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 17:50:36,227] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 17:50:36,423] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 17:50:43,144] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 641.576 ms
+[2019-09-06 17:50:44,653] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1508.646 ms
+[2019-09-06 17:50:44,653] [[1m[37mINFO[0m   ] Successfully updated 4621 subscribers
+[2019-09-06 17:50:44,654] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2152.312 ms
+[2019-09-06 17:59:41,296] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 17:59:41,502] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 2.485 ms
+[2019-09-06 18:00:04,070] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 18:00:09,328] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 18:00:13,058] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 18:00:13,708] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 18:00:20,742] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 18:00:32,521] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 18:00:34,339] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 18:00:34,743] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 18:00:36,853] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 18:00:37,022] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 18:00:43,359] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 560.455 ms
+[2019-09-06 18:00:45,601] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 2241.945 ms
+[2019-09-06 18:00:45,602] [[1m[37mINFO[0m   ] Successfully updated 4620 subscribers
+[2019-09-06 18:00:45,602] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2804.130 ms
+[2019-09-06 18:09:41,296] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 18:09:41,538] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 13.633 ms
+[2019-09-06 18:10:03,991] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 18:10:10,951] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 18:10:15,678] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 18:10:16,430] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 18:10:22,795] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 18:10:33,927] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 18:10:35,844] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 18:10:36,264] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 18:10:38,060] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 18:10:38,239] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 18:10:44,260] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 540.963 ms
+[2019-09-06 18:10:45,969] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1708.182 ms
+[2019-09-06 18:10:45,969] [[1m[37mINFO[0m   ] Successfully updated 4620 subscribers
+[2019-09-06 18:10:45,969] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2250.639 ms
+[2019-09-06 18:19:41,296] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 18:19:41,529] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 30.623 ms
+[2019-09-06 18:20:03,567] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 18:20:08,781] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 18:20:12,081] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 18:20:12,734] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 18:20:19,942] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 18:20:31,320] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 18:20:33,253] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 18:20:33,695] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 18:20:35,550] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 18:20:35,741] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 18:20:42,045] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 599.649 ms
+[2019-09-06 18:20:43,760] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1714.656 ms
+[2019-09-06 18:20:43,760] [[1m[37mINFO[0m   ] Successfully updated 4619 subscribers
+[2019-09-06 18:20:43,760] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2316.239 ms
+[2019-09-06 18:29:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 18:29:41,518] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 4.760 ms
+[2019-09-06 18:30:03,258] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 18:30:08,366] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 18:30:11,940] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 18:30:12,586] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 18:30:18,934] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 18:30:29,828] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 18:30:31,773] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 18:30:32,181] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 18:30:34,156] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 18:30:34,343] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 18:30:40,479] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 600.232 ms
+[2019-09-06 18:30:42,405] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1926.119 ms
+[2019-09-06 18:30:42,405] [[1m[37mINFO[0m   ] Successfully updated 4619 subscribers
+[2019-09-06 18:30:42,405] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2527.624 ms
+[2019-09-06 18:39:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 18:39:41,513] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 13.188 ms
+[2019-09-06 18:40:03,798] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 18:40:09,155] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 18:40:12,640] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 18:40:13,445] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 18:40:20,410] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 18:40:31,472] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 18:40:33,344] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 18:40:33,826] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 18:40:35,625] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 18:40:35,790] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 18:40:42,327] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 714.505 ms
+[2019-09-06 18:40:44,354] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 2026.907 ms
+[2019-09-06 18:40:44,355] [[1m[37mINFO[0m   ] Successfully updated 4619 subscribers
+[2019-09-06 18:40:44,355] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2743.705 ms
+[2019-09-06 18:49:40,118] [[1m[34mDEBUG[0m  ] Cache Miss: api:bttv:global-emotes
+[2019-09-06 18:49:40,118] [[1m[34mDEBUG[0m  ] Cache Miss: api:ffz:global-emotes
+[2019-09-06 18:49:40,122] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:kraken:v5:global-emotes
+[2019-09-06 18:49:40,179] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:legacy:channel-emotes:admiralbulldog
+[2019-09-06 18:49:40,200] [[1m[34mDEBUG[0m  ] Cache Miss: api:ffz:channel-emotes:admiralbulldog
+[2019-09-06 18:49:40,278] [[1m[34mDEBUG[0m  ] Cache Miss: api:bttv:channel-emotes:admiralbulldog
+[2019-09-06 18:49:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 18:49:41,403] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 3.706 ms
+[2019-09-06 18:50:04,126] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 18:50:10,060] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 18:50:13,436] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 18:50:14,109] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 18:50:20,694] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 18:50:31,596] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 18:50:33,771] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 18:50:34,196] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 18:50:36,005] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 18:50:36,194] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 18:50:42,479] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 787.191 ms
+[2019-09-06 18:50:44,394] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1914.091 ms
+[2019-09-06 18:50:44,394] [[1m[37mINFO[0m   ] Successfully updated 4619 subscribers
+[2019-09-06 18:50:44,394] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2702.581 ms
+[2019-09-06 18:59:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 18:59:41,395] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 4.072 ms
+[2019-09-06 19:00:04,283] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 19:00:09,907] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 19:00:13,228] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 19:00:13,842] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 19:00:20,824] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 19:00:23,844] [[1m[31mERROR[0m  ] Logging an uncaught exception (ActionQueue)
+Traceback (most recent call last):
+  File "/srv/admiralbullbot/pajbot/actions.py", line 45, in _action_parser
+    action.run()
+  File "/srv/admiralbullbot/pajbot/actions.py", line 19, in run
+    self.func(*self.args, **self.kwargs)
+  File "/srv/admiralbullbot/pajbot/modules/subscriber_fetch.py", line 32, in update_subscribers_stage1
+    self.bot.streamer_user_id, access_token_manager
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/helix.py", line 221, in fetch_all_subscribers
+    return self.fetch_all_pages(self.fetch_subscribers_page, broadcaster_id, authorization)
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/helix.py", line 41, in fetch_all_pages
+    response, pagination_cursor = page_fetch_fn(after_pagination_cursor=pagination_cursor, *args, **kwargs)
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/helix.py", line 163, in fetch_subscribers_page
+    authorization=authorization,
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/base.py", line 69, in get
+    return self.request("GET", endpoint, params, headers, authorization).json()
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/base.py", line 60, in request
+    raise e
+  File "/srv/admiralbullbot/pajbot/apiwrappers/twitch/base.py", line 50, in request
+    return super().request(method, endpoint, params, headers, json)
+  File "/srv/admiralbullbot/pajbot/apiwrappers/base.py", line 82, in request
+    response.raise_for_status()
+  File "/usr/local/lib/python3.7/dist-packages/requests/models.py", line 940, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 500 Server Error: Internal Server Error for url: https://api.twitch.tv/helix/subscriptions?broadcaster_id=30816637&after=eyJiIjp7Ik9mZnNldCI6MzA2MH0sImEiOnsiT2Zmc2V0IjozMTAwfX0
+[2019-09-06 19:09:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 19:09:41,449] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 18.549 ms
+[2019-09-06 19:10:04,121] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 19:10:09,884] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 19:10:13,754] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 19:10:14,387] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 19:10:21,040] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 19:10:32,558] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 19:10:34,683] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 19:10:35,099] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 19:10:36,855] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 19:10:37,038] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 19:10:43,684] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 528.221 ms
+[2019-09-06 19:10:45,249] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1563.839 ms
+[2019-09-06 19:10:45,249] [[1m[37mINFO[0m   ] Successfully updated 4619 subscribers
+[2019-09-06 19:10:45,249] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2094.013 ms
+[2019-09-06 19:17:38,958] [[1m[33mWARNING[0m] Run time of job "DotaBetModule.poll_webapi (trigger: interval[0:00:25], next run at: 2019-09-06 19:18:00 UTC)" was missed by 0:00:03.839306
+[2019-09-06 19:19:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 19:19:41,478] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 4.456 ms
+[2019-09-06 19:20:04,059] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 19:20:09,548] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 19:20:13,185] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 19:20:13,818] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 19:20:20,784] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 19:20:31,827] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 19:20:33,612] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 19:20:34,026] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 19:20:36,057] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 19:20:36,240] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 19:20:42,593] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 612.250 ms
+[2019-09-06 19:20:44,227] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 1633.832 ms
+[2019-09-06 19:20:44,227] [[1m[37mINFO[0m   ] Successfully updated 4618 subscribers
+[2019-09-06 19:20:44,227] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2247.274 ms
+[2019-09-06 19:29:41,296] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 19:29:41,448] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 15.317 ms
+[2019-09-06 19:30:03,795] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 19:30:09,332] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 19:30:12,572] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 19:30:13,221] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 19:30:19,513] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 19:30:31,101] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 19:30:33,113] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 19:30:33,545] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 19:30:35,750] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 19:30:35,942] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 19:30:42,182] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 685.300 ms
+[2019-09-06 19:30:44,312] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 2129.049 ms
+[2019-09-06 19:30:44,312] [[1m[37mINFO[0m   ] Successfully updated 4618 subscribers
+[2019-09-06 19:30:44,313] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 2816.415 ms
+[2019-09-06 19:39:41,297] [[1m[34mDEBUG[0m  ] Successfully loaded OAuth token from storage
+[2019-09-06 19:39:41,483] [[1m[34mDEBUG[0m  ] Bot::commit_all function took 34.996 ms
+[2019-09-06 19:40:03,572] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:91811231
+[2019-09-06 19:40:09,046] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:138510862
+[2019-09-06 19:40:12,523] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:95962082
+[2019-09-06 19:40:13,242] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:108439693
+[2019-09-06 19:40:20,960] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:48161617
+[2019-09-06 19:40:32,584] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:89846680
+[2019-09-06 19:40:34,354] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:139592821
+[2019-09-06 19:40:34,769] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:126934262
+[2019-09-06 19:40:36,814] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:72885256
+[2019-09-06 19:40:36,995] [[1m[34mDEBUG[0m  ] Cache Miss: api:twitch:helix:login-name:25847458
+[2019-09-06 19:40:44,110] [[1m[34mDEBUG[0m  ] UserManager::reset_subs function took 1183.229 ms
+[2019-09-06 19:40:46,559] [[1m[34mDEBUG[0m  ] UserManager::update_subs function took 2448.970 ms
+[2019-09-06 19:40:46,560] [[1m[37mINFO[0m   ] Successfully updated 4618 subscribers
+[2019-09-06 19:40:46,560] [[1m[34mDEBUG[0m  ] SubscriberFetchModule::update_subscribers_stage2 function took 3634.106 ms

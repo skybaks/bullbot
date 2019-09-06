@@ -11,6 +11,7 @@ __pycache__
 
 # Logs
 logs/
+*.out
 errors.txt
 
 # Config stuff

@@ -14,7 +14,8 @@ from pajbot.managers.db import DBManager
 from pajbot.managers.handler import HandlerManager
 from pajbot.managers.schedule import ScheduleManager
 from pajbot.models.command import Command
-from pajbot.modules import BaseModule, ModuleSetting
+from pajbot.modules import BaseModule
+from pajbot.modules import ModuleSetting
 
 log = logging.getLogger(__name__)
 
@@ -31,10 +32,8 @@ class TriviaModule(BaseModule):
             type="number",
             required=True,
             default=2,
-            constraints={
-                "min_value": 0,
-                "max_value": 4,
-            }),
+            constraints={"min_value": 0, "max_value": 4},
+        ),
         ModuleSetting(
             key="step_delay",
             label="Time between each step (step_delay*(hint_count+1) = length of each question)",
@@ -42,10 +41,8 @@ class TriviaModule(BaseModule):
             required=True,
             placeholder="",
             default=10,
-            constraints={
-                "min_value": 5,
-                "max_value": 45,
-            }),
+            constraints={"min_value": 5, "max_value": 45},
+        ),
         ModuleSetting(
             key="default_point_bounty",
             label="Default point bounty per right answer",
@@ -53,10 +50,17 @@ class TriviaModule(BaseModule):
             required=True,
             placeholder="",
             default=0,
-            constraints={
-                "min_value": 0,
-                "max_value": 1000,
-            }),
+            constraints={"min_value": 0, "max_value": 1000},
+        ),
+        ModuleSetting(
+            key="question_delay",
+            label="Delay between questions in seconds.",
+            type="number",
+            required=True,
+            placeholder="",
+            default=0,
+            constraints={"min_value": 0, "max_value": 600},
+        )
     ]
 
     def __init__(self, bot):
@@ -196,8 +200,13 @@ class TriviaModule(BaseModule):
             self.last_step = None
 
         # Is it time for the next step?
-
-        if self.last_step is None or ((utils.now() - self.last_step) >= datetime.timedelta(seconds=self.settings["step_delay"])):
+        condition = self.last_question is None or utils.now() - self.last_question >= datetime.timedelta(
+            seconds=self.settings["question_delay"]
+        )
+        if (self.last_step is None and condition) or (
+            self.last_step is not None
+            and utils.now() - self.last_step >= datetime.timedelta(seconds=self.settings["step_delay"])
+        ):
             self.last_step = utils.now()
             self.step += 1
 
@@ -226,6 +235,7 @@ class TriviaModule(BaseModule):
         full_hint_reveal = int(math.floor(len(self.question["answer"]) / 2))
         current_hint_reveal = int(math.floor(
             ((self.step) / 2.2) * full_hint_reveal))
+
         hint_arr = []
         hint_chars = 0
         index = 0
@@ -240,6 +250,7 @@ class TriviaModule(BaseModule):
                     hint_arr.append("_")
             index += 1
         hint_str = "".join(hint_arr)
+
         if hint_chars == 0 and len(self.question["answer"]) > 1:
             copy_str = self.question["answer"][0]
             copy_str += hint_str[1:]
@@ -335,7 +346,7 @@ class TriviaModule(BaseModule):
         source = options["source"]
 
         if not self.trivia_running:
-            bot.me("{}, no trivia is active right now".format(source.username_raw))
+            bot.safe_me("{}, no trivia is active right now".format(source.username_raw))
             return
 
         self.stop_trivia(True)
@@ -376,10 +387,11 @@ class TriviaModule(BaseModule):
                 self.question = None
                 self.step = 0
                 self.last_question = utils.now()
+<<<<<<< HEAD
                 self.correct_dict[source.username_raw] = self.correct_dict.get(
                     source.username_raw, 0) + 1
 
-                if "streptocarcus" in source.username_raw:
+                if "strep" in source.username_raw:
                     self.streptocuckus += 1
                     if self.streptocuckus == 6:
                         self.bot.say("streptocarcus you gotta stop. you've been answering trivia almost every hour for the past " \

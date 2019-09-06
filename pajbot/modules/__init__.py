@@ -18,7 +18,6 @@ from pajbot.modules.basic.pointsreset import PointsResetModule
 from pajbot.modules.basic.stream_update import StreamUpdateModule
 from pajbot.modules.bingo import BingoModule
 from pajbot.modules.blackjack import BlackjackModule
-from pajbot.modules.chatters import ChattersModule
 from pajbot.modules.circle import CircleModule
 from pajbot.modules.deck import DeckModule
 from pajbot.modules.dotabet import DotaBetModule
@@ -77,6 +76,8 @@ from pajbot.modules.trivia import TriviaModule
 from pajbot.modules.vanish import VanishModule
 from pajbot.modules.viewerpoints import MassPointsModule
 from pajbot.modules.warning import WarningModule
+from pajbot.modules.massping import MassPingProtectionModule
+from pajbot.modules.wolfram import WolframModule
 
 available_modules = [
     AbCommandModule,
@@ -148,4 +149,5 @@ available_modules = [
     WinDuelPointsQuestModule,
     WinDuelsQuestModule,
     WinRaffleQuestModule,
-    ]
+    WolframModule
+]

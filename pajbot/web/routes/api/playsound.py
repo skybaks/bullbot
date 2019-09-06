@@ -35,17 +35,25 @@ class PlaysoundAPI(Resource):
     def post(self, playsound_name, **options):
         # require JSON so the cooldown can be null
         post_parser = RequestParser()
+<<<<<<< HEAD
         post_parser.add_argument("rename", required=False)
         post_parser.add_argument("link", required=True)
         post_parser.add_argument("volume", type=int, required=True)
         post_parser.add_argument("cost", type=int, required=False)
+=======
+        post_parser.add_argument("link", required=True)
+        post_parser.add_argument("volume", type=int, required=True)
+>>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
         post_parser.add_argument("cooldown", type=int, required=False)
         post_parser.add_argument("enabled", type=bool, required=False)
 
         args = post_parser.parse_args()
 
+<<<<<<< HEAD
         rename = args["rename"]
 
+=======
+>>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
         link = args["link"]
         if not PlaysoundModule.validate_link(link):
             return "Empty or bad link, links must start with https:// and must not contain spaces", 400
@@ -54,10 +62,13 @@ class PlaysoundAPI(Resource):
         if not PlaysoundModule.validate_volume(volume):
             return "Bad volume argument", 400
 
+<<<<<<< HEAD
         cost = args.get("cost", None)
         if not PlaysoundModule.validate_cost(cost):
             return "Bad cost argument", 400
 
+=======
+>>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
         # cooldown is allowed to be null/None
         cooldown = args.get("cooldown", None)
         if not PlaysoundModule.validate_cooldown(cooldown):
@@ -75,6 +86,7 @@ class PlaysoundAPI(Resource):
             # TODO admin audit logs
             playsound.link = link
             playsound.volume = volume
+<<<<<<< HEAD
             playsound.cost = cost
             playsound.cooldown = cooldown
             playsound.enabled = enabled
@@ -82,6 +94,11 @@ class PlaysoundAPI(Resource):
             if rename:
                 playsound.name = rename
 
+=======
+            playsound.cooldown = cooldown
+            playsound.enabled = enabled
+
+>>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
             db_session.add(playsound)
 
         return "OK", 200
@@ -109,9 +126,12 @@ class PlayPlaysoundAPI(Resource):
                 return "Playsound does not exist", 404
             # explicitly don't check for disabled
 
+<<<<<<< HEAD
         if options["user"].username_raw == "dank__doge":
             return "Feels Very Weird Man", 403
 
+=======
+>>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
         SocketClientManager.send("playsound.play", {"name": playsound_name})
 
         return "OK", 200

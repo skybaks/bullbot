@@ -118,6 +118,7 @@ class PlaysoundModule(BaseModule):
         bot = options["bot"]
         message = options["message"]
         source = options["source"]
+
         playsoundURL = "https://{}/playsounds".format(self.bot.config["web"]["domain"])
 
         if not message:
@@ -134,7 +135,7 @@ class PlaysoundModule(BaseModule):
                 bot.whisper(
                     source.username,
                     "The playsound you gave does not exist. Check out all the valid playsounds here: "
-                    "{}".format(playsoundURL)
+                    + "{}".format(playsoundURL)
                 )
                 return False
 
@@ -186,6 +187,7 @@ class PlaysoundModule(BaseModule):
 
             log.debug("Playsound module is emitting payload: {}".format(json.dumps(payload)))
             bot.websocket_manager.emit("play_sound", payload)
+
             if source.username not in ['datguy1', 'admiralbulldog']:
                 source.points = source.points - cost
 
@@ -207,6 +209,7 @@ class PlaysoundModule(BaseModule):
         """
         parser = ArgumentParser()
         parser.add_argument("--volume", dest="volume", type=int)
+
         # we parse this manually so we can allow "none" and things like that to unset it
         parser.add_argument("--cost", dest="cost", type=str)
         parser.add_argument("--cooldown", dest="cooldown", type=str)

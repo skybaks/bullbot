@@ -245,8 +245,8 @@ $(window).load(function () {
                         type: 'POST',
                         complete : function(res) {
                             if (res.status == 403) {
-                                $('main').css('background-image', 'url("https://cdn.frankerfacez.com/b6350af08116d8c80c7d948f582342a6.png")')
-                                setTimeout(function() { $('main').css('background-image', ''); }, 1000)
+                                $('main').css('background-image', 'url("https://cdn.frankerfacez.com/b6350af08116d8c80c7d948f582342a6.png")');
+                                setTimeout(function() { $('main').css('background-image', ''); }, 1000);
                             }
                         }
                     })

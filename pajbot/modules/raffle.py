@@ -14,10 +14,9 @@ log = logging.getLogger(__name__)
 
 
 def generate_winner_list(winners):
-    """ Takes a list of winners, and combines them into a string. """
+    """ Takes a list of winners, and combines them into a alphabetically-sorted string. """
     stringList = [winner.username_raw for winner in winners]
     return ", ".join(sorted(stringList))
-
 
 class RaffleModule(BaseModule):
 
@@ -275,6 +274,7 @@ class RaffleModule(BaseModule):
             bot.execute_delayed(0.75, bot.websocket_manager.emit, ("notification", {"message": "Type !join to enter!"}))
 
         arguments = {"length": self.raffle_length, "points": self.raffle_points}
+
         bot.say(self.get_phrase("message_start_multi", **arguments))
         arguments = {"length": round(self.raffle_length * 0.60), "points": self.raffle_points}
         bot.execute_delayed(self.raffle_length * 0.40, self.bot.say, (self.get_phrase("message_running_multi", **arguments),))
@@ -348,6 +348,7 @@ class RaffleModule(BaseModule):
 
         arguments = {"length": self.raffle_length, "points": self.raffle_points}
         self.bot.say(self.get_phrase("message_start_multi", **arguments))
+
         arguments = {"length": round(self.raffle_length * 0.60), "points": self.raffle_points}
         self.bot.execute_delayed(
             self.raffle_length * 0.40, self.bot.say, (self.get_phrase("message_running_multi", **arguments),)
@@ -411,6 +412,7 @@ class RaffleModule(BaseModule):
 
         # Decide how we should pick the winners
         log.info("Num participants: {}".format(num_participants))
+
         for winner_percentage in [x * 0.01 for x in range(1, 10)]:
             log.info("Winner percentage: {}".format(winner_percentage))
             num_winners = math.ceil(num_participants * winner_percentage)

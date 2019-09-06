@@ -3,11 +3,10 @@
 {% block title %}Stats{% endblock %}
 {% block body %}
 <h2>Duel stats</h2>
-<br />
 <div id="stats" class="ui container grid">
-  <div class="sixteen wide mobile eight wide tablet six wide computer column">
+  <div class="minitable stats">
     <h3>Top 5 Winrate</h3>
-    <table class="ui very basic table collapsing celled ">
+    <table class="ui very basic table celled ">
       <thead>
         <tr>
           <th>User</th>
@@ -119,8 +118,9 @@
         {% endfor %}
     </table>
   </div>
-  <h2>Command stats</h2>
-  <br />
+</div>
+<h2>Command stats</h2>
+<div id="stats">
   <h3><a href=" https://stats.streamelements.com/c/ {{ streamer.full_name }}">StreamElements stats page</a></h3>
   <h3>Top 5 Commands</h3>
   <table class=" ui very basic table">

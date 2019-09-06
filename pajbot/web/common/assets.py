@@ -123,5 +123,4 @@ def init(app):
     )
     assets.register("sniper_admin_css", sniper_admin_css)
 
-
     assets.init_app(app)

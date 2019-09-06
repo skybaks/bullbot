@@ -227,7 +227,6 @@ class SubAlertModule(BaseModule):
             if num_months > 1:
                 monthText = "for {} months ".format(num_months)
 
-
             if "msg-param-sub-plan" not in tags:
                 log.debug("subalert msg-id is resub, but missing msg-param-sub-plan: {}".format(tags))
                 return
@@ -280,6 +279,7 @@ class SubAlertModule(BaseModule):
             if "display-name" not in tags:
                 log.debug("subalert msg-id is subgift, but missing display-name: {}".format(tags))
                 return
+
             if "msg-param-sub-plan" not in tags:
                 log.debug("subalert msg-id is subgift, but missing msg-param-sub-plan: {}".format(tags))
                 return
@@ -304,6 +304,7 @@ class SubAlertModule(BaseModule):
             subMonths = int(tags["msg-param-cumulative-months"]) if "msg-param-cumulative-months" in tags else None
             if subMonths and subMonths > 1:
                 monthText = "for {} months ".format(subMonths)
+
             if "msg-param-sub-plan" not in tags:
                 log.debug("subalert msg-id is sub, but missing msg-param-sub-plan: {}".format(tags))
                 return

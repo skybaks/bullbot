@@ -49,4 +49,5 @@ def init(app):
                 "top_5_line_farmers": top_5_line_farmers
             }
 
+
             return render_template("stats.html", **data)

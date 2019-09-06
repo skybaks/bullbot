@@ -108,7 +108,11 @@ def init(api):
     api.add_resource(APIBanphraseToggle, "/banphrases/toggle/<int:row_id>")
 
     # Test a message against banphrases
+<<<<<<< HEAD
     # api.add_resource(APIBanphraseTest, "/banphrases/test")
+=======
+    api.add_resource(APIBanphraseTest, "/banphrases/test")
+>>>>>>> 0b5c14895c580b2a0ebed348b50be5b2fdd79357
 
     # Dump
     # api.add_resource(APIBanphraseDump, '/banphrases/dump')

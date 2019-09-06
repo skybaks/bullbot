@@ -669,7 +669,7 @@ class UserCombined(UserRedis, UserSQL):
         except:
             # An error occured, return the users points!
             log.exception("XXXX")
-            log.debug("Returning {} points to {}".format(points_to_spend, self.username_raw))
+            # log.debug("Returning {} points to {}".format(points_to_spend, self.username_raw))
             self.points += points_to_spend
 
     def _spend_points(self, points_to_spend):
