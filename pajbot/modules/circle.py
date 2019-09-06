@@ -14,24 +14,22 @@ class CircleModule(BaseModule):
     DESCRIPTION = "Make a circle!"
     CATEGORY = "Game"
     SETTINGS = [
-            ModuleSetting(
-                key="bad_phrases",
-                label="If any of these bad phrases exist, stop. Seperate with |",
-                type="text",
-                default="admiralSleeper|admiralCringe"),
-
-            ModuleSetting(
-                key="circle_cost",
-                label="Cost for command",
-                type="number",
-                required=True,
-                placeholder="",
-                default=100,
-                constraints={
-                    "min_value": 0,
-                    "max_value": 1000,
-                    }),
-            ]
+        ModuleSetting(
+            key="bad_phrases",
+            label="If any of these bad phrases exist, stop. Seperate with |",
+            type="text",
+            default="admiralSleeper|admiralCringe",
+        ),
+        ModuleSetting(
+            key="circle_cost",
+            label="Cost for command",
+            type="number",
+            required=True,
+            placeholder="",
+            default=100,
+            constraints={"min_value": 0, "max_value": 1000},
+        ),
+    ]
 
     def __init__(self, bot):
         super().__init__(bot)
@@ -41,11 +39,17 @@ class CircleModule(BaseModule):
 
     def replace_say(self, sayString, bot, source):
         if any(badPhrase in sayString.split() for badPhrase in self.badPhrases):
-            bot.whisper(source.username, "One or more of the replacements you chose are disallowed. Your points have been refunded.")
+            bot.whisper(
+                source.username,
+                "One or more of the replacements you chose are disallowed. Your points have been refunded.",
+            )
             return False
 
         if bot.is_bad_message(sayString):
-            bot.whisper(source.username, "One or more of the replacements you chose are disallowed. Your points have been refunded.")
+            bot.whisper(
+                source.username,
+                "One or more of the replacements you chose are disallowed. Your points have been refunded.",
+            )
             return False
         else:
             bot.say(sayString)
@@ -104,30 +108,33 @@ class CircleModule(BaseModule):
         self.replace_say(sayString, bot, source)
 
     def load_commands(self, **options):
-        self.commands["circle"] = Command.raw_command(self.command_circle,
-            level = 100,
-            delay_all = 2,
-            delay_user = 0,
-            can_execute_with_whisper = False,
-            cost = self.settings["circle_cost"],
-            description="Generate a circle"
-            )
-        self.commands["pyramid"] = Command.raw_command(self.command_pyramid,
-            level = 100,
-            delay_all = 5,
-            delay_user = 0,
-            can_execute_with_whisper = False,
-            cost = self.settings["circle_cost"],
-            description="Generate a pyramid"
-            )
-        self.commands["reversepyramid"] = Command.raw_command(self.command_reverse,
-            level = 100,
-            delay_all = 5,
-            delay_user = 0,
-            can_execute_with_whisper = False,
-            cost = self.settings["circle_cost"],
-            description="Generate a reverse pyramid"
-            )
+        self.commands["circle"] = Command.raw_command(
+            self.command_circle,
+            level=100,
+            delay_all=2,
+            delay_user=0,
+            can_execute_with_whisper=False,
+            cost=self.settings["circle_cost"],
+            description="Generate a circle",
+        )
+        self.commands["pyramid"] = Command.raw_command(
+            self.command_pyramid,
+            level=100,
+            delay_all=5,
+            delay_user=0,
+            can_execute_with_whisper=False,
+            cost=self.settings["circle_cost"],
+            description="Generate a pyramid",
+        )
+        self.commands["reversepyramid"] = Command.raw_command(
+            self.command_reverse,
+            level=100,
+            delay_all=5,
+            delay_user=0,
+            can_execute_with_whisper=False,
+            cost=self.settings["circle_cost"],
+            description="Generate a reverse pyramid",
+        )
         self.commands["pyr"] = self.commands["pyramid"]
         self.commands["reversepyr"] = self.commands["reversepyramid"]
 

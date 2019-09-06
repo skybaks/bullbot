@@ -134,19 +134,22 @@ class RouletteModule(BaseModule):
 
     def load_commands(self, **options):
         self.commands["roulette"] = Command.raw_command(
-                self.roulette,
-                delay_all=self.settings["online_global_cd"],
-                delay_user=self.settings["online_user_cd"],
-                description="Roulette for points",
-                can_execute_with_whisper=self.settings["can_execute_with_whisper"],
-                examples=[
-                    CommandExample(None, "Roulette for all of your 69 points " \
-                        "({}% winrate)".format(100 - self.settings["rigged_percentage"]),
-                        chat="user:!roulette\n"
-                        "bot:datguy1 won 69 points in roulette and now has 138 points! Always lucky PogChamp",
-                        description="Do a roulette for 69 points").parse(),
-                    ],
-                )
+            self.roulette,
+            delay_all=self.settings["online_global_cd"],
+            delay_user=self.settings["online_user_cd"],
+            description="Roulette for points",
+            can_execute_with_whisper=self.settings["can_execute_with_whisper"],
+            examples=[
+                CommandExample(
+                    None,
+                    "Roulette for all of your 69 points "
+                    "({}% winrate)".format(100 - self.settings["rigged_percentage"]),
+                    chat="user:!roulette\n"
+                    "bot:datguy1 won 69 points in roulette and now has 138 points! Always lucky PogChamp",
+                    description="Do a roulette for 69 points",
+                ).parse()
+            ],
+        )
 
     def rigged_random_result(self):
         return random.randint(1, 100) > self.settings["rigged_percentage"]

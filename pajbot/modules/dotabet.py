@@ -1,4 +1,3 @@
-import datetime
 import logging
 
 import requests
@@ -10,9 +9,10 @@ from pajbot.managers.db import DBManager
 from pajbot.managers.schedule import ScheduleManager
 from pajbot.models.command import Command
 from pajbot.models.command import CommandExample
-from pajbot.models.dotabet import DotaBetBet, DotaBetGame
-from pajbot.modules import BaseModule, ModuleSetting, ModuleType
-
+from pajbot.models.dotabet import DotaBetBet
+from pajbot.models.dotabet import DotaBetGame
+from pajbot.modules import BaseModule
+from pajbot.modules import ModuleSetting
 
 log = logging.getLogger(__name__)
 
@@ -29,32 +29,21 @@ class DotaBetModule(BaseModule):
     CATEGORY = "Game"
 
     SETTINGS = [
-        ModuleSetting( # Not required
-            key="max_return",
-            label="Maximum return odds",
-            type="number",
-            placeholder="",
-            default="20"),
-        ModuleSetting( # Not required
-            key="min_return",
-            label="Minimum return odds",
-            type="text",
-            placeholder="",
-            default="1.10"),
+        ModuleSetting(  # Not required
+            key="max_return", label="Maximum return odds", type="number", placeholder="", default="20"
+        ),
+        ModuleSetting(  # Not required
+            key="min_return", label="Minimum return odds", type="text", placeholder="", default="1.10"
+        ),
         ModuleSetting(
             key="steam3_id",
             label="Steam 3 ID of streamer (number only)",
             type="number",
             required=True,
             placeholder="",
-            default=""),
-        ModuleSetting(
-            key="api_key",
-            label="Steam API Key",
-            type="text",
-            required=True,
-            placeholder="",
-            default=""),
+            default="",
+        ),
+        ModuleSetting(key="api_key", label="Steam API Key", type="text", required=True, placeholder="", default=""),
     ]
 
     def __init__(self, bot):
@@ -81,8 +70,7 @@ class DotaBetModule(BaseModule):
         self.job = ScheduleManager.execute_every(25, self.poll_webapi)
         self.job.pause()
 
-        self.reminder_job = ScheduleManager.execute_every(
-            200, self.reminder_bet)
+        self.reminder_job = ScheduleManager.execute_every(200, self.reminder_bet)
         self.reminder_job.pause()
 
         # self.finish_job = ScheduleManager.execute_every(60, self.get_game)
@@ -94,20 +82,19 @@ class DotaBetModule(BaseModule):
     def reminder_bet(self):
         if self.betting_open:
             self.bot.me("monkaS 👉 🕒 place your bets people")
-            self.bot.websocket_manager.emit(
-                "notification", {
-                    "message": "monkaS 👉 🕒 place your bets people"})
+            self.bot.websocket_manager.emit("notification", {"message": "monkaS 👉 🕒 place your bets people"})
         else:
             if not self.message_closed:
                 winRatio, lossRatio = self.get_odds_ratio(self.winPoints, self.lossPoints)
-                self.bot.me("The betting for the current game has been closed! Winners can expect a {:0.2f} (win betters) or {:0.2f} (loss betters) return "
-                            "ratio".format(winRatio, lossRatio))
+                self.bot.me(
+                    "The betting for the current game has been closed! Winners can expect a {:0.2f} (win betters) or {:0.2f} (loss betters) return "
+                    "ratio".format(winRatio, lossRatio)
+                )
                 self.bot.websocket_manager.emit(
-                    "notification", {
-                        "message": "The betting for the current game has been closed!"})
+                    "notification", {"message": "The betting for the current game has been closed!"}
+                )
                 if not self.spectating:
-                    self.bot.execute_delayed(
-                        15, self.bot.websocket_manager.emit, ("dotabet_close_game", ))
+                    self.bot.execute_delayed(15, self.bot.websocket_manager.emit, ("dotabet_close_game",))
                 self.message_closed = True
 
     def reinit_params(self):
@@ -118,7 +105,7 @@ class DotaBetModule(BaseModule):
         self.bets = {}
 
     def get_odds_ratio(self, winPoints, lossPoints):
-        solveFormula = lambda x,y: 1.+ (float(x) / (float(y)))
+        solveFormula = lambda x, y: 1.0 + (float(x) / (float(y)))
         winRatio = solveFormula(lossPoints, winPoints)
         lossRatio = solveFormula(winPoints, lossPoints)
 
@@ -153,12 +140,11 @@ class DotaBetModule(BaseModule):
                 if user is None:
                     continue
 
-                correct_bet = (
-                    gameResult == "win" and bet_for_win is True) or (
-                    gameResult == "loss" and bet_for_win is False)
+                correct_bet = (gameResult == "win" and bet_for_win is True) or (
+                    gameResult == "loss" and bet_for_win is False
+                )
 
-                db_bets[username] = DotaBetBet(
-                    user.id, "win" if bet_for_win else "loss", betPoints, 0)
+                db_bets[username] = DotaBetBet(user.id, "win" if bet_for_win else "loss", betPoints, 0)
 
                 if correct_bet:
                     winners += 1
@@ -168,21 +154,25 @@ class DotaBetModule(BaseModule):
                     self.bot.whisper(
                         user.username,
                         "You bet {} points on the correct outcome and gained an extra {} points, "
-                        "you now have {} points PogChamp".format(
-                            betPoints,
-                            points - betPoints,
-                            user.points))
+                        "you now have {} points PogChamp".format(betPoints, points - betPoints, user.points),
+                    )
                 else:
                     losers += 1
                     total_losings += betPoints
                     db_bets[username].profit = -betPoints
                     self.bot.whisper(
                         user.username,
-                        "You bet {} points on the wrong outcome, so you lost it all :( . You now have {} points admiralCute".format(betPoints, user.points))
+                        "You bet {} points on the wrong outcome, so you lost it all :( . You now have {} points admiralCute".format(
+                            betPoints, user.points
+                        ),
+                    )
 
-        startString = "The game ended as a {}. {} users won an extra {} points, while {}" \
-            " lost {} points. Winners can expect a {:0.2f} return ratio.".format(gameResult, winners, total_winnings,
-                                                                                 losers, total_losings, solveFormula)
+        startString = (
+            "The game ended as a {}. {} users won an extra {} points, while {}"
+            " lost {} points. Winners can expect a {:0.2f} return ratio.".format(
+                gameResult, winners, total_winnings, losers, total_losings, solveFormula
+            )
+        )
 
         if self.spectating:
             resultString = startString[:20] + "radiant " + startString[20:]
@@ -198,26 +188,18 @@ class DotaBetModule(BaseModule):
         self.message_closed = True
         self.reinit_params()
 
-        bet_game = DotaBetGame(
-            gameResult,
-            total_winnings -
-            total_losings,
-            winners,
-            losers)
+        bet_game = DotaBetGame(gameResult, total_winnings - total_losings, winners, losers)
 
         db_session.add(bet_game)
 
-        self.bot.websocket_manager.emit(
-            "notification", {
-                "message": resultString, "length": 8})
+        self.bot.websocket_manager.emit("notification", {"message": resultString, "length": 8})
         self.bot.me(resultString)
 
     def get_game(self):
         gameResult = "loss"
         # log.debug(self.isRadiant)
 
-        odURL = "https://api.opendota.com/api/players/{}/recentMatches".format(
-            self.settings["steam3_id"])
+        odURL = "https://api.opendota.com/api/players/{}/recentMatches".format(self.settings["steam3_id"])
         gameHistory = requests.get(odURL).json()[0]
 
         if gameHistory["match_id"] != self.matchID:
@@ -261,7 +243,7 @@ class DotaBetModule(BaseModule):
 
         self.oldID = serverID
 
-        self.bot.execute_delayed(12, self.get_team, (serverID, ))
+        self.bot.execute_delayed(12, self.get_team, (serverID,))
 
     def startGame(self):
         if not self.betting_open:
@@ -271,11 +253,9 @@ class DotaBetModule(BaseModule):
             self.bot.websocket_manager.emit("dotabet_new_game")
 
         bulldogTeam = "radiant" if self.isRadiant else "dire"
-        openString = "A new game has begun! Bulldog is on {}. Vote with !dotabet win/lose POINTS".format(
-            bulldogTeam)
+        openString = "A new game has begun! Bulldog is on {}. Vote with !dotabet win/lose POINTS".format(bulldogTeam)
 
-        self.bot.websocket_manager.emit(
-            "notification", {"message": openString})
+        self.bot.websocket_manager.emit("notification", {"message": openString})
         # self.bot.websocket_manager.emit("dotabet_new_game")
 
         self.bot.me(openString)
@@ -285,20 +265,22 @@ class DotaBetModule(BaseModule):
         if not serverID:
             return
 
-        webURL = "https://api.steampowered.com/IDOTA2MatchStats_570/GetRealtimeStats/v1?" \
-                 "server_steam_id={}&key={}".format(serverID, self.settings["api_key"])
+        webURL = (
+            "https://api.steampowered.com/IDOTA2MatchStats_570/GetRealtimeStats/v1?"
+            "server_steam_id={}&key={}".format(serverID, self.settings["api_key"])
+        )
         jsonText = requests.get(webURL).json()
 
         try:
             while not jsonText:  # Could bug and not return anything
                 if attempts > 60:
                     if not self.secondAttempt:
-                        self.bot.execute_delayed(
-                            20, self.get_team, (serverID, ))
+                        self.bot.execute_delayed(20, self.get_team, (serverID,))
                         self.secondAttempt = True
                     else:
                         self.bot.say(
-                            "Couldn\"t find which team Bulldog is on for this game. Mods - handle this round manually :)")
+                            'Couldn"t find which team Bulldog is on for this game. Mods - handle this round manually :)'
+                        )
                         self.job.pause()
                         self.jobPaused = True
                         self.secondAttempt = False
@@ -321,9 +303,9 @@ class DotaBetModule(BaseModule):
                                 else:
                                     self.isRadiant = False
                                 self.bot.me(
-                                    "Is bulldog on radiant? {}. If he isn\"t then tag a mod with BabyRage fix "
-                                    "bet".format(
-                                        self.isRadiant))
+                                    'Is bulldog on radiant? {}. If he isn"t then tag a mod with BabyRage fix '
+                                    "bet".format(self.isRadiant)
+                                )
                                 raise ExitLoop
                 except KeyError:
                     jsonText = ""
@@ -369,7 +351,8 @@ class DotaBetModule(BaseModule):
         source = options["source"]
 
         bot.say(
-            "{}/{} betters on {}/{} points".format(self.winBetters, self.lossBetters, self.winPoints, self.lossPoints))
+            "{}/{} betters on {}/{} points".format(self.winBetters, self.lossBetters, self.winPoints, self.lossPoints)
+        )
 
     def close_shit(self):
         if self.jobPaused:
@@ -429,10 +412,8 @@ class DotaBetModule(BaseModule):
                 user.points += betPoints
                 bot.whisper(
                     user.username,
-                    "Your {} points bet has been refunded. The reason given is: "
-                    "{}".format(
-                        betPoints,
-                        reason))
+                    "Your {} points bet has been refunded. The reason given is: " "{}".format(betPoints, reason),
+                )
 
         self.betting_open = False
         self.message_closed = True
@@ -463,9 +444,7 @@ class DotaBetModule(BaseModule):
             return False
 
         if not self.betting_open:
-            bot.whisper(
-                source.username,
-                "Betting is not currently open. Wait until the next game :\\")
+            bot.whisper(source.username, "Betting is not currently open. Wait until the next game :\\")
             return False
 
         msg_parts = message.split(" ")
@@ -473,13 +452,12 @@ class DotaBetModule(BaseModule):
             bot.whisper(
                 source.username,
                 "Invalid bet. You must do !dotabet radiant/dire POINTS (if spectating a game) "
-                "or !dotabet win/loss POINTS (if playing)")
+                "or !dotabet win/loss POINTS (if playing)",
+            )
             return False
 
         if source.username in self.bets:
-            bot.whisper(
-                source.username,
-                "You have already bet on this game. Wait until the next game starts!")
+            bot.whisper(source.username, "You have already bet on this game. Wait until the next game starts!")
             return False
 
         points = 0
@@ -491,7 +469,8 @@ class DotaBetModule(BaseModule):
             bot.whisper(
                 source.username,
                 "Invalid bet. You must do !dotabet radiant/dire POINTS (if spectating a game) "
-                "or !dotabet win/loss POINTS (if playing) {}".format(e))
+                "or !dotabet win/loss POINTS (if playing) {}".format(e),
+            )
             return False
 
         if points < 1:
@@ -499,9 +478,7 @@ class DotaBetModule(BaseModule):
             return False
 
         if not source.can_afford(points):
-            bot.whisper(
-                source.username,
-                "You don't have {} points to bet".format(points))
+            bot.whisper(source.username, "You don't have {} points to bet".format(points))
             return False
 
         outcome = msg_parts[0].lower()
@@ -516,7 +493,8 @@ class DotaBetModule(BaseModule):
             bot.whisper(
                 source.username,
                 "Invalid bet. You must do !dotabet radiant/dire POINTS (if spectating a game) "
-                "or !dotabet win/loss POINTS (if playing)")
+                "or !dotabet win/loss POINTS (if playing)",
+            )
             return False
 
         if bet_for_win:
@@ -526,7 +504,6 @@ class DotaBetModule(BaseModule):
             self.lossBetters += 1
             self.lossPoints += points
 
-
         source.points -= points
         self.bets[source.username] = (bet_for_win, points)
 
@@ -534,22 +511,17 @@ class DotaBetModule(BaseModule):
             "win_betters": self.winBetters,
             "loss_betters": self.lossBetters,
             "win_points": self.winPoints,
-            "loss_points": self.lossPoints
+            "loss_points": self.lossPoints,
         }
 
         if not self.spectating:
             bot.websocket_manager.emit("dotabet_update_data", data=payload)
 
-        finishString = "You have bet {} points on this game resulting in a ".format(
-            points)
+        finishString = "You have bet {} points on this game resulting in a ".format(points)
         if self.spectating:
             finishString = finishString + "radiant "
 
-        bot.whisper(
-            source.username,
-            "{}{}".format(
-                finishString,
-                "win" if bet_for_win else "loss"))
+        bot.whisper(source.username, "{}{}".format(finishString, "win" if bet_for_win else "loss"))
 
     def load_commands(self, **options):
         self.commands["dotabet"] = Command.raw_command(
@@ -562,50 +534,27 @@ class DotaBetModule(BaseModule):
                 CommandExample(
                     None,
                     "Bet 69 points on a win",
-                    chat="user:!dotabet win 69\n"
-                    "bot>user: You have bet 69 points on this game resulting in a win.",
-                    description="Bet that the streamer will win for 69 points").parse(),
+                    chat="user:!dotabet win 69\n" "bot>user: You have bet 69 points on this game resulting in a win.",
+                    description="Bet that the streamer will win for 69 points",
+                ).parse()
             ],
         )
         self.commands["bet"] = self.commands["dotabet"]
 
         self.commands["openbet"] = Command.raw_command(
-            self.command_open,
-            level=420,
-            delay_all=0,
-            delay_user=0,
-            description="Open bets",
+            self.command_open, level=420, delay_all=0, delay_user=0, description="Open bets"
         )
         self.commands["restartbet"] = Command.raw_command(
-            self.command_restart,
-            level=420,
-            delay_all=0,
-            delay_user=0,
-            description="Restart bets",
+            self.command_restart, level=420, delay_all=0, delay_user=0, description="Restart bets"
         )
         self.commands["closebet"] = Command.raw_command(
-            self.command_close,
-            level=420,
-            delay_all=0,
-            delay_user=0,
-            description="Close bets",
+            self.command_close, level=420, delay_all=0, delay_user=0, description="Close bets"
         )
-        self.commands["resetbet"] = Command.raw_command(
-            self.command_resetbet,
-            level=500,
-            description="Reset bets",
-        )
+        self.commands["resetbet"] = Command.raw_command(self.command_resetbet, level=500, description="Reset bets")
         self.commands["betstatus"] = Command.raw_command(
-            self.command_betstatus,
-            level=420,
-            description="Status of bets",
+            self.command_betstatus, level=420, description="Status of bets"
         )
-        self.commands["currentbets"] = Command.raw_command(
-            self.command_stats,
-            level=100,
-            delay_all=0,
-            delay_user=10,
-        )
+        self.commands["currentbets"] = Command.raw_command(self.command_stats, level=100, delay_all=0, delay_user=10)
         # self.commands["betstats"]
 
     def enable(self, bot):

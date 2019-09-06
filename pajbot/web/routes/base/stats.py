@@ -45,9 +45,8 @@ def init(app):
                 "bottom_5_winrate": db_session.query(UserDuelStats)
                 .filter(UserDuelStats.duels_lost >= 5)
                 .order_by(UserDuelStats.winrate.asc())[:5],
-                "top_5_commands": top_5_commands, 
-                "top_5_line_farmers": top_5_line_farmers
+                "top_5_commands": top_5_commands,
+                "top_5_line_farmers": top_5_line_farmers,
             }
-
 
             return render_template("stats.html", **data)

@@ -107,11 +107,9 @@ class PaidTimeoutModule(BaseModule):
                 bot.whisper(source.username, "This user has not been active in chat within the last 10 minutes.")
                 return False
 
-
             # if victim == source:
             #     bot.whisper(source.username, 'You can\'t timeout yourself FailFish')
             #     return False
-
 
             if victim.moderator is True:
                 bot.whisper(source.username, "This person has mod privileges, timeouting this person is not worth it.")
@@ -125,10 +123,15 @@ class PaidTimeoutModule(BaseModule):
                 _cost = int(_cost * 0.8)
 
             if not source.can_afford(_cost):
-                bot.whisper(source.username, "You need {} more points to be able to timeout {}".format(source.points - _cost, vicitm.username_raw))
+                bot.whisper(
+                    source.username,
+                    "You need {} more points to be able to timeout {}".format(
+                        source.points - _cost, victim.username_raw
+                    ),
+                )
                 return False
 
-            if source.username != 'datguy1':
+            if source.username != "datguy1":
                 source.points -= _cost
 
             now = utils.now()
@@ -148,8 +151,14 @@ class PaidTimeoutModule(BaseModule):
                 )
                 num_seconds = int((victim.timeout_end - now).total_seconds())
 
-                bot._timeout(victim.username, num_seconds, reason="Timed out by {} with !timeout for {} points".format(source.username_raw, _cost))
-                bot.say("{} timed out {} with !timeout for {} points!".format(source.username_raw, victim.username, _cost))
+                bot._timeout(
+                    victim.username,
+                    num_seconds,
+                    reason="Timed out by {} with !timeout for {} points".format(source.username_raw, _cost),
+                )
+                bot.say(
+                    "{} timed out {} with !timeout for {} points!".format(source.username_raw, victim.username, _cost)
+                )
             else:
                 bot.whisper(
                     source.username,
@@ -157,12 +166,14 @@ class PaidTimeoutModule(BaseModule):
                 )
                 bot.whisper(
                     victim.username,
-                    "{0} just timed you out for {1} seconds.".format(
-                        source.username, _time, bot.nickname
-                    ),
+                    "{0} just timed you out for {1} seconds.".format(source.username, _time, bot.nickname),
                 )
-                bot._timeout(victim.username, _time, reason="Timed out by {} for {} points".format(source.username_raw, _cost))
-                bot.say("{} timed out {} with !timeout for {} points!".format(source.username_raw, victim.username, _cost))
+                bot._timeout(
+                    victim.username, _time, reason="Timed out by {} for {} points".format(source.username_raw, _cost)
+                )
+                bot.say(
+                    "{} timed out {} with !timeout for {} points!".format(source.username_raw, victim.username, _cost)
+                )
 
                 victim.timed_out = True
                 victim.timeout_start = now
@@ -272,7 +283,7 @@ class PaidTimeoutDiscountModule(BaseModule):
                 )
 
     def enable(self, bot):
-        pass # HandlerManager.add_handler("on_paid_timeout", self.on_paid_timeout)
+        pass  # HandlerManager.add_handler("on_paid_timeout", self.on_paid_timeout)
 
     def disable(self, bot):
-        pass # HandlerManager.remove_handler("on_paid_timeout", self.on_paid_timeout)
+        pass  # HandlerManager.remove_handler("on_paid_timeout", self.on_paid_timeout)

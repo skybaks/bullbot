@@ -221,8 +221,8 @@ class SubAlertModule(BaseModule):
                 substreak_count = int(tags["msg-param-streak-months"])
             if "msg-param-should-share-streak" in tags:
                 should_share = bool(tags["msg-param-should-share-streak"])
-                if not should_share:
-                    substreak_count = 0
+                # if not should_share:
+                #     substreak_count = 0
 
             if num_months > 1:
                 monthText = "for {} months ".format(num_months)
@@ -248,7 +248,11 @@ class SubAlertModule(BaseModule):
                 addPoints = int(addPoints * ((0.025 * num_months) + 1))
 
             source.points += addPoints
-            self.bot.say("{} has been given {} points for {}resebbin {}FreakinStinkin".format(source.username, addPoints, tierSub, monthText))
+            self.bot.say(
+                "{} has been given {} points for {}resebbin {}FreakinStinkin".format(
+                    source.username, addPoints, tierSub, monthText
+                )
+            )
 
         elif tags["msg-id"] == "subgift":
             addPoints = 2500
@@ -269,9 +273,10 @@ class SubAlertModule(BaseModule):
                 addPoints = 12500
 
             source.points += addPoints
-            self.bot.say("{} has been given {} points due to gifting {} a {}sub. " \
-                             "SeemsGood".format(source.username, addPoints,
-                                                tags["msg-param-recipient-display-name"], tierSub))
+            self.bot.say(
+                "{} has been given {} points due to gifting {} a {}sub. "
+                "SeemsGood".format(source.username, addPoints, tags["msg-param-recipient-display-name"], tierSub)
+            )
 
         elif tags["msg-id"] == "submysterygift":
             tierSub = ""
@@ -294,8 +299,11 @@ class SubAlertModule(BaseModule):
             if int(tags["msg-param-mass-gift-count"]) >= 50:
                 extraBanter = " Dream_Lord alt monkaGIGA"
 
-            self.bot.say("Thanks {} for gifting {}{} subs :) {}".format(tags["display-name"], tags["msg-param-mass-gift-count"],
-                                                                        tierSub, extraBanter))
+            self.bot.say(
+                "Thanks {} for gifting {}{} subs :) {}".format(
+                    tags["display-name"], tags["msg-param-mass-gift-count"], tierSub, extraBanter
+                )
+            )
 
         elif tags["msg-id"] == "sub":
             monthText = ""
@@ -319,7 +327,11 @@ class SubAlertModule(BaseModule):
             if subMonths and subMonths > 1:
                 addPoints = int(addPoints * ((0.025 * subMonths) + 1))
             source.points += addPoints
-            self.bot.say("{} has been given {} points for {}sebbin {}FreakinStinkin".format(source.username, addPoints, tierSub, monthText))
+            self.bot.say(
+                "{} has been given {} points for {}sebbin {}FreakinStinkin".format(
+                    source.username, addPoints, tierSub, monthText
+                )
+            )
         else:
             log.debug("Unhandled msg-id: {} - tags: {}".format(tags["msg-id"], tags))
 

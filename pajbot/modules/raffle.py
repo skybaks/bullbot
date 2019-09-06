@@ -18,6 +18,7 @@ def generate_winner_list(winners):
     stringList = [winner.username_raw for winner in winners]
     return ", ".join(sorted(stringList))
 
+
 class RaffleModule(BaseModule):
 
     ID = __name__.split(".")[-1]
@@ -277,9 +278,13 @@ class RaffleModule(BaseModule):
 
         bot.say(self.get_phrase("message_start_multi", **arguments))
         arguments = {"length": round(self.raffle_length * 0.60), "points": self.raffle_points}
-        bot.execute_delayed(self.raffle_length * 0.40, self.bot.say, (self.get_phrase("message_running_multi", **arguments),))
+        bot.execute_delayed(
+            self.raffle_length * 0.40, self.bot.say, (self.get_phrase("message_running_multi", **arguments),)
+        )
         arguments = {"length": round(self.raffle_length * 0.25), "points": self.raffle_points}
-        bot.execute_delayed(self.raffle_length * 0.75, self.bot.say, (self.get_phrase("message_running_multi", **arguments),))
+        bot.execute_delayed(
+            self.raffle_length * 0.75, self.bot.say, (self.get_phrase("message_running_multi", **arguments),)
+        )
 
         bot.execute_delayed(self.raffle_length, self.end_raffle)
 
@@ -475,7 +480,9 @@ class RaffleModule(BaseModule):
             winners_str = generate_winner_list(winners_arr)
             self.bot.me("{} {} {} points each!".format(winners_str, "lost" if negative else "won", points_per_user))
 
-        HandlerManager.trigger("on_multiraffle_win", winners=winners, points_per_user=points_per_user * -1 if negative else points_per_user)
+        HandlerManager.trigger(
+            "on_multiraffle_win", winners=winners, points_per_user=points_per_user * -1 if negative else points_per_user
+        )
 
     def on_user_sub(self, **rest):
         if self.settings["multi_raffle_on_sub"] is False:

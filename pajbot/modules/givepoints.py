@@ -82,7 +82,7 @@ class GivePointsModule(BaseModule):
             bot.whisper(source.username, "You cannot give away negative points admiralCute")
             return True
         elif num_points < 250:
-            bot.whisper(source.username, 'You must give 250 points or more :) Be charitable :)')
+            bot.whisper(source.username, "You must give 250 points or more :) Be charitable :)")
             return True
 
         if not source.can_afford(num_points):
@@ -99,9 +99,9 @@ class GivePointsModule(BaseModule):
                 bot.whisper(source.username, "This user does not exist FailFish")
                 return False
 
-            if target.username == 'admiralbulldog':
-               bot.whisper(source.username, 'But why?')
-               return False
+            if target.username == "admiralbulldog":
+                bot.whisper(source.username, "But why?")
+                return False
 
             if target == source:
                 # The user tried giving points to themselves

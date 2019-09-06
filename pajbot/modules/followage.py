@@ -149,7 +149,6 @@ class FollowAgeModule(BaseModule):
         else:
             follow_since = bot.twitch_helix_api.get_follow_since(user_id, streamer_id)
 
-        is_self = source.username == username
         message = ""
         streamer = streamer.replace("admiralbulldog", "Buldog")
 
@@ -175,7 +174,6 @@ class FollowAgeModule(BaseModule):
         else:
             follow_since = bot.twitch_helix_api.get_follow_since(user_id, streamer_id)
 
-        is_self = source.username == username
         message = ""
         streamer = streamer.replace("admiralbulldog", "Buldog")
 

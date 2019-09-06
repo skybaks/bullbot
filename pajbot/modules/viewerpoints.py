@@ -7,7 +7,6 @@ from pajbot.managers.redis import RedisManager
 from pajbot.managers.user import UserManager
 from pajbot.models.command import Command
 from pajbot.models.command import CommandExample
-from pajbot.models.user import User
 
 log = logging.getLogger(__name__)
 
@@ -33,24 +32,24 @@ class MassPointsModule(BaseModule):
         super().__init__(bot)
 
     def load_commands(self, **options):
-        self.commands['masspoints'] = Command.raw_command(self.command_masspoints,
+        self.commands["masspoints"] = Command.raw_command(
+            self.command_masspoints,
             level=500,
             description="Give a specific number of points to everyone watching the stream",
             examples=[
                 CommandExample(
                     None,
                     "Give 300 points (for a fisting)",
-                    chat="user:!masspoints 300\n"
-                    "bot: user just gave 159 viewers 300 points! Enjoy FeelsGoodMan",
+                    chat="user:!masspoints 300\n" "bot: user just gave 159 viewers 300 points! Enjoy FeelsGoodMan",
                     description="Give 300 points to the number of people in chat, in this case 159",
-                ).parse(),
+                ).parse()
             ],
         )
 
     def command_masspoints(self, **options):
-        bot = options['bot']
-        source = options['source']
-        message = options['message']
+        bot = options["bot"]
+        source = options["source"]
+        message = options["message"]
 
         if not message:
             return False
@@ -85,7 +84,7 @@ class MassPointsModule(BaseModule):
                         continue
 
                     if userInstance.subscriber:
-                        userInstance.points += givePoints * self.settings['sub_points']
+                        userInstance.points += givePoints * self.settings["sub_points"]
                     else:
                         userInstance.points += givePoints
 

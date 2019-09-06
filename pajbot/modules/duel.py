@@ -5,7 +5,6 @@ from numpy import random
 import pajbot.exc
 from pajbot import utils
 from pajbot.managers.db import DBManager
-from pajbot.managers.handler import HandlerManager
 from pajbot.models.command import Command
 from pajbot.models.command import CommandExample
 from pajbot.models.duel import DuelManager
@@ -22,15 +21,6 @@ class DuelModule(BaseModule):
     DESCRIPTION = "Let players duel to win or lose points."
     CATEGORY = "Game"
     SETTINGS = [
-        ModuleSetting(
-            key="max_pot",
-            label="How many points you can duel for at most",
-            type="number",
-            required=True,
-            placeholder="",
-            default=420,
-            constraints={"min_value": 0, "max_value": 69000},
-        ),
         ModuleSetting(
             key="message_won",
             label="Winner message | Available arguments: {winner}, {loser}",
@@ -133,8 +123,6 @@ class DuelModule(BaseModule):
 
         if message is None:
             return False
-
-        max_pot = self.settings["max_pot"]
 
         msg_split = message.split()
         username = msg_split[0]
@@ -301,8 +289,6 @@ class DuelModule(BaseModule):
 
         del self.duel_requests[self.duel_targets[source.username]]
         del self.duel_targets[source.username]
-
-        # HandlerManager.trigger("on_duel_complete", winner, loser, winning_pot, duel_price)
 
     def decline_duel(self, **options):
         """

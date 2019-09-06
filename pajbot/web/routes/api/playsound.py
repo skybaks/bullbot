@@ -43,7 +43,6 @@ class PlaysoundAPI(Resource):
 
         args = post_parser.parse_args()
 
-
         rename = args["rename"]
 
         link = args["link"]

@@ -9,6 +9,7 @@ from pajbot.modules import ModuleSetting
 
 log = logging.getLogger(__name__)
 
+
 class EmoteCounterModule(BaseModule):
     ID = __name__.split(".")[-1]
     NAME = "Emote Counter"
@@ -44,8 +45,7 @@ class EmoteCounterModule(BaseModule):
         second_emote = args["emote_instances"][1].emote
 
         self.emoteNames.extend([first_emote.code, second_emote.code])
-        payload = {"emote1": first_emote.jsonify(),
-                   "emote2": second_emote.jsonify()}
+        payload = {"emote1": first_emote.jsonify(), "emote2": second_emote.jsonify()}
         try:
             duration = int(msg_parts[2])
         except ValueError:
@@ -54,18 +54,24 @@ class EmoteCounterModule(BaseModule):
 
         self.votingOpen = True
         bot.websocket_manager.emit("emotecounter_start", payload)
-        bot.say("It's time to start voting for {} or {} ! You only get one vote.".format(first_emote.code, second_emote.code))
+        bot.say(
+            "It's time to start voting for {} or {} ! You only get one vote.".format(
+                first_emote.code, second_emote.code
+            )
+        )
         HandlerManager.add_handler("on_message", self.on_message)
         bot.execute_delayed(duration, self.cleanup_counter, ({}))
 
     def cleanup_counter(self, **options):
         winnerText = ""
         if self.emoteValues[0] > self.emoteValues[1]:
-            winnerText = "{} won with {} votes while {} had {} votes".format(self.emoteNames[0], self.emoteValues[0],
-                                                                             self.emoteNames[1], self.emoteValues[1])
+            winnerText = "{} won with {} votes while {} had {} votes".format(
+                self.emoteNames[0], self.emoteValues[0], self.emoteNames[1], self.emoteValues[1]
+            )
         elif self.emoteValues[1] > self.emoteValues[0]:
-            winnerText = "{} won with {} votes while {} had {} votes".format(self.emoteNames[1], self.emoteValues[1],
-                                                                             self.emoteNames[0], self.emoteValues[0])
+            winnerText = "{} won with {} votes while {} had {} votes".format(
+                self.emoteNames[1], self.emoteValues[1], self.emoteNames[0], self.emoteValues[0]
+            )
         else:
             winnerText = "Both emotes drew on {} votes!".format(self.emoteValues[0])
 
@@ -90,25 +96,27 @@ class EmoteCounterModule(BaseModule):
             return False
 
         self.votedUsers.append(source.username_raw)
-        self.bot.websocket_manager.emit("emotecounter_update", {"value1": self.emoteValues[0],
-                                                                "value2": self.emoteValues[1]})
+        self.bot.websocket_manager.emit(
+            "emotecounter_update", {"value1": self.emoteValues[0], "value2": self.emoteValues[1]}
+        )
 
     def load_commands(self, **options):
         self.commands["emotecounter"] = Command.raw_command(
             self.emote_counter,
-            description = "Start displaying an emote counter on the CLR overlay",
-            level = 1500,
-            examples = [
-                CommandExample(None, "Display TriHard and Kappa for 30 seconds.",
+            description="Start displaying an emote counter on the CLR overlay",
+            level=1500,
+            examples=[
+                CommandExample(
+                    None,
+                    "Display TriHard and Kappa for 30 seconds.",
                     chat="user:!emotecounter TriHard Kappa 30\n"
                     "bot:It's time to start voting for TriHard or Kappa! You only get one vote.",
-                    description="").parse()
-            ]
+                    description="",
+                ).parse()
+            ],
         )
         self.commands["stopcounter"] = Command.raw_command(
-            self.cleanup_counter,
-            description = "Stop the ongoing emote counter",
-            level = 1500
+            self.cleanup_counter, description="Stop the ongoing emote counter", level=1500
         )
 
     def enable(self, bot):

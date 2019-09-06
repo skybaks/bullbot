@@ -9,7 +9,6 @@ from pajbot.models.duel import UserDuelStats
 from pajbot.models.roulette import Roulette
 from pajbot.models.user import User
 from pajbot.modules import BaseModule
-from pajbot.modules import ModuleSetting
 
 log = logging.getLogger(__name__)
 

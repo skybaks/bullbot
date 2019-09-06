@@ -4,7 +4,6 @@ import datetime
 from sqlalchemy import Column
 from sqlalchemy import DateTime
 from sqlalchemy import Enum
-from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
 
 from pajbot.managers.db import Base

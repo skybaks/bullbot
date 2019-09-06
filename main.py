@@ -59,6 +59,7 @@ def handle_exceptions(exctype, value, tb):
         newString = "{}\n{}\n{}\n".format(exctype, value, tb)
         f.write(newString)
 
+
 if __name__ == "__main__":
     from pajbot.utils import init_logging, dump_threads
 

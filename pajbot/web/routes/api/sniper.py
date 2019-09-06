@@ -8,17 +8,21 @@ from pajbot.models.sniper import SniperLeaderboards
 from pajbot.models.sniper import SniperSubmissions
 from pajbot.web.utils import requires_level
 
+
 def valid_date(arg):
     try:
         return time.strptime(arg, "%Y-%m-%d %H:%M:%S")
     except ValueError:
         raise argparse.ArgumentTypeError("Not a valid date: '{}'.".format(arg))
 
+
 class LeaderboardApi(Resource):
     @requires_level(420)
     def post(self, user_name, **options):
         post_parser = RequestParser()
-        post_parser.add_argument("recent_kill", type=valid_date, default=time.strftime("%Y-%m-%d %H:%M:%S"), required=False)
+        post_parser.add_argument(
+            "recent_kill", type=valid_date, default=time.strftime("%Y-%m-%d %H:%M:%S"), required=False
+        )
         post_parser.add_argument("kills", type=int, default=1, required=False)
         post_parser.add_argument("plusone", type=bool, default=False, required=False)
 
@@ -28,7 +32,9 @@ class LeaderboardApi(Resource):
         kills = args["kills"]
 
         with DBManager.create_session_scope() as db_session:
-            sniperPosition = db_session.query(SniperLeaderboards).filter(SniperLeaderboards.username == user_name).one_or_none()
+            sniperPosition = (
+                db_session.query(SniperLeaderboards).filter(SniperLeaderboards.username == user_name).one_or_none()
+            )
 
             if not sniperPosition:
                 sniperPosition = SniperLeaderboards(username=user_name)
@@ -43,6 +49,7 @@ class LeaderboardApi(Resource):
             db_session.add(sniperPosition)
 
         return "OK", 200
+
 
 class SubmissionApi(Resource):
     def put(self, user_name, **options):
@@ -72,7 +79,11 @@ class SubmissionApi(Resource):
 
         link = args["link"]
         with DBManager.create_session_scope() as db_session:
-            removeSubmission = db_session.query(SniperSubmissions).filter(SniperSubmissions.link == link and SniperSubmissions.user_name == user_name).one_or_none()
+            removeSubmission = (
+                db_session.query(SniperSubmissions)
+                .filter(SniperSubmissions.link == link and SniperSubmissions.user_name == user_name)
+                .one_or_none()
+            )
 
             if not removeSubmission:
                 return "Submission not found in queue", 404
