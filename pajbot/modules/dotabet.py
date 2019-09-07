@@ -104,7 +104,7 @@ class DotaBetModule(BaseModule):
         self.lossPoints = 0
         self.bets = {}
 
-    def create_solve_formula(x, y):
+    def create_solve_formula(self, x, y):
         return 1.0 + (float(x) / (float(y)))
 
     def get_odds_ratio(self, winPoints, lossPoints):
