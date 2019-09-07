@@ -10,7 +10,4 @@ def init(app):
         with DBManager.create_session_scope() as session:
             snipers = session.query(SniperLeaderboards).all()
 
-            return render_template(
-                "snipers.html",
-                snipers=snipers
-            )
+            return render_template("snipers.html", snipers=snipers)

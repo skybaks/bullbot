@@ -108,11 +108,7 @@ class CommandManager(UserDict):
         ] = self.internal_commands["quit"]
 
         self.internal_commands["restart"] = Command.pajbot_command(
-            self.bot,
-            "restart",
-            level=1500,
-            command="restart",
-            description="Force restart the bot",
+            self.bot, "restart", level=1500, command="restart", description="Force restart the bot"
         )
 
         self.internal_commands["twitterfollow"] = Command.dispatch_command(

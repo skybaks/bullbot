@@ -15,7 +15,5 @@ def init(page):
             sniperSubmissions = session.query(SniperSubmissions).all()
 
             return render_template(
-                "admin/snipers.html",
-                sniperLeaderboard=sniperLeaderboard,
-                sniperSubmissions=sniperSubmissions
+                "admin/snipers.html", sniperLeaderboard=sniperLeaderboard, sniperSubmissions=sniperSubmissions
             )

@@ -135,7 +135,7 @@ class PlaysoundModule(BaseModule):
                 bot.whisper(
                     source.username,
                     "The playsound you gave does not exist. Check out all the valid playsounds here: "
-                    + "{}".format(playsoundURL)
+                    + "{}".format(playsoundURL),
                 )
                 return False
 
@@ -167,8 +167,7 @@ class PlaysoundModule(BaseModule):
             if not source.can_afford(cost):
                 bot.whisper(
                     source.username,
-                    "You need {0} points to play this playsound, ".format(cost)
-                    + "you have {}.".format(source.points),
+                    "You need {0} points to play this playsound, ".format(cost) + "you have {}.".format(source.points),
                 )
                 return False
 
@@ -188,7 +187,7 @@ class PlaysoundModule(BaseModule):
             log.debug("Playsound module is emitting payload: {}".format(json.dumps(payload)))
             bot.websocket_manager.emit("play_sound", payload)
 
-            if source.username not in ['datguy1', 'admiralbulldog']:
+            if source.username not in ["datguy1", "admiralbulldog"]:
                 source.points = source.points - cost
 
             if self.settings["confirmation_whisper"]:
@@ -474,7 +473,12 @@ class PlaysoundModule(BaseModule):
             bot.whisper(
                 source.username,
                 "name={}, link={}, volume={}, cost={}, cooldown={}, enabled={}".format(
-                    playsound.name, playsound.link, playsound.volume, playsound.cost, playsound.cooldown, playsound.enabled
+                    playsound.name,
+                    playsound.link,
+                    playsound.volume,
+                    playsound.cost,
+                    playsound.cooldown,
+                    playsound.enabled,
                 ),
             )
 

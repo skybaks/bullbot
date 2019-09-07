@@ -311,7 +311,9 @@ class AdminCommandsModule(BaseModule):
         self.commands["silence"] = Command.raw_command(self.cmd_silence, level=1500, description="Silence the bot")
         self.commands["mute"] = self.commands["silence"]
 
-        self.commands["unsilence"] = Command.raw_command(self.cmd_unsilence, level=1500, description="Unsilence the bot")
+        self.commands["unsilence"] = Command.raw_command(
+            self.cmd_unsilence, level=1500, description="Unsilence the bot"
+        )
         self.commands["unmute"] = self.commands["unsilence"]
 
         self.commands["module"] = Command.raw_command(self.cmd_module, level=500, description="Modify module")

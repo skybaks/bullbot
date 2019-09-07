@@ -25,14 +25,16 @@ class RenameModule(BaseModule):
             self.check_rename,
             delay_all=0,
             delay_user=60,
-            description="Check if you're eligible for information transfer from one username to another"
+            description="Check if you're eligible for information transfer from one username to another",
         )
 
     def check_rename(self, **options):
         bot = options["bot"]
         source = options["source"]
 
-        searchURL = "https://twitch-tools.rootonline.de/username_changelogs_search.php?q={}&format=json".format(source.username)
+        searchURL = "https://twitch-tools.rootonline.de/username_changelogs_search.php?q={}&format=json".format(
+            source.username
+        )
 
         r = requests.get(searchURL)
         if r.status_code != 200:
@@ -80,8 +82,16 @@ class RenameModule(BaseModule):
                 curDuelModel.duels_total = curDuelModel.duels_total + oldDuelModel.duels_total
                 curDuelModel.points_won = curDuelModel.points_won + oldDuelModel.points_won
                 curDuelModel.points_lost = curDuelModel.points_lost + oldDuelModel.points_lost
-                curDuelModel.longest_winstreak = oldDuelModel.longest_winstreak if oldDuelModel.longest_winstreak > curDuelModel.longest_winstreak else curDuelModel.longest_winstreak
-                curDuelModel.longest_losestreak = oldDuelModel.longest_losestreak if oldDuelModel.longest_losestreak > curDuelModel.longest_losestreak else curDuelModel.longest_losestreak
+                curDuelModel.longest_winstreak = (
+                    oldDuelModel.longest_winstreak
+                    if oldDuelModel.longest_winstreak > curDuelModel.longest_winstreak
+                    else curDuelModel.longest_winstreak
+                )
+                curDuelModel.longest_losestreak = (
+                    oldDuelModel.longest_losestreak
+                    if oldDuelModel.longest_losestreak > curDuelModel.longest_losestreak
+                    else curDuelModel.longest_losestreak
+                )
 
             betModels = session.query(DotaBetBet).filter_by(user_id=oldUserID).all()
             rouletteModels = session.query(Roulette).filter_by(user_id=oldUserID).all()

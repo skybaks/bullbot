@@ -6,9 +6,9 @@ from contextlib import contextmanager
 import requests
 from sqlalchemy import Boolean
 from sqlalchemy import Column
-from sqlalchemy import func
 from sqlalchemy import Integer
 from sqlalchemy import String
+from sqlalchemy import func
 
 from pajbot.exc import FailedCommand
 from pajbot.managers.db import Base
@@ -674,7 +674,7 @@ class UserCombined(UserRedis, UserSQL):
 
     def _spend_points(self, points_to_spend):
         """ Returns true if points were spent, otherwise return False """
-        if points_to_spend <= self.points and self.username != 'admiralbulldog' and self.username != 'datguy1':
+        if points_to_spend <= self.points and self.username != "admiralbulldog" and self.username != "datguy1":
             self.points -= points_to_spend
             return True
 
@@ -705,7 +705,7 @@ class UserCombined(UserRedis, UserSQL):
         return self.points - self.points_in_debt()
 
     def can_afford(self, points_to_spend):
-        if self.username == 'admiralbulldog' or self.username == 'datguy1':
+        if self.username == "admiralbulldog" or self.username == "datguy1":
             return True
 
         return self.points_available() >= points_to_spend

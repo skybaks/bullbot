@@ -126,11 +126,16 @@ class PointLotteryModule(BaseModule):
                 tickets = int(message.split(" ")[1])
 
             if not source.can_afford(tickets):
-                bot.whisper(source.username, "Sorry, {0}, you don't have enough points! FeelsBadMan".format(source.username_raw))
+                bot.whisper(
+                    source.username, "Sorry, {0}, you don't have enough points! FeelsBadMan".format(source.username_raw)
+                )
                 return False
 
             if tickets <= 0:
-                bot.whisper(source.username, "Sorry, {0}, you have to buy at least 1 ticket! FeelsBadMan".format(source.username_raw))
+                bot.whisper(
+                    source.username,
+                    "Sorry, {0}, you have to buy at least 1 ticket! FeelsBadMan".format(source.username_raw),
+                )
                 return False
 
             source.points -= tickets
