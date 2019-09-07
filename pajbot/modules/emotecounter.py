@@ -1,9 +1,10 @@
 import logging
+
 from unidecode import unidecode
 
+from pajbot.managers.handler import HandlerManager
 from pajbot.models.command import Command
 from pajbot.models.command import CommandExample
-from pajbot.managers.handler import HandlerManager
 from pajbot.modules import BaseModule
 
 log = logging.getLogger(__name__)
@@ -86,11 +87,14 @@ class EmoteCounterModule(BaseModule):
         if source.username_raw in self.votedUsers or whisper:
             return False
 
-        cleanMessage = unidecode(message).strip()
-        if cleanMessage == self.emoteNames[0]:
-            self.emoteValues[0] += 1
-        elif cleanMessage == self.emoteNames[1]:
-            self.emoteValues[1] += 1
+        cleanMessage = unidecode(message).strip().split()
+        if len(set(cleanMessage)) == 1:
+            if cleanMessage[0] == self.emoteNames[0]:
+                self.emoteValues[0] += 1
+            elif cleanMessage[0] == self.emoteNames[1]:
+                self.emoteValues[1] += 1
+            else:
+                return False
         else:
             return False
 
