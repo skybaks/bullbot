@@ -175,8 +175,12 @@ class RouletteModule(BaseModule):
             bot.whisper(user.username, str(e))
             return False
 
-        if bet < 500:
-            bot.whisper(user.username, "You can only roulette for 500+ points FeelsWeirdMan")
+        if bet < self.settings["min_roulette_amount"]:
+            bot.whisper(
+                user.username,
+                "You can only roulette for {}+ points FeelsWeirdMan".format(self.settings["min_roulette_amount"]),
+            )
+            return False
 
         # Calculating the result
         result = self.rigged_random_result()
@@ -195,23 +199,8 @@ class RouletteModule(BaseModule):
         else:
             out_message = self.get_phrase("message_lost", **arguments)
 
-        if self.settings["options_output"] == "4. Combine output in chat":
-            if bot.is_online:
-                self.add_message(bot, arguments)
-            else:
-                bot.me(out_message)
-        if self.settings["options_output"] == "1. Show results in chat":
+        if user.subscriber:
             bot.me(out_message)
-        if self.settings["options_output"] == "2. Show results in whispers":
-            bot.whisper(user.username, out_message)
-        if (
-            self.settings["options_output"]
-            == "3. Show results in chat if it's over X points else it will be whispered."
-        ):
-            if abs(points) >= self.settings["min_show_points"]:
-                bot.me(out_message)
-            else:
-                bot.whisper(user.username, out_message)
 
         HandlerManager.trigger("on_roulette_finish", user=user, points=points)
 
