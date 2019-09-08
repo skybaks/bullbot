@@ -29,7 +29,7 @@ class asyncSocketIO:
         self.receive_events_thread.start()
 
     def on_event(self, *args):
-        DonationPointsModule.updatePoints(args, self.bot, self.settings)
+        DonationPointsModule.updatePoints(self.bot, self.settings, args)
 
     def on_disconnect(self, *args):
         log.error("Socket disconnected. Donations no longer monitored")
@@ -50,15 +50,19 @@ class DonationPointsModule(BaseModule):
         ModuleSetting(key="multiplynum", label="One usd equals how many points", type="number", required=True),
     ]
 
-    def enable(self, bot):
+    def __init__(self, bot):
+        super().__init__(bot)
         self.bot = bot
+
+    def enable(self, bot):
         self.socketClass = asyncSocketIO(self.bot, self.settings)
 
     def restartClass(self):
         del self.socketClass
         self.socketClass = asyncSocketIO(self.bot, self.settings)
 
-    def updatePoints(args, bot, settings):
+    @staticmethod
+    def updatePoints(bot, settings, args):
         if args[0]["type"] != "donation":
             return False
 
@@ -76,4 +80,6 @@ class DonationPointsModule(BaseModule):
         user.points += finalValue
         user.save()
 
-        bot.whisper(user.username, "You have been given {} points due to a donation in your name".format(finalValue))
+        self.bot.whisper(
+            user.username, "You have been given {} points due to a donation in your name".format(finalValue)
+        )

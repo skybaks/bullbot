@@ -276,14 +276,14 @@ class RaffleModule(BaseModule):
 
         arguments = {"length": self.raffle_length, "points": self.raffle_points}
 
-        bot.say(self.get_phrase("message_start_multi", **arguments))
+        bot.say(self.get_phrase("message_start", **arguments))
         arguments = {"length": round(self.raffle_length * 0.60), "points": self.raffle_points}
         bot.execute_delayed(
-            self.raffle_length * 0.40, self.bot.say, (self.get_phrase("message_running_multi", **arguments),)
+            self.raffle_length * 0.40, self.bot.say, (self.get_phrase("message_running", **arguments),)
         )
         arguments = {"length": round(self.raffle_length * 0.25), "points": self.raffle_points}
         bot.execute_delayed(
-            self.raffle_length * 0.75, self.bot.say, (self.get_phrase("message_running_multi", **arguments),)
+            self.raffle_length * 0.75, self.bot.say, (self.get_phrase("message_running", **arguments),)
         )
 
         bot.execute_delayed(self.raffle_length, self.end_raffle)
