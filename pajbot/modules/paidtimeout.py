@@ -150,15 +150,7 @@ class PaidTimeoutModule(BaseModule):
                     ),
                 )
                 num_seconds = int((victim.timeout_end - now).total_seconds())
-
-                bot._timeout(
-                    victim.username,
-                    num_seconds,
-                    reason="Timed out by {} with !timeout for {} points".format(source.username_raw, _cost),
-                )
-                bot.say(
-                    "{} timed out {} with !timeout for {} points!".format(source.username_raw, victim.username, _cost)
-                )
+                bot._timeout(victim.username, num_seconds, reason="Timed out by {}".format(source.username_raw))
             else:
                 bot.whisper(
                     source.username,
