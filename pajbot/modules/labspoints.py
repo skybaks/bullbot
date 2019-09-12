@@ -1,6 +1,7 @@
 import logging
 import threading
 
+from currency_converter import CurrencyConverter
 from socketIO_client_nexus import SocketIO
 
 from pajbot.managers.schedule import ScheduleManager
@@ -29,7 +30,7 @@ class asyncSocketIO:
         self.receiveEventsThread.start()
 
     def onEvent(self, *args):
-        DonationPointsModule.updatePoints(self.bot, self.settings["usdValue"], args)
+        DonationPointsModule.updatePoints(self.settings["usdValue"], args)
 
     def onDisconnect(self, *args):
         log.error("Socket disconnected. Donations no longer monitored")
@@ -47,12 +48,13 @@ class DonationPointsModule(BaseModule):
     CATEGORY = "Feature"
     SETTINGS = [
         ModuleSetting(key="socketToken", label="Socket token", type="text", required=True),
-        ModuleSetting(key="usdValue", label="One usd equals how many points", type="number", required=True),
+        ModuleSetting(key="usdValue", label="1 USD equals how many points", type="number", required=True),
     ]
 
     def __init__(self, bot):
         super().__init__(bot)
         self.bot = bot
+        self.currencyConverter = CurrencyConverter()
 
     def enable(self, bot):
         self.socketClass = asyncSocketIO(self.bot, self.settings)
@@ -61,23 +63,28 @@ class DonationPointsModule(BaseModule):
         del self.socketClass
         self.socketClass = asyncSocketIO(self.bot, self.settings)
 
-    @staticmethod
-    def updatePoints(bot, usdPoints, args):
+    def updatePoints(self, usdPoints, args):
         if args[0]["type"] != "donation":
             return False
 
-        if "historical" in args[0]["message"][0]:
+        detailedArgs = args[0]["message"][0]
+
+        if "historical" in detailedArgs:
             return False
 
-        donation_name = args[0]["message"][0]["name"]
+        donationName = detailedArgs["name"]
 
-        user = bot.users.find(donation_name)
+        user = self.bot.users.find(donationName)
         if user is None:
             return False
 
-        finalValue = int(float(args[0]["message"][0]["amount"]) * int(usdPoints))
+        usdAmount = self.currencyConverter.convert(float(detailedArgs["amount"]), detailedArgs["currency"], "USD")
+
+        finalValue = int(usdAmount * int(usdPoints))
 
         user.points += finalValue
         user.save()
 
-        bot.whisper(user.username, "You have been given {} points due to a donation in your name".format(finalValue))
+        self.bot.whisper(
+            user.username, "You have been given {} points due to a donation in your name".format(finalValue)
+        )

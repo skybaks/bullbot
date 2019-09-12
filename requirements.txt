@@ -14,6 +14,7 @@ colorama==0.4.1
 constantly==15.1.0
 cryptography==2.7
 cssmin==0.2.0
+currencyconverter==0.13.9
 Flask==1.1.1
 Flask-Assets==0.12
 Flask-OAuthlib==0.9.5
