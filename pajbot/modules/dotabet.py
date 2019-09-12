@@ -1,11 +1,9 @@
 import logging
 
-import requests
-
 from pajbot import utils
-from pajbot.actions import ActionQueue
 from pajbot.exc import InvalidPointAmount
 from pajbot.managers.db import DBManager
+from pajbot.managers.handler import HandlerManager
 from pajbot.managers.schedule import ScheduleManager
 from pajbot.models.command import Command
 from pajbot.models.command import CommandExample
@@ -15,10 +13,6 @@ from pajbot.modules import BaseModule
 from pajbot.modules import ModuleSetting
 
 log = logging.getLogger(__name__)
-
-
-class ExitLoop(Exception):
-    pass
 
 
 class DotaBetModule(BaseModule):
@@ -35,49 +29,19 @@ class DotaBetModule(BaseModule):
         ModuleSetting(  # Not required
             key="min_return", label="Minimum return odds", type="text", placeholder="", default="1.10"
         ),
-        ModuleSetting(
-            key="steam3_id",
-            label="Steam 3 ID of streamer (number only)",
-            type="number",
-            required=True,
-            placeholder="",
-            default="",
-        ),
-        ModuleSetting(key="api_key", label="Steam API Key", type="text", required=True, placeholder="", default=""),
     ]
 
     def __init__(self, bot):
         super().__init__(bot)
-        self.action_queue = ActionQueue()
-        self.action_queue.start()
-        self.bets = {}
+        self.bot = bot
+
+        self.reinit_params()
         self.betting_open = False
         self.message_closed = True
-        self.isRadiant = False
-        self.matchID = 0
-        self.oldID = 0
-        self.winPoints = 0
-        self.lossPoints = 0
-        self.winBetters = 0
-        self.lossBetters = 0
-        self.gettingTeam = False
-        self.secondAttempt = False
-        self.calibrating = True
-        self.calibratingSecond = True
-        self.jobPaused = False
         self.spectating = False
-
-        self.job = ScheduleManager.execute_every(25, self.poll_webapi)
-        self.job.pause()
 
         self.reminder_job = ScheduleManager.execute_every(200, self.reminder_bet)
         self.reminder_job.pause()
-
-        # self.finish_job = ScheduleManager.execute_every(60, self.get_game)
-        # self.finish_job.pause()
-
-        # self.close_job = ScheduleManager.execute_every(1200, self.bot.websocket_manager.emit, ("dotabet_close_game", ))
-        # self.close_job.pause()
 
     def reminder_bet(self):
         if self.betting_open:
@@ -197,145 +161,22 @@ class DotaBetModule(BaseModule):
         self.bot.websocket_manager.emit("notification", {"message": resultString, "length": 8})
         self.bot.me(resultString)
 
-    def get_game(self):
-        gameResult = "loss"
-        # log.debug(self.isRadiant)
+    def automated_end(self, winning_team, player_team):
+        if winning_team == player_team:
+            bot.execute_delayed(0.2, self.spread_points, ("win",))
+        else:
+            bot.execute_delayed(0.2, self.spread_points, ("loss",))
 
-        odURL = "https://api.opendota.com/api/players/{}/recentMatches".format(self.settings["steam3_id"])
-        gameHistory = requests.get(odURL).json()[0]
+    def automated_lock(self):
+        self.bot.execute_delayed(15, self.lock_bets)
 
-        if gameHistory["match_id"] != self.matchID:
-            self.matchID = gameHistory["match_id"]
+    def lock_bets(self):
+        self.betting_open = False
+        self.reminder_bet()
 
-            if self.calibrating:
-                self.calibrating = False
-                return
-
-            if self.isRadiant and gameHistory["radiant_win"]:
-                gameResult = "win"
-            else:
-                if not self.isRadiant and not gameHistory["radiant_win"]:
-                    gameResult = "win"
-                else:
-                    gameResult = "loss"
-            # log.error(gameResult)
-            self.spread_points(gameResult)
-
-    def poll_webapi(self):
-        serverID = ""
-
-        with open("/srv/admiralbullbot/configs/currentID.txt", "r") as f:
-            serverID = f.read()
-
-        try:
-            serverID = int(serverID)
-        except ValueError:
-            return False
-
-        if self.calibratingSecond and serverID != 0:
-            self.calibratingSecond = False
-            return False
-
-        if serverID == 0:
-            self.bot.execute_delayed(100, self.close_shit)
-            return False
-
-        if self.oldID == serverID:
-            return False
-
-        self.oldID = serverID
-
-        self.bot.execute_delayed(12, self.get_team, (serverID,))
-
-    def startGame(self):
-        if not self.betting_open:
-            self.betting_open = True
-            self.message_closed = False
-            self.reinit_params()
-            self.bot.websocket_manager.emit("dotabet_new_game")
-
-        bulldogTeam = "radiant" if self.isRadiant else "dire"
-        openString = "A new game has begun! Bulldog is on {}. Vote with !dotabet win/lose POINTS".format(bulldogTeam)
-
-        self.bot.websocket_manager.emit("notification", {"message": openString})
-        # self.bot.websocket_manager.emit("dotabet_new_game")
-
-        self.bot.me(openString)
-
-    def get_team(self, serverID):
-        attempts = 0
-        if not serverID:
-            return
-
-        webURL = (
-            "https://api.steampowered.com/IDOTA2MatchStats_570/GetRealtimeStats/v1?"
-            "server_steam_id={}&key={}".format(serverID, self.settings["api_key"])
-        )
-        jsonText = requests.get(webURL).json()
-
-        try:
-            while not jsonText:  # Could bug and not return anything
-                if attempts > 60:
-                    if not self.secondAttempt:
-                        self.bot.execute_delayed(20, self.get_team, (serverID,))
-                        self.secondAttempt = True
-                    else:
-                        self.bot.say(
-                            'Couldn"t find which team Bulldog is on for this game. Mods - handle this round manually :)'
-                        )
-                        self.job.pause()
-                        self.jobPaused = True
-                        self.secondAttempt = False
-
-                    attempts = 0
-                    return
-
-                attempts += 1
-                jsonText = requests.get(webURL).json()
-                log.debug(jsonText)
-
-                try:
-                    self.gettingTeam = True
-                    for i in range(2):
-                        for player in jsonText["teams"][i]["players"]:
-                            log.debug(player["name"])
-                            if player["accountid"] == self.settings["steam3_id"]:
-                                if i == 0:
-                                    self.isRadiant = True
-                                else:
-                                    self.isRadiant = False
-                                self.bot.me(
-                                    'Is bulldog on radiant? {}. If he isn"t then tag a mod with BabyRage fix '
-                                    "bet".format(self.isRadiant)
-                                )
-                                raise ExitLoop
-                except KeyError:
-                    jsonText = ""
-
-        except ExitLoop:
-            pass
-
-        self.gettingTeam = False
-        self.betting_open = True
-        self.secondAttempt = False
-        self.startGame()
-
-    def command_open(self, **options):
-        openString = "Betting has been opened"
-        bot = options["bot"]
-        message = options["message"]
-        self.calibrating = True
-
-        if message:
-            if "dire" in message:
-                self.isRadiant = False
-            elif "radi" in message:
-                self.isRadiant = True
-            elif "spectat" in message:
-                self.isRadiant = True
-                self.spectating = True
-                openString += ". Reminder to bet with radiant/dire instead of win/loss"
-                self.calibrating = False
+    def start_game(self, openString=None):
+        if not openString:
+            openString = "A new game has begun! Vote with !bet win/lose POINTS".format(bulldogTeam)
 
         if not self.betting_open:
             bot.websocket_manager.emit("notification", {"message": openString})
@@ -345,8 +186,16 @@ class DotaBetModule(BaseModule):
 
         self.betting_open = True
         self.message_closed = False
-        self.job.pause()
-        self.jobPaused = True
+
+    def command_open(self, **options):
+        openString = "Betting has been opened"
+        message = options["message"]
+
+        if message and ["dire", "radi", "spectat"] in message:
+            self.spectating = True
+            openString += ". Reminder to bet with radiant/dire instead of win/loss"
+
+        self.start_game()
 
     def command_stats(self, **options):
         bot = options["bot"]
@@ -354,13 +203,6 @@ class DotaBetModule(BaseModule):
         bot.say(
             "{}/{} betters on {}/{} points".format(self.winBetters, self.lossBetters, self.winPoints, self.lossPoints)
         )
-
-    def close_shit(self):
-        if self.jobPaused:
-            return False
-
-        self.betting_open = False
-        self.reminder_bet()
 
     def command_close(self, **options):
         bot = options["bot"]
@@ -373,34 +215,28 @@ class DotaBetModule(BaseModule):
                 count_down = int(message)
             if count_down > 0:
                 bot.me("Betting will be locked in {} seconds! Place your bets people monkaS".format(count_down))
-            bot.execute_delayed(count_down, self.lock_bets, (bot,))
+            bot.execute_delayed(count_down, self.lock_bets)
         elif message:
             if "l" in message.lower() or "dire" in message.lower():
-                self.spread_points("loss")
+                bot.execute_delayed(0.2, self.spread_points, ("loss",))
             elif "w" in message.lower() or "radi" in message.lower():
-                self.spread_points("win")
+                bot.execute_delayed(0.2, self.spread_points, ("win",))
             else:
-                bot.whisper(source.username, "Are you pretending?")
+                bot.say("Are you pretending {}?".format(source.username_raw))
                 return False
 
             self.calibrating = True
             self.spectating = False
-
-    def lock_bets(self, bot):
-        self.betting_open = False
-        self.reminder_bet()
-        self.job.resume()
-        self.jobPaused = False
 
     def command_restart(self, **options):
         bot = options["bot"]
         message = options["message"]
         reason = ""
 
-        if not message:
-            reason = "No reason given EleGiggle"
-        else:
+        if message:
             reason = message
+        else:
+            reason = "No reason given EleGiggle"
 
         with DBManager.create_session_scope() as db_session:
             for username in self.bets:
@@ -451,8 +287,8 @@ class DotaBetModule(BaseModule):
         if len(msg_parts) < 2:
             bot.whisper(
                 source.username,
-                "Invalid bet. You must do !dotabet radiant/dire POINTS (if spectating a game) "
-                "or !dotabet win/loss POINTS (if playing)",
+                "Invalid bet. You must do !bet radiant/dire POINTS (if spectating a game) "
+                "or !bet win/loss POINTS (if playing)",
             )
             return False
 
@@ -468,8 +304,8 @@ class DotaBetModule(BaseModule):
         except InvalidPointAmount as e:
             bot.whisper(
                 source.username,
-                "Invalid bet. You must do !dotabet radiant/dire POINTS (if spectating a game) "
-                "or !dotabet win/loss POINTS (if playing) {}".format(e),
+                "Invalid bet. You must do !bet radiant/dire POINTS (if spectating a game) "
+                "or !bet win/loss POINTS (if playing) {}".format(e),
             )
             return False
 
@@ -492,8 +328,8 @@ class DotaBetModule(BaseModule):
         else:
             bot.whisper(
                 source.username,
-                "Invalid bet. You must do !dotabet radiant/dire POINTS (if spectating a game) "
-                "or !dotabet win/loss POINTS (if playing)",
+                "Invalid bet. You must do !bet radiant/dire POINTS (if spectating a game) "
+                "or !bet win/loss POINTS (if playing)",
             )
             return False
 
@@ -524,7 +360,7 @@ class DotaBetModule(BaseModule):
         bot.whisper(source.username, "{}{}".format(finishString, "win" if bet_for_win else "loss"))
 
     def load_commands(self, **options):
-        self.commands["dotabet"] = Command.raw_command(
+        self.commands["bet"] = Command.raw_command(
             self.command_bet,
             delay_all=0,
             delay_user=0,
@@ -534,12 +370,12 @@ class DotaBetModule(BaseModule):
                 CommandExample(
                     None,
                     "Bet 69 points on a win",
-                    chat="user:!dotabet win 69\n" "bot>user: You have bet 69 points on this game resulting in a win.",
-                    description="Bet that the streamer will win for 69 points",
+                    chat="user:!bet win 69\n" "bot>user: You have bet 69 points on this game resulting in a win.",
+                    description="Bet 69 points that the streamer will win",
                 ).parse()
             ],
         )
-        self.commands["bet"] = self.commands["dotabet"]
+        self.commands["dotabet"] = self.commands["bet"]
 
         self.commands["openbet"] = Command.raw_command(
             self.command_open, level=420, delay_all=0, delay_user=0, description="Open bets"
@@ -555,23 +391,21 @@ class DotaBetModule(BaseModule):
             self.command_betstatus, level=420, description="Status of bets"
         )
         self.commands["currentbets"] = Command.raw_command(self.command_stats, level=100, delay_all=0, delay_user=10)
-        # self.commands["betstats"]
 
     def enable(self, bot):
-        if bot:
-            self.job.resume()
-            self.reminder_job.resume()
-            # self.finish_job.resume()
-            # self.close_job.resume()
-        self.bot = bot
+        HandlerManager.add_handler("on_open_bets", self.start_game)
+        HandlerManager.add_handler("on_lock_bets", self.automated_lock)
+        HandlerManager.add_handler("on_end_bets", self.automated_end)
 
-        # Move this to somewhere better
+        self.reminder_job.resume()
+
+        # Move this somewhere better hopefully
         self.maxReturn = self.settings["max_return"] if "max_return" in self.settings else None
         self.minReturn = float(self.settings["min_return"]) if "min_return" in self.settings else None
 
     def disable(self, bot):
-        if bot:
-            self.job.pause()
-            self.reminder_job.pause()
-            # self.finish_job.pause()
-            # self.close_job.pause()
+        HandlerManager.remove_handler("on_open_bets", self.start_game)
+        HandlerManager.remove_handler("on_lock_bets", self.automated_lock)
+        HandlerManager.remove_handler("on_end_bets", self.automated_end)
+
+        self.reminder_job.pause()

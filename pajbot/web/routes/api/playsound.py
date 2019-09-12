@@ -39,7 +39,9 @@ class PlaysoundAPI(Resource):
         post_parser.add_argument("rename", required=False)
         post_parser.add_argument("link", required=True)
         post_parser.add_argument("volume", type=int, required=True)
+        post_parser.add_argument("cooldown", type=int, required=False)
         post_parser.add_argument("cost", type=int, required=False)
+        post_parser.add_argument("enabled", type=bool, required=False)
 
         args = post_parser.parse_args()
 

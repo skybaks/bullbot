@@ -70,6 +70,15 @@ class HandlerManager:
         # on_quit()
         HandlerManager.create_handler("on_quit")
 
+        # on_open_bets()
+        HandlerManager.create_handler("on_open_bets")
+
+        # on_lock_bets()
+        HandlerManager.create_handler("on_lock_bets")
+
+        # on_end_bets(winning_team, player_team)
+        HandlerManager.create_handler("on_end_bets")
+
     @staticmethod
     def create_handler(event):
         """ Create an empty list for the given event """

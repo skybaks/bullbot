@@ -16,26 +16,26 @@ class asyncSocketIO:
         self.settings = settings
 
         try:
-            self.receive_events_thread._stop
+            self.receiveEventsThread._stop
         except:
             pass
 
-        self.socketio = SocketIO("https://sockets.streamlabs.com", params={"token": settings["socket_token"]})
-        self.socketio.on("event", self.on_event)
-        self.socketio.on("disconnect", self.on_disconnect)
+        self.socketIO = SocketIO("https://sockets.streamlabs.com", params={"token": settings["socketToken"]})
+        self.socketIO.on("event", self.onEvent)
+        self.socketIO.on("disconnect", self.onDisconnect)
 
-        self.receive_events_thread = threading.Thread(target=self._receive_events_thread)
-        self.receive_events_thread.daemon = True
-        self.receive_events_thread.start()
+        self.receiveEventsThread = threading.Thread(target=self._receiveEventsThread)
+        self.receiveEventsThread.daemon = True
+        self.receiveEventsThread.start()
 
-    def on_event(self, *args):
-        DonationPointsModule.updatePoints(self.bot, self.settings, args)
+    def onEvent(self, *args):
+        DonationPointsModule.updatePoints(self.bot, self.settings["usdValue"], args)
 
-    def on_disconnect(self, *args):
+    def onDisconnect(self, *args):
         log.error("Socket disconnected. Donations no longer monitored")
         ScheduleManager.execute_delayed(30, DonationPointsModule.restartClass)
 
-    def _receive_events_thread(self):
+    def _receiveEventsThread(self):
         self.socketio.wait()
 
 
@@ -46,8 +46,8 @@ class DonationPointsModule(BaseModule):
     ENABLED_DEFAULT = True
     CATEGORY = "Feature"
     SETTINGS = [
-        ModuleSetting(key="socket_token", label="Socket token", type="text", required=True),
-        ModuleSetting(key="multiplynum", label="One usd equals how many points", type="number", required=True),
+        ModuleSetting(key="socketToken", label="Socket token", type="text", required=True),
+        ModuleSetting(key="usdValue", label="One usd equals how many points", type="number", required=True),
     ]
 
     def __init__(self, bot):
@@ -62,7 +62,7 @@ class DonationPointsModule(BaseModule):
         self.socketClass = asyncSocketIO(self.bot, self.settings)
 
     @staticmethod
-    def updatePoints(bot, settings, args):
+    def updatePoints(bot, usdPoints, args):
         if args[0]["type"] != "donation":
             return False
 
@@ -75,11 +75,9 @@ class DonationPointsModule(BaseModule):
         if user is None:
             return False
 
-        finalValue = int(float(args[0]["message"][0]["amount"]) * int(settings["multiplynum"]))
+        finalValue = int(float(args[0]["message"][0]["amount"]) * int(usdPoints))
 
         user.points += finalValue
         user.save()
 
-        self.bot.whisper(
-            user.username, "You have been given {} points due to a donation in your name".format(finalValue)
-        )
+        bot.whisper(user.username, "You have been given {} points due to a donation in your name".format(finalValue))

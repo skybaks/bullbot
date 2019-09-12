@@ -3,6 +3,8 @@ import logging
 import threading
 from pathlib import Path
 
+from pajbot.managers.handler import HandlerManager
+
 log = logging.getLogger("pajbot")
 
 
@@ -17,7 +19,6 @@ class WebSocketServer:
 
         class MyServerProtocol(WebSocketServerProtocol):
             def onConnect(self, request):
-                # log.info(self.factory)
                 log.info("Client connecting: {0}".format(request.origin if request.origin else "self"))
                 pass
 
@@ -31,8 +32,20 @@ class WebSocketServer:
                 else:
                     log.info("Text message received: {0}".format(payload.decode("utf8")))
                     if not self.websocket_origin:
-                        for client in WebSocketServer.clients:
-                            client.sendMessage(payload, False)
+                        parsedPayload = json.loads(payload)
+                        if parsedPayload["event"] == "open_bets":
+                            HandlerManager.trigger("on_open_bets")
+                        elif parsedPayload["event"] == "lock_bets":
+                            HandlerManager.trigger("on_lock_bets")
+                        elif parsedPayload["event"] == "end_bets":
+                            HandlerManager.trigger(
+                                "on_end_bets",
+                                winning_team=parsedPayload["winning_team"],
+                                player_team=parsedPayload["player_team"],
+                            )
+                        else:
+                            for client in WebSocketServer.clients:
+                                client.sendMessage(payload, False)
 
             def onClose(self, wasClean, code, reason):
                 log.info("WebSocket connection closed: {0}".format(reason))
