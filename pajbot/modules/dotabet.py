@@ -14,6 +14,7 @@ from pajbot.modules import ModuleSetting
 
 log = logging.getLogger(__name__)
 
+
 class DotaBetModule(BaseModule):
     AUTHOR = "DatGuy1"
     ID = __name__.split(".")[-1]
@@ -27,7 +28,7 @@ class DotaBetModule(BaseModule):
         ),
         ModuleSetting(  # Not required
             key="min_return", label="Minimum return odds", type="text", placeholder="", default="1.10"
-        )
+        ),
     ]
 
     def __init__(self, bot):
@@ -167,9 +168,9 @@ class DotaBetModule(BaseModule):
 
     def automated_end(self, winning_team, player_team):
         if winning_team == player_team:
-            bot.execute_delayed(0.2, self.spread_points, ("win",))
+            self.bot.execute_delayed(0.2, self.spread_points, ("win",))
         else:
-            bot.execute_delayed(0.2, self.spread_points, ("loss",))
+            self.automated_endbot.execute_delayed(0.2, self.spread_points, ("loss",))
 
     def automated_lock(self):
         self.bot.execute_delayed(15, self.lock_bets)
@@ -178,7 +179,7 @@ class DotaBetModule(BaseModule):
         self.betting_open = False
         self.reminder_bet()
 
-    def start_game(self, openString = None):
+    def start_game(self, openString=None):
         if not openString:
             openString = "A new game has begun! Vote with !bet win/lose POINTS"
 
