@@ -10,28 +10,23 @@ __pycache__
 # PID files
 .*.pid
 
-# Logs
+# Log folder
 logs/
-*.out
-errors.txt
 
-# Config stuff
+# Config folder
 configs/
 uwsgiconfigs/
-.uwsgi_plugins_builder/
 config.ini
 /*.ini
 !uwsgi_cache.ini
 !uwsgi_shared.ini
-*.pid
-/*.sh
 
 # User created code
 userdispatch.py
-*.so
 
 # Ignore virtual environment folder
 venv/
 
 .idea/
 .vscode/
+/.github/pull_request_template.md
