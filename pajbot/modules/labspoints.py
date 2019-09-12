@@ -36,7 +36,7 @@ class asyncSocketIO:
         ScheduleManager.execute_delayed(30, DonationPointsModule.restartClass)
 
     def _receiveEventsThread(self):
-        self.socketio.wait()
+        self.socketIO.wait()
 
 
 class DonationPointsModule(BaseModule):

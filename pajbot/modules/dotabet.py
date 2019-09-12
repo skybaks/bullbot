@@ -14,7 +14,6 @@ from pajbot.modules import ModuleSetting
 
 log = logging.getLogger(__name__)
 
-
 class DotaBetModule(BaseModule):
     AUTHOR = "DatGuy1"
     ID = __name__.split(".")[-1]
@@ -28,7 +27,7 @@ class DotaBetModule(BaseModule):
         ),
         ModuleSetting(  # Not required
             key="min_return", label="Minimum return odds", type="text", placeholder="", default="1.10"
-        ),
+        )
     ]
 
     def __init__(self, bot):
@@ -72,6 +71,11 @@ class DotaBetModule(BaseModule):
         return 1.0 + (float(x) / (float(y)))
 
     def get_odds_ratio(self, winPoints, lossPoints):
+        if lossPoints == 0:
+            lossPoints = 1
+        if winPoints == 0:
+            winPoints = 1
+
         winRatio = self.create_solve_formula(lossPoints, winPoints)
         lossRatio = self.create_solve_formula(winPoints, lossPoints)
 
@@ -174,15 +178,15 @@ class DotaBetModule(BaseModule):
         self.betting_open = False
         self.reminder_bet()
 
-    def start_game(self, openString=None):
+    def start_game(self, openString = None):
         if not openString:
-            openString = "A new game has begun! Vote with !bet win/lose POINTS".format(bulldogTeam)
+            openString = "A new game has begun! Vote with !bet win/lose POINTS"
 
         if not self.betting_open:
-            bot.websocket_manager.emit("notification", {"message": openString})
+            self.bot.websocket_manager.emit("notification", {"message": openString})
             if not self.spectating:
-                bot.websocket_manager.emit("dotabet_new_game")
-            bot.me(openString)
+                self.bot.websocket_manager.emit("dotabet_new_game")
+            self.bot.me(openString)
 
         self.betting_open = True
         self.message_closed = False
