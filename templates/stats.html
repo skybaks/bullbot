@@ -14,7 +14,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for stat in top_5_winrate %}
+        {% for stat in top_5_duel_winrate %}
         {% set user = stat.user %}
         <tr>
           <td>{% include 'user/username_link.html' %}</td>
@@ -33,7 +33,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for stat in top_5_winners %}
+        {% for stat in top_5_duel_winners %}
         {% set user = stat.user %}
         <tr>
           <td>{% include 'user/username_link.html' %}</td>
@@ -52,7 +52,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for stat in top_5_losers %}
+        {% for stat in top_5_duel_losers %}
         {% set user = stat.user %}
         <tr>
           <td>{% include 'user/username_link.html' %}</td>
@@ -71,7 +71,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for stat in top_5_points_won %}
+        {% for stat in top_5_duel_points_won %}
         {% set user = stat.user %}
         <tr>
           <td>{% include 'user/username_link.html' %}</td>
@@ -90,7 +90,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for stat in top_5_points_lost %}
+        {% for stat in top_5_duel_points_lost %}
         {% set user = stat.user %}
         <tr>
           <td>{% include 'user/username_link.html' %}</td>

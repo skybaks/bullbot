@@ -5,6 +5,7 @@ from pajbot.managers.db import DBManager
 from pajbot.managers.redis import RedisManager
 from pajbot.managers.user import UserManager
 from pajbot.models.duel import UserDuelStats
+from pajbot.models.roulette import Roulette
 from pajbot.streamhelper import StreamHelper
 
 
@@ -35,11 +36,11 @@ def init(app):
                 top_5_line_farmers.append(user)
 
             data = {
-                "top_5_winners": db_session.query(UserDuelStats).order_by(UserDuelStats.duels_won.desc())[:5],
-                "top_5_points_won": db_session.query(UserDuelStats).order_by(UserDuelStats.profit.desc())[:5],
-                "top_5_points_lost": db_session.query(UserDuelStats).order_by(UserDuelStats.profit.asc())[:5],
-                "top_5_losers": db_session.query(UserDuelStats).order_by(UserDuelStats.duels_lost.desc())[:5],
-                "top_5_winrate": db_session.query(UserDuelStats)
+                "top_5_duel_winners": db_session.query(UserDuelStats).order_by(UserDuelStats.duels_won.desc())[:5],
+                "top_5_duel_points_won": db_session.query(UserDuelStats).order_by(UserDuelStats.profit.desc())[:5],
+                "top_5_duel_points_lost": db_session.query(UserDuelStats).order_by(UserDuelStats.profit.asc())[:5],
+                "top_5_duel_losers": db_session.query(UserDuelStats).order_by(UserDuelStats.duels_lost.desc())[:5],
+                "top_5_duel_winrate": db_session.query(UserDuelStats)
                 .filter(UserDuelStats.duels_won >= 5)
                 .order_by(UserDuelStats.winrate.desc())[:5],
                 "bottom_5_winrate": db_session.query(UserDuelStats)

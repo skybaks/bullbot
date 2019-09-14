@@ -40,8 +40,8 @@ class WebSocketServer:
                         elif parsedPayload["event"] == "end_bets":
                             HandlerManager.trigger(
                                 "on_end_bets",
-                                winning_team=parsedPayload["winning_team"],
-                                player_team=parsedPayload["player_team"],
+                                winning_team=parsedPayload["data"]["winning_team"],
+                                player_team=parsedPayload["data"]["player_team"],
                             )
                         else:
                             for client in WebSocketServer.clients:

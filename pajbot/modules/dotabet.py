@@ -9,6 +9,7 @@ from pajbot.models.command import Command
 from pajbot.models.command import CommandExample
 from pajbot.models.dotabet import DotaBetBet
 from pajbot.models.dotabet import DotaBetGame
+from pajbot.models.user import User
 from pajbot.modules import BaseModule
 from pajbot.modules import ModuleSetting
 
@@ -29,6 +30,7 @@ class DotaBetModule(BaseModule):
         ModuleSetting(  # Not required
             key="min_return", label="Minimum return odds", type="text", placeholder="", default="1.10"
         ),
+        ModuleSetting(key="max_bet", label="Maximum bet", type="number", placeholder="", default="2000"),
     ]
 
     def __init__(self, bot):
@@ -121,11 +123,12 @@ class DotaBetModule(BaseModule):
                     winners += 1
                     total_winnings += points - betPoints
                     db_bets[username].profit = points
-                    user.points += points
+                    userObject = db_session.query(User).with_for_update().filter_by(username=username).first()
+                    userObject.points = userObject.points + points
                     self.bot.whisper(
                         user.username,
                         "You bet {} points on the correct outcome and gained an extra {} points, "
-                        "you now have {} points PogChamp".format(betPoints, points - betPoints, user.points),
+                        "you now have {} points PogChamp".format(betPoints, points - betPoints, userObject.points),
                     )
                 else:
                     losers += 1
@@ -167,13 +170,15 @@ class DotaBetModule(BaseModule):
         self.bot.me(resultString)
 
     def automated_end(self, winning_team, player_team):
+        self.bot.say("Closing bet automatically...")
         if winning_team == player_team:
             self.bot.execute_delayed(0.2, self.spread_points, ("win",))
         else:
-            self.automated_endbot.execute_delayed(0.2, self.spread_points, ("loss",))
+            self.bot.execute_delayed(0.2, self.spread_points, ("loss",))
 
     def automated_lock(self):
         self.bot.execute_delayed(15, self.lock_bets)
+        bot.me("Betting will be locked in 15 seconds! Place your bets people monkaS")
 
     def lock_bets(self):
         self.betting_open = False
@@ -304,8 +309,8 @@ class DotaBetModule(BaseModule):
         points = 0
         try:
             points = utils.parse_points_amount(source, msg_parts[1])
-            if points > 2000:
-                points = 2000
+            if points > self.settings["max_bet"]:
+                points = self.settings["max_bet"]
         except InvalidPointAmount as e:
             bot.whisper(
                 source.username,

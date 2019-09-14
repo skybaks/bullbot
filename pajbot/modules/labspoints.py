@@ -15,6 +15,7 @@ class asyncSocketIO:
     def __init__(self, bot, settings):
         self.bot = bot
         self.settings = settings
+        self.currencyConverter = CurrencyConverter()
 
         try:
             self.receiveEventsThread._stop
@@ -30,7 +31,7 @@ class asyncSocketIO:
         self.receiveEventsThread.start()
 
     def onEvent(self, *args):
-        DonationPointsModule.updatePoints(self.settings["usdValue"], args)
+        DonationPointsModule.updatePoints(self.bot, self.currencyConverter, self.settings["usdValue"], args)
 
     def onDisconnect(self, *args):
         log.error("Socket disconnected. Donations no longer monitored")
@@ -54,7 +55,6 @@ class DonationPointsModule(BaseModule):
     def __init__(self, bot):
         super().__init__(bot)
         self.bot = bot
-        self.currencyConverter = CurrencyConverter()
 
     def enable(self, bot):
         self.socketClass = asyncSocketIO(self.bot, self.settings)
@@ -63,7 +63,7 @@ class DonationPointsModule(BaseModule):
         del self.socketClass
         self.socketClass = asyncSocketIO(self.bot, self.settings)
 
-    def updatePoints(self, usdPoints, args):
+    def updatePoints(bot, currencyConverter, usdPoints, args):
         if args[0]["type"] != "donation":
             return False
 
@@ -72,19 +72,17 @@ class DonationPointsModule(BaseModule):
         if "historical" in detailedArgs:
             return False
 
-        donationName = detailedArgs["name"]
-
-        user = self.bot.users.find(donationName)
+        user = bot.users.find(detailedArgs["name"])
         if user is None:
             return False
 
-        usdAmount = self.currencyConverter.convert(float(detailedArgs["amount"]), detailedArgs["currency"], "USD")
+        usdAmount = currencyConverter.convert(float(detailedArgs["amount"]), detailedArgs["currency"], "USD")
 
         finalValue = int(usdAmount * int(usdPoints))
 
         user.points += finalValue
         user.save()
 
-        self.bot.whisper(
+        bot.whisper(
             user.username, "You have been given {} points due to a donation in your name".format(finalValue)
         )

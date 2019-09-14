@@ -97,7 +97,7 @@ class CommandManager(UserDict):
         self.internal_commands["quit"] = Command.pajbot_command(
             self.bot,
             "quit",
-            level=1500,
+            level=1000,
             command="quit",
             description="Shut down the bot, this will most definitely restart it if set up properly",
         )
