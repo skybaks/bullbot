@@ -15,8 +15,8 @@ log = logging.getLogger(__name__)
 
 def generate_winner_list(winners):
     """ Takes a list of winners, and combines them into a alphabetically-sorted string. """
-    stringList = [winner.username_raw for winner in winners]
-    return ", ".join(stringList.sort(key=str.lower))
+    stringList = [winner.username_raw for winner in winners].sort(key=str.lower)
+    return ", ".join(stringList)
 
 
 class RaffleModule(BaseModule):
