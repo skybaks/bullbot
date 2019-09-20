@@ -15,7 +15,8 @@ log = logging.getLogger(__name__)
 
 def generate_winner_list(winners):
     """ Takes a list of winners, and combines them into a alphabetically-sorted string. """
-    stringList = [winner.username_raw for winner in winners].sort(key=str.lower)
+    stringList = [winner.username_raw for winner in winners]
+    stringList.sort(key=str.lower)
     return ", ".join(stringList)
 
 
@@ -315,9 +316,9 @@ class RaffleModule(BaseModule):
                 "notification",
                 {"message": "{} won {} points in the raffle!".format(winner.username_raw, self.raffle_points)},
             )
-            self.bot.me(
-                "The raffle has finished! {0} won {1} points! PogChamp".format(winner.username_raw, self.raffle_points)
-            )
+        self.bot.me(
+            "The raffle has finished! {0} won {1} points! PogChamp".format(winner.username_raw, self.raffle_points)
+        )
 
         winner.points += self.raffle_points
 

@@ -178,7 +178,7 @@ class DotaBetModule(BaseModule):
 
     def automated_lock(self):
         self.bot.execute_delayed(15, self.lock_bets)
-        bot.me("Betting will be locked in 15 seconds! Place your bets people monkaS")
+        self.bot.me("Betting will be locked in 15 seconds! Place your bets people monkaS")
 
     def lock_bets(self):
         self.betting_open = False

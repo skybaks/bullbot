@@ -31,21 +31,52 @@ class asyncSocketIO:
         self.receiveEventsThread.start()
 
     def onEvent(self, *args):
-        DonationPointsModule.updatePoints(self.bot, self.currencyConverter, self.settings["usdValue"], args)
+        self.updatePoints(self.settings["usdValue"], args)
 
     def onDisconnect(self, *args):
         log.error("Socket disconnected. Donations no longer monitored")
-        ScheduleManager.execute_delayed(30, DonationPointsModule.restartClass)
+        ScheduleManager.execute_delayed(15, self.reset)
+
+    def updatePoints(self, usdPoints, args):
+        if args[0]["type"] != "donation":
+            return False
+
+        detailedArgs = args[0]["message"][0]
+
+        if "historical" in detailedArgs:
+            return False
+
+        user = self.bot.users.find(detailedArgs["name"])
+        if user is None:
+            return False
+
+        usdAmount = self.currencyConverter.convert(float(detailedArgs["amount"]), detailedArgs["currency"], "USD")
+
+        finalValue = int(usdAmount * int(usdPoints))
+
+        user.points += finalValue
+        user.save()
+
+        self.bot.whisper(
+            user.username, "You have been given {} points due to a donation in your name".format(finalValue)
+        )
 
     def _receiveEventsThread(self):
         self.socketIO.wait()
+
+    @classmethod
+    def reset(cls):
+        bot = cls.bot
+        settings = cls.settings
+
+        cls.instance = None
+        cls.instance = asyncSocketIO(bot, settings)
 
 
 class DonationPointsModule(BaseModule):
     ID = __name__.split(".")[-1]
     NAME = "Donate for points"
     DESCRIPTION = "Users can donate to receive points."
-    ENABLED_DEFAULT = True
     CATEGORY = "Feature"
     SETTINGS = [
         ModuleSetting(key="socketToken", label="Socket token", type="text", required=True),
@@ -57,32 +88,4 @@ class DonationPointsModule(BaseModule):
         self.bot = bot
 
     def enable(self, bot):
-        self.socketClass = asyncSocketIO(self.bot, self.settings)
-
-    def restartClass(self):
-        del self.socketClass
-        self.socketClass = asyncSocketIO(self.bot, self.settings)
-
-    def updatePoints(bot, currencyConverter, usdPoints, args):
-        if args[0]["type"] != "donation":
-            return False
-
-        detailedArgs = args[0]["message"][0]
-
-        if "historical" in detailedArgs:
-            return False
-
-        user = bot.users.find(detailedArgs["name"])
-        if user is None:
-            return False
-
-        usdAmount = currencyConverter.convert(float(detailedArgs["amount"]), detailedArgs["currency"], "USD")
-
-        finalValue = int(usdAmount * int(usdPoints))
-
-        user.points += finalValue
-        user.save()
-
-        bot.whisper(
-            user.username, "You have been given {} points due to a donation in your name".format(finalValue)
-        )
+        socketClass = asyncSocketIO(self.bot, self.settings)
