@@ -11,7 +11,6 @@ import pajbot.web.routes.api.timers
 import pajbot.web.routes.api.twitter
 import pajbot.web.routes.api.users
 import pajbot.web.routes.api.playsound
-import pajbot.web.routes.api.sniper
 
 
 def init(app):
@@ -52,7 +51,3 @@ def init(app):
     # /playsound/:name
     # /playsound/:name/play
     pajbot.web.routes.api.playsound.init(api)
-
-    # /snipers/:name
-    # /snipers/:name/submit
-    pajbot.web.routes.api.sniper.init(api)

@@ -1,9 +1,9 @@
 import datetime
 import logging
 
+from sqlalchemy import TEXT
 from sqlalchemy import Column
-from sqlalchemy import DateTime
-from sqlalchemy import String
+from sqlalchemy_utc import UtcDateTime
 
 from pajbot.managers.db import Base
 
@@ -11,13 +11,13 @@ log = logging.getLogger("pajbot")
 
 
 class LongTimeout(Base):
-    __tablename__ = "tb_longtimeout"
+    __tablename__ = "long_timeout"
 
-    username = Column(String(32), primary_key=True, nullable=False, unique=True)
-    timeout_start = Column(DateTime, nullable=False)
-    timeout_recent_end = Column(DateTime)
-    timeout_end = Column(DateTime, nullable=False)
-    timeout_author = Column(String(32), nullable=False)
+    username = Column(TEXT, primary_key=True, nullable=False, unique=True)
+    timeout_start = Column(UtcDateTime(), nullable=False)
+    timeout_recent_end = Column(UtcDateTime())
+    timeout_end = Column(UtcDateTime(), nullable=False)
+    timeout_author = Column(TEXT, nullable=False)
 
     def __init__(
         self,

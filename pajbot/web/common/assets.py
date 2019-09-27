@@ -112,17 +112,4 @@ def init(app):
     )
     assets.register("playsound_admin_css", playsound_admin_css)
 
-    sniper_js = Bundle("scripts/sniper.js", filters="jsmin", output="gen/scripts/sniper.%(version)s.js")
-    assets.register("sniper_js", sniper_js)
-
-    sniper_admin_js = Bundle(
-        "scripts/admin/sniper.admin.js", filters="jsmin", output="gen/scripts/admin/sniper.admin.%(version)s.js"
-    )
-    assets.register("sniper_admin_js", sniper_admin_js)
-
-    sniper_admin_css = Bundle(
-        "css/admin/sniper.admin.css", filters="cssmin", output="gen/css/admin/sniper.admin.%(version)s.css"
-    )
-    assets.register("sniper_admin_css", sniper_admin_css)
-
     assets.init_app(app)

@@ -28,6 +28,7 @@ def init(page):
                     joinedload(Banphrase.data).joinedload(BanphraseData.user),
                     joinedload(Banphrase.data).joinedload(BanphraseData.user2),
                 )
+                .order_by(Banphrase.id)
                 .all()
             )
             return render_template("admin/banphrases.html", banphrases=banphrases)
@@ -113,6 +114,7 @@ def init(page):
                 else:
                     db_session.add(banphrase)
                     db_session.add(banphrase.data)
+                    db_session.flush()
                     log.info("Added a new banphrase by user ID {}".format(options["added_by"]))
                     AdminLogManager.post("Banphrase added", user, banphrase.id, banphrase.phrase)
 

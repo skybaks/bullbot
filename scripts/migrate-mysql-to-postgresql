@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+python3 -m pip install mysqlclient==1.4.4
+
+python3 ./scripts/migrate-mysql-to-postgresql.py
+
+python3 -m pip uninstall mysqlclient

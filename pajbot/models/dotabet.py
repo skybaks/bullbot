@@ -1,10 +1,10 @@
-import logging
 import datetime
+import logging
 
+from sqlalchemy import INT
 from sqlalchemy import Column
-from sqlalchemy import DateTime
 from sqlalchemy import Enum
-from sqlalchemy import Integer
+from sqlalchemy_utc import UtcDateTime
 
 from pajbot.managers.db import Base
 
@@ -12,31 +12,31 @@ log = logging.getLogger("pajbot")
 
 
 class DotaBetGame(Base):
-    __tablename__ = "tb_dotabet_game"
+    __tablename__ = "dotabet_game"
 
-    id = Column(Integer, primary_key=True)
-    internal_id = Column(DateTime, default=datetime.datetime.now())
-    outcome = Column(Enum("win", "loss", name="win_or_loss"), nullable=False)
-    points_change = Column(Integer, nullable=False)
-    win_betters = Column(Integer, nullable=False)
-    loss_betters = Column(Integer, nullable=False)
+    id = Column(INT, primary_key=True)
+    internal_id = Column(UtcDateTime(), default=datetime.datetime.now())
+    outcome = Column(Enum("win", "loss", name="dotabet_outcome"), nullable=False)
+    points_change = Column(INT, nullable=False)
+    win_bettors = Column(INT, nullable=False)
+    loss_bettors = Column(INT, nullable=False)
 
-    def __init__(self, outcome, points_change, win_betters, loss_betters):
+    def __init__(self, outcome, points_change, win_bettors, loss_bettors):
         self.outcome = outcome
         self.points_change = points_change
-        self.win_betters = win_betters
-        self.loss_betters = loss_betters
+        self.win_bettors = win_bettors
+        self.loss_bettors = loss_bettors
 
 
 class DotaBetBet(Base):
-    __tablename__ = "tb_dotabet_bet"
+    __tablename__ = "dotabet_bet"
 
-    id = Column(Integer, primary_key=True)
-    game_time = Column(DateTime, default=datetime.datetime.now())
-    user_id = Column(Integer, nullable=False, index=True)  # TODO: Change this to foreign key, same as duel_stats
-    outcome = Column(Enum("win", "loss", name="win_or_loss"), nullable=False)
-    points = Column(Integer, nullable=False)
-    profit = Column(Integer, nullable=False)
+    id = Column(INT, primary_key=True)
+    game_time = Column(UtcDateTime(), default=datetime.datetime.now())
+    user_id = Column(INT, nullable=False, index=True)  # TODO: Change this to foreign key, same as duel_stats
+    outcome = Column(Enum("win", "loss", name="dotabet_outcome"), nullable=False)
+    points = Column(INT, nullable=False)
+    profit = Column(INT, nullable=False)
 
     def __init__(self, user_id, outcome, points, profit):
         self.user_id = user_id

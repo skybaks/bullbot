@@ -70,7 +70,6 @@ class RaffleModule(BaseModule):
             required=True,
             placeholder="",
             default=3000,
-            constraints={"min_value": 0, "max_value": 35000},
         ),
         ModuleSetting(
             key="max_length",
@@ -79,7 +78,6 @@ class RaffleModule(BaseModule):
             required=True,
             placeholder="",
             default=120,
-            constraints={"min_value": 0, "max_value": 1200},
         ),
         ModuleSetting(
             key="allow_negative_raffles", label="Allow negative raffles", type="boolean", required=True, default=True
@@ -91,7 +89,6 @@ class RaffleModule(BaseModule):
             required=True,
             placeholder="",
             default=3000,
-            constraints={"min_value": 1, "max_value": 35000},
         ),
         ModuleSetting(
             key="multi_enabled",
@@ -107,7 +104,6 @@ class RaffleModule(BaseModule):
             required=True,
             placeholder="",
             default=100000,
-            constraints={"min_value": 0, "max_value": 1000000},
         ),
         ModuleSetting(
             key="multi_max_length",
@@ -116,7 +112,6 @@ class RaffleModule(BaseModule):
             required=True,
             placeholder="",
             default=600,
-            constraints={"min_value": 0, "max_value": 1200},
         ),
         ModuleSetting(
             key="multi_allow_negative_raffles",
@@ -132,7 +127,6 @@ class RaffleModule(BaseModule):
             required=True,
             placeholder="",
             default=10000,
-            constraints={"min_value": 1, "max_value": 100000},
         ),
         ModuleSetting(
             key="multi_raffle_on_sub",
