@@ -2,6 +2,7 @@ import logging
 from datetime import datetime
 from datetime import timedelta
 
+from pajbot import utils
 from pajbot.managers.db import DBManager
 from pajbot.managers.schedule import ScheduleManager
 from pajbot.models.longtimeout import LongTimeout
@@ -25,9 +26,8 @@ class LongTimeoutModule(BaseModule):
     def check_retimeout(self):
         with DBManager.create_session_scope() as session:
             timeoutList = session.query(LongTimeout).all()
-            timeNow = datetime.now()
+            timeNow = utils.now()
             for timeoutItem in timeoutList:
-                # log.debug(timeoutItem.__dict__)
                 timeoutEnd = timeoutItem.timeout_recent_end
                 overallStart = timeoutItem.timeout_start
                 overallEnd = timeoutItem.timeout_end
@@ -48,9 +48,7 @@ class LongTimeoutModule(BaseModule):
                         timeoutDuration = (overallEnd - timeNow).seconds
 
                     timeoutHours = round(float(timeoutDuration / 3600), 2)
-                    timeoutItem.timeout_recent_end = (timeNow + timedelta(seconds=timeoutDuration)).strftime(
-                        self.mysqlFormat
-                    )
+                    timeoutItem.timeout_recent_end = (timeNow + timedelta(seconds=timeoutDuration))
                     self.bot.whisper(
                         timeoutItem.timeout_author,
                         "Timing out {} for an additional {} hours".format(timeoutItem.username, timeoutHours),

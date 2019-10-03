@@ -6,6 +6,7 @@ from sqlalchemy import Column
 from sqlalchemy import Enum
 from sqlalchemy_utc import UtcDateTime
 
+from pajbot import utils
 from pajbot.managers.db import Base
 
 log = logging.getLogger("pajbot")
@@ -15,7 +16,7 @@ class DotaBetGame(Base):
     __tablename__ = "dotabet_game"
 
     id = Column(INT, primary_key=True)
-    internal_id = Column(UtcDateTime(), default=datetime.datetime.now())
+    internal_id = Column(UtcDateTime(), default=utils.now())
     outcome = Column(Enum("win", "loss", name="dotabet_outcome"), nullable=False)
     points_change = Column(INT, nullable=False)
     win_bettors = Column(INT, nullable=False)
@@ -32,7 +33,7 @@ class DotaBetBet(Base):
     __tablename__ = "dotabet_bet"
 
     id = Column(INT, primary_key=True)
-    game_time = Column(UtcDateTime(), default=datetime.datetime.now())
+    game_time = Column(UtcDateTime(), default=utils.now())
     user_id = Column(INT, nullable=False, index=True)  # TODO: Change this to foreign key, same as duel_stats
     outcome = Column(Enum("win", "loss", name="dotabet_outcome"), nullable=False)
     points = Column(INT, nullable=False)

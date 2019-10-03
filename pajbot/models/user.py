@@ -6,6 +6,7 @@ from contextlib import contextmanager
 import requests
 from sqlalchemy import BOOLEAN, INT, TEXT
 from sqlalchemy import Column
+from sqlalchemy import func
 
 from pajbot.exc import FailedCommand
 from pajbot.managers.db import Base
