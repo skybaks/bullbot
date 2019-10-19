@@ -116,14 +116,14 @@ div.notifications div span.word4 {
   height: 30px;
 }
 
-#dotabet {
+#bet {
   width: 500px;
   position: absolute;
   top: 550px;
   left: 20px;
   display: none;
 }
-#dotabet td, #dotabet div {
+#bet td, #bet div {
   font-size: 1.7em;
   font-weight: bold;
   font-family: "Chewy", cursive;
@@ -131,32 +131,32 @@ div.notifications div span.word4 {
 #hsbet .chart {
   width: 70%;
 }
-#dotabet #winbetters {
+#bet #winbetters {
   color: #fff;
   -webkit-text-stroke: 1px black;
 }
-#dotabet #lossbetters {
+#bet #lossbetters {
   color: #fff;
   -webkit-text-stroke: 1px black;
 }
-#dotabet #winpoints {
+#bet #winpoints {
   color: #fff;
   -webkit-text-stroke: 1px black;
 }
-#dotabet #losspoints {
+#bet #losspoints {
   color: #fff;
   -webkit-text-stroke: 1px black;
 }
-#dotabet .win {
+#bet .win {
   color: #64DD17;
 }
-#dotabet .lose {
+#bet .lose {
   color: #D50000;
 }
-#dotabet div.left {
+#bet div.left {
   float: left;
 }
-#dotabet div.right {
+#bet div.right {
   position: absolute;
   bottom: 0;
   right: 50;

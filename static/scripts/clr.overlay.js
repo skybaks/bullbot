@@ -259,7 +259,7 @@ function hsbet_set_data(win_points, loss_points) {
     }
 }
 
-function dotabet_update_data({win_betters, loss_betters, win_points, loss_points}) {
+function bet_update_data({win_betters, loss_betters, win_points, loss_points}) {
     $('#winbetters').text(win_betters);
     $('#lossbetters').text(loss_betters);
     $('#winpoints').text(win_points);
@@ -352,30 +352,30 @@ function win_percent_close() {
     }, 4000);
 }
 
-function dotabet_new_game() {
-    var dotabet_el = $('#dotabet');
-    dotabet_el.find('.left').css({
+function bet_new_game() {
+    var bet_el = $('#bet');
+    bet_el.find('.left').css({
         'visibility': 'visible',
         'opacity': 1
     });
 
-    dotabet_el.hide();
+    bet_el.hide();
 
     $('#winbetters').text('0');
     $('#lossbetters').text('0');
     $('#winpoints').text('0');
     $('#losspoints').text('0');
 
-    dotabet_el.find('.left').show();
-    dotabet_el.fadeIn(1000, function() {
+    bet_el.find('.left').show();
+    bet_el.fadeIn(1000, function() {
         console.log('Faded in');
     });
 }
 
-function dotabet_close_bet() {
-    var dotabet_el = $('#dotabet')
-    dotabet_el.fadeOut(10000, function() {
-        dotabet_el.find('.left').css('visibility', 'hidden');
+function bet_close_bet() {
+    var bet_el = $('#bet')
+    bet_el.fadeOut(10000, function() {
+        bet_el.find('.left').css('visibility', 'hidden');
     });
 }
 
@@ -441,14 +441,14 @@ function handleWebsocketData(json_data) {
         case 'win_percent_close':
         win_percent_close();
         break;
-        case 'dotabet_new_game':
-        dotabet_new_game();
+        case 'bet_new_game':
+        bet_new_game();
         break;
-        case 'dotabet_update_data':
-        dotabet_update_data(data);
+        case 'bet_update_data':
+        bet_update_data(data);
         break;
-        case 'dotabet_close_game':
-        dotabet_close_bet();
+        case 'bet_close_game':
+        bet_close_bet();
         break;
         case 'show_custom_image':
         show_custom_image(data);

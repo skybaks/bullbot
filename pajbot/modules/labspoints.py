@@ -88,4 +88,4 @@ class DonationPointsModule(BaseModule):
         self.bot = bot
 
     def enable(self, bot):
-        socketClass = asyncSocketIO(self.bot, self.settings)
+        asyncSocketIO(self.bot, self.settings)

@@ -301,7 +301,7 @@ class TriviaModule(BaseModule):
         if self.question is not None:
             self.winstreak = [None, None]
             self.bot.safe_me(
-                'MingLee No one could answer the trivia! The answer was "{}" MingLee. Since you\'re all useless, DatGuy gets one point.'.format(
+                'MingLee No one could answer the trivia! The answer was "{}" MingLee Since you\'re all useless, DatGuy gets one point.'.format(
                     self.question["answer"]
                 )
             )

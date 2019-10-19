@@ -5,7 +5,6 @@ from pajbot.managers.db import DBManager
 from pajbot.managers.redis import RedisManager
 from pajbot.managers.user import UserManager
 from pajbot.models.duel import UserDuelStats
-from pajbot.models.roulette import Roulette
 from pajbot.streamhelper import StreamHelper
 
 

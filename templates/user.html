@@ -62,38 +62,38 @@
         </tr>
       </tbody>
     </table>
-    {% if dotabet_stats %}
+    {% if bet_stats %}
     <h3>Betting stats</h3>
     <table class="ui very basic table collapsing">
       <tbody>
         <tr>
           <td><strong>Total points bet for</strong></td>
-          <td>{{ dotabet_stats.total_points }}</td>
+          <td>{{ bet_stats.total_points }}</td>
         </tr>
         <tr>
           <td><strong>Number of bets</strong></td>
-          <td>{{ dotabet_stats.num_bets }}</td>
+          <td>{{ bet_stats.num_bets }}</td>
         </tr>
         <tr>
           <td><strong>Profit</strong></td>
-          <td><span class="points {{ 'negative' if dotabet_stats.profit < 0 else 'positive' }}">{{ dotabet_stats.profit }}</span></td>
+          <td><span class="points {{ 'negative' if bet_stats.profit < 0 else 'positive' }}">{{ bet_stats.profit }}</span></td>
         </tr>
         <tr>
           <td><strong>Winrate</strong></td>
-          <td><span class="winrate {{ 'positive' if dotabet_stats.winrate >= 50 else 'negative' }}">{{ dotabet_stats.winrate_str }}</span></td>
+          <td><span class="winrate {{ 'positive' if bet_stats.winrate >= 50 else 'negative' }}">{{ bet_stats.winrate_str }}</span></td>
         </tr>
         <tr>
           <td><strong>Biggest winstreak</strong></td>
-          <td>{{ dotabet_stats.biggest_winstreak }}</td>
+          <td>{{ bet_stats.biggest_winstreak }}</td>
         </tr>
         <tr>
           <td><strong>Biggest losestreak</strong></td>
-          <td>{{ dotabet_stats.biggest_losestreak }}</td>
+          <td>{{ bet_stats.biggest_losestreak }}</td>
         </tr>
-        {% if dotabet_stats.biggest_profit != 0 %}
+        {% if bet_stats.biggest_profit != 0 %}
         <tr>
           <td><strong>Biggest profit</strong></td>
-          <td><span class="points positive">{{ dotabet_stats.biggest_profit }}</span></td>
+          <td><span class="points positive">{{ bet_stats.biggest_profit }}</span></td>
         </tr>
         {% endif %}
       </tbody>
