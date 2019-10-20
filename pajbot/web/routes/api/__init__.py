@@ -47,4 +47,3 @@ def init(app):
     # /playsound/:name
     # /playsound/:name/play
     pajbot.web.routes.api.playsound.init(api)
-
