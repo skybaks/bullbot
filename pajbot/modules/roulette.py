@@ -1,6 +1,5 @@
 import datetime
 import logging
-
 import random
 
 import pajbot.exc
@@ -159,14 +158,11 @@ class RouletteModule(BaseModule):
             if utils.now() - self.last_sub > datetime.timedelta(seconds=self.settings["after_sub_roulette_time"]):
                 return False
 
-        message = options["message"]
-        user = options["source"]
-        bot = options["bot"]
-
         if message is None:
             bot.whisper(source, "I didn't recognize your bet! Usage: !roulette 150 to bet 150 points")
             return False
 
+        msg_split = message.split(" ")
         try:
             bet = utils.parse_points_amount(source, msg_split[0])
         except pajbot.exc.InvalidPointAmount as e:
@@ -198,7 +194,7 @@ class RouletteModule(BaseModule):
         else:
             out_message = self.get_phrase("message_lost", **arguments)
 
-        if user.subscriber:
+        if source.subscriber:
             bot.me(out_message)
 
         HandlerManager.trigger("on_roulette_finish", user=source, points=points)

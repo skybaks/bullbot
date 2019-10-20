@@ -397,7 +397,7 @@ class RaffleModule(BaseModule):
             return False
 
         num_participants = len(self.raffle_users)
-        negative = self.raffle_points < 0
+        # negative = self.raffle_points < 0
 
         # start out with the theoretical maximum: everybody wins
         num_winners = num_participants

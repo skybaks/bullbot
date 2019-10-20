@@ -47,7 +47,6 @@ class WebSocketServer:
                             for client in WebSocketServer.clients:
                                 client.sendMessage(payload, False)
 
-
             def onClose(self, wasClean, code, reason):
                 log.info(f"WebSocket connection closed: {reason}")
                 try:

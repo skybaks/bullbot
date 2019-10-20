@@ -1,21 +1,27 @@
 import enum
 
 import sqlalchemy
-from sqlalchemy import BOOLEAN, Column, INT, and_, func
+from sqlalchemy import BOOLEAN
+from sqlalchemy import INT
+from sqlalchemy import Column
 from sqlalchemy import ForeignKey
+from sqlalchemy import and_
+from sqlalchemy import func
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql import functions
 from sqlalchemy_utc import UtcDateTime
 
 from pajbot import utils
 from pajbot.managers.db import Base
 
+
 class BetGameOutcome(enum.Enum):
     win = 0
     loss = 1
 
+
 BetOutcome = sqlalchemy.Enum(BetGameOutcome, name="bet_outcome")
+
 
 class BetGame(Base):
     __tablename__ = "bet_game"
@@ -42,7 +48,6 @@ class BetGame(Base):
     bets = relationship(
         "BetBet", back_populates="game", cascade="all, delete-orphan", passive_deletes=True, collection_class=set
     )
-
 
     @hybrid_property
     def is_running(self):
@@ -81,15 +86,14 @@ class BetGame(Base):
         """ Returns how many bets are bet on win and how many bets
         are bet on lose """
 
-        rows = (
-            db_session.query(BetBet.outcome, func.count()).filter_by(game_id=self.id).group_by(BetBet.outcome).all()
-        )
+        rows = db_session.query(BetBet.outcome, func.count()).filter_by(game_id=self.id).group_by(BetBet.outcome).all()
 
         bets = {key: 0 for key in BetOutcome}
         for outcome, num_bets in rows:
             bets[outcome] = num_bets
 
         return bets
+
 
 class BetBet(Base):
     __tablename__ = "bet_bet"

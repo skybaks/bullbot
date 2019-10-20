@@ -1,12 +1,10 @@
 import logging
-
+import random
 from datetime import timedelta
 
-import random
-
-import pajbot.exc
 from pajbot import utils
 from pajbot.managers.db import DBManager
+from pajbot.managers.handler import HandlerManager
 from pajbot.models.command import Command
 from pajbot.models.command import CommandExample
 from pajbot.models.user import User
@@ -130,6 +128,8 @@ class DuelModule(BaseModule):
         if message is None:
             return False
 
+        max_pot = self.settings["max_put"]
+
         msg_split = message.split()
         input = msg_split[0]
 
@@ -147,7 +147,7 @@ class DuelModule(BaseModule):
                         bot.whisper(source.username, f"Really? {duel_price} points?")
                         bot.whisper(
                             user.username,
-                            f"{source} tried to duel you for {duel_price} points. What a cheapskate EleGiggle"
+                            f"{source} tried to duel you for {duel_price} points. What a cheapskate EleGiggle",
                         )
                         return False
 
@@ -213,11 +213,12 @@ class DuelModule(BaseModule):
             del self.duel_targets[self.duel_requests[initiator_id]]
             del self.duel_requests[initiator_id]
 
-            initiator = User.find_by_id(db_session, initiator_id)
-            target = User.find_by_id(db_session, target_id)
+            with DBManager.create_session_scope() as db_session:
+                initiator = User.find_by_id(db_session, initiator_id)
+                target = User.find_by_id(db_session, target_id)
 
-            bot.whisper(initiator, "Your duel request against {} has expired. Ditched OMEGALUL".format(target))
-            bot.whisper(target, "Chu ignoring {} for, his duel request against you expired cmonBruh".format(initiator))
+                bot.whisper(initiator, "Your duel request against {} has expired. Ditched OMEGALUL".format(target))
+                bot.whisper(target, "Chu ignoring {} for, his duel request against you expired cmonBruh".format(initiator))
 
     def cancel_duel(self, bot, source, **rest):
         """
@@ -243,8 +244,6 @@ class DuelModule(BaseModule):
 
         How to use: !accept
         """
-        bot = options["bot"]
-        source = options["source"]
 
         if source.id not in self.duel_targets:
             bot.whisper(source, "You are not being challenged to a duel by anyone.")

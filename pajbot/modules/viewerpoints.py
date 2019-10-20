@@ -72,10 +72,10 @@ class MassPointsModule(BaseModule):
         with DBManager.create_session_scope() as db_session:
             userModels = db_session.query(User).filter(User.login.in_(currentChatters), User.num_lines > 5)
             for userModel in userModels:
-                if userInstance.subscriber:
-                    userInstance.points += givePoints * self.settings["sub_points"]
+                if userModel.subscriber:
+                    userModel.points += givePoints * self.settings["sub_points"]
                 else:
-                    userInstance.points += givePoints
+                    userModel.points += givePoints
 
         bot.say(
             "{} just gave {} viewers {} points each! Enjoy FeelsGoodMan".format(
