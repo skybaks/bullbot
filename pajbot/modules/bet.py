@@ -5,9 +5,9 @@ from pajbot.exc import InvalidPointAmount
 from pajbot.managers.db import DBManager
 from pajbot.managers.handler import HandlerManager
 from pajbot.managers.schedule import ScheduleManager
+from pajbot.models.bet import BetGame
 from pajbot.models.command import Command
 from pajbot.models.command import CommandExample
-from pajbot.models.bet import BetGame
 from pajbot.models.user import User
 from pajbot.modules import BaseModule
 from pajbot.modules import ModuleSetting
