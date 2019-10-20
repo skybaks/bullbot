@@ -100,27 +100,6 @@
     </table>
     {% endif %}
 
-    {% if bets|length > 0 %}
-    <h3>Betting history</h3>
-    <table class="ui very basic table collapsing">
-      <thead>
-        <tr>
-          <th>Time</th>
-          <th>Bet</th>
-          <th>Profit</th>
-      </thead>
-      <tbody>
-        {% for bet in bets %}
-        <tr>
-          <td>{{ bet.game_time }}</td>
-          <td><span>{{ bet.points }}</span></td>
-          <td><span class="points {{ 'negative' if bet.profit < 0 else 'positive' }}">{{ bet.profit }}</span></td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    {% endif %}
-
     {% if user.duel_stats %}
     <h3>Duel stats</h3>
     <table class="ui very basic table celled">

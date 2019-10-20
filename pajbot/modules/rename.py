@@ -4,7 +4,6 @@ import requests
 
 from pajbot.managers.db import DBManager
 from pajbot.models.command import Command
-from pajbot.models.bet import BetBet
 from pajbot.models.duel import UserDuelStats
 from pajbot.models.roulette import Roulette
 from pajbot.models.user import User
@@ -93,11 +92,8 @@ class RenameModule(BaseModule):
                     else curDuelModel.longest_losestreak
                 )
 
-            betModels = session.query(BetBet).filter_by(user_id=oldUserID).all()
             rouletteModels = session.query(Roulette).filter_by(user_id=oldUserID).all()
 
-            for betModel in betModels:
-                betModel.user_id = source.id
             for rouletteModel in rouletteModels:
                 rouletteModel.user_id = source.id
 
