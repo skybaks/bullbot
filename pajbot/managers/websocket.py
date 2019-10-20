@@ -30,7 +30,7 @@ class WebSocketServer:
                 if isBinary:
                     log.info(f"Binary message received: {len(payload)} bytes")
                 else:
-                    log.info(f"Text message received: {payload.decode("utf8")})
+                    log.info(f"Text message received: {payload.decode('utf8')}")
                     if not self.websocket_origin:
                         parsedPayload = json.loads(payload)
                         if parsedPayload["event"] == "open_bets":

@@ -13,7 +13,6 @@ colorama==0.4.1
 constantly==15.1.0
 cryptography==2.7
 cssmin==0.2.0
-<<<<<<< HEAD
 currencyconverter==0.13.9
 decorator==4.4.0
 Flask==1.1.1
