@@ -1,6 +1,6 @@
 import logging
 
-from numpy import random
+import random
 
 from pajbot.managers.handler import HandlerManager
 from pajbot.managers.redis import RedisManager
@@ -43,9 +43,7 @@ class WinDuelPointsQuestModule(BaseQuest):
 
     def __init__(self, bot):
         super().__init__(bot)
-        self.points_required_key = "{streamer}:current_quest_points_required".format(
-            streamer=StreamHelper.get_streamer()
-        )
+        self.points_required_key = f"{StreamHelper.get_streamer()}:current_quest_points_required"
         # The points_required variable is randomized at the start of the quest.
         # It will be a value between settings['min_value'] and settings['max_value']
         self.points_required = None
@@ -57,7 +55,7 @@ class WinDuelPointsQuestModule(BaseQuest):
             # That means it's entirely irrelevant to us
             return
 
-        total_points_won = self.get_user_progress(winner.username, default=0)
+        total_points_won = self.get_user_progress(winner, default=0)
         if total_points_won >= self.points_required:
             # The user has already won enough points, and been rewarded already.
             return
@@ -73,7 +71,7 @@ class WinDuelPointsQuestModule(BaseQuest):
             self.finish_quest(redis, winner)
 
         # Save the users "points won" progress
-        self.set_user_progress(winner.username, total_points_won, redis=redis)
+        self.set_user_progress(winner, total_points_won, redis=redis)
 
     def start_quest(self):
         HandlerManager.add_handler("on_duel_complete", self.on_duel_complete)
@@ -96,7 +94,7 @@ class WinDuelPointsQuestModule(BaseQuest):
             pass
         if self.points_required is None:
             try:
-                self.points_required = random.randint(self.settings["min_value"], self.settings["max_value"] + 1)
+                self.points_required = random.randint(self.settings["min_value"], self.settings["max_value"])
             except ValueError:
                 # someone fucked up
                 self.points_required = 500
@@ -111,4 +109,4 @@ class WinDuelPointsQuestModule(BaseQuest):
         redis.delete(self.points_required_key)
 
     def get_objective(self):
-        return "Make a profit of {} or more points in one or multiple duels.".format(self.points_required)
+        return f"Make a profit of {self.points_required} or more points in one or multiple duels."

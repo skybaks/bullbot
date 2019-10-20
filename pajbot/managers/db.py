@@ -39,6 +39,14 @@ def check_connection(dbapi_con, _con_record, _con_proxy):
         raise
 
 
+class ServerNoticeLogger:
+    def append(self, notice):
+        # notice is stripped of whitespace since it usually ends in a newline
+        # These are notices like "NOTICE:  relation "schema_version" already exists, skipping",
+        # but they can also be warnings, etc.
+        log.info(f"PostgreSQL Server notice: {notice.strip()}")
+
+
 class DBManager:
     engine = None
     Session = None
@@ -47,6 +55,16 @@ class DBManager:
     @staticmethod
     def init(url):
         DBManager.engine = create_engine(url, pool_pre_ping=True, pool_size=10, max_overflow=20)
+
+        # https://docs.sqlalchemy.org/en/13/core/events.html#sqlalchemy.events.PoolEvents.connect
+        @event.listens_for(DBManager.engine, "connect")
+        def on_connect(dbapi_connection, connection_record):
+            # http://initd.org/psycopg/docs/connection.html#connection.notices
+            # > The notices attribute is writable: the user may replace it with any Python object
+            # > exposing an append() method. If appending raises an exception the notice is silently dropped.
+            # This replaces the list object with a logger that logs the incoming notices
+            dbapi_connection.notices = ServerNoticeLogger()
+
         DBManager.Session = sessionmaker(bind=DBManager.engine, autoflush=False)
         DBManager.ScopedSession = scoped_session(sessionmaker(bind=DBManager.engine))
 
@@ -158,10 +176,10 @@ class DBManager:
     def debug(raw_object):
         try:
             inspected_object = inspect(raw_object)
-            log.debug("Object:     {0}".format(raw_object))
-            log.debug("Transient:  {0.transient}".format(inspected_object))
-            log.debug("Pending:    {0.pending}".format(inspected_object))
-            log.debug("Persistent: {0.persistent}".format(inspected_object))
-            log.debug("Detached:   {0.detached}".format(inspected_object))
+            log.debug(f"Object:     {raw_object}")
+            log.debug(f"Transient:  {inspected_object.transient}")
+            log.debug(f"Pending:    {inspected_object.pending}")
+            log.debug(f"Persistent: {inspected_object.persistent}")
+            log.debug(f"Detached:   {inspected_object.detached}")
         except:
             log.exception("Uncaught exception in DBManager.debug")

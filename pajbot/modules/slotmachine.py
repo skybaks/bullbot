@@ -1,7 +1,7 @@
 import logging
 from collections import Counter
 
-from numpy import random
+import random
 
 import pajbot.exc
 import pajbot.models
@@ -24,7 +24,7 @@ def pull_lol(low_tier_emotes, high_tier_emotes, bet, house_edge, ltsw, htsw, ltb
     for e in high_tier_emotes:
         slot_options += [e]
 
-    randomized_emotes = random.choice(slot_options, 3).tolist()
+    randomized_emotes = random.choices(slot_options, k=3)
 
     # figure out results of these randomized emotes xd
     bet_return = 0.0
@@ -217,7 +217,7 @@ class SlotMachineModule(BaseModule):
 
     def pull(self, bot, source, message, **rest):
         if message is None:
-            bot.whisper(source.username, "I didn't recognize your bet! Usage: !slotmachine 150 to bet 150 points")
+            bot.whisper(source, "I didn't recognize your bet! Usage: !slotmachine 150 to bet 150 points")
             return False
 
         low_tier_emotes = self.settings["low_tier_emotes"].split()
@@ -230,17 +230,15 @@ class SlotMachineModule(BaseModule):
         try:
             bet = pajbot.utils.parse_points_amount(source, msg_split[0])
         except pajbot.exc.InvalidPointAmount as e:
-            bot.whisper(source.username, str(e))
+            bot.whisper(source, str(e))
             return False
 
         if not source.can_afford(bet):
-            bot.whisper(
-                source.username, "You don't have enough points to do a slot machine pull for {} points :(".format(bet)
-            )
+            bot.whisper(source, f"You don't have enough points to do a slot machine pull for {bet} points :(")
             return False
 
         if bet < self.settings["min_bet"]:
-            bot.whisper(source.username, "You have to bet at least {} point! :(".format(self.settings["min_bet"]))
+            bot.whisper(source, f"You have to bet at least {self.settings['min_bet']} point! :(")
             return False
 
         # how much of the users point they're expected to get back (basically how much the house yoinks)
@@ -266,8 +264,8 @@ class SlotMachineModule(BaseModule):
         arguments = {
             "bet": bet,
             "result": points,
-            "user": source.username_raw,
-            "points": source.points_available(),
+            "user": source.name,
+            "points": source.points,
             "win": points > 0,
             "emotes": " ".join(randomized_emotes),
         }
@@ -285,7 +283,7 @@ class SlotMachineModule(BaseModule):
         if self.settings["options_output"] == "1. Show results in chat":
             bot.me(out_message)
         if self.settings["options_output"] == "2. Show results in whispers":
-            bot.whisper(source.username, out_message)
+            bot.whisper(source, out_message)
         if (
             self.settings["options_output"]
             == "3. Show results in chat if it's over X points else it will be whispered."
@@ -293,7 +291,7 @@ class SlotMachineModule(BaseModule):
             if abs(points) >= self.settings["min_show_points"]:
                 bot.me(out_message)
             else:
-                bot.whisper(source.username, out_message)
+                bot.whisper(source, out_message)
 
         HandlerManager.trigger("on_slot_machine_finish", user=source, points=points)
 
@@ -322,18 +320,11 @@ class SlotMachineModule(BaseModule):
         lose_emote = "forsenSWA"
         for arg in self.output_buffer_args:
             parts.append(
-                "{} {} {}{}".format(
-                    win_emote if arg["win"] else lose_emote, arg["user"], "+" if arg["win"] else "-", arg["bet"]
-                )
+                f"{win_emote if arg['win'] else lose_emote} {arg['user']} {'+' if arg['win'] else '-'}{arg['bet']}"
             )
 
         parts.append(
-            "{} {} {}{}".format(
-                win_emote if arguments["win"] else lose_emote,
-                arguments["user"],
-                "+" if arguments["win"] else "-",
-                arguments["bet"],
-            )
+            f"{win_emote if arguments['win'] else lose_emote} {arguments['user']} {'+' if arguments['win'] else '-'}{arguments['bet']}"
         )
 
         log.debug(parts)

@@ -2,10 +2,8 @@ from flask import render_template
 
 import pajbot.web.utils
 from pajbot.managers.db import DBManager
-from pajbot.managers.redis import RedisManager
-from pajbot.managers.user import UserManager
 from pajbot.models.duel import UserDuelStats
-from pajbot.streamhelper import StreamHelper
+from pajbot.models.user import User
 
 
 def init(app):
@@ -16,24 +14,8 @@ def init(app):
             bot_commands_list, key=lambda c: c["data"]["num_uses"] if c["data"] is not None else -1, reverse=True
         )[:5]
 
-        redis = RedisManager.get()
-
         # TODO: Make this hideable through some magic setting (NOT config.ini @_@)
         with DBManager.create_session_scope() as db_session:
-            top_5_line_farmers = []
-            for redis_user in redis.zrevrangebyscore(
-                "{streamer}:users:num_lines".format(streamer=StreamHelper.get_streamer()),
-                "+inf",
-                "-inf",
-                start=0,
-                num=5,
-                withscores=True,
-                score_cast_func=int,
-            ):
-                user = UserManager.get_static(redis_user[0], db_session=db_session)
-                user.save_to_redis = False
-                top_5_line_farmers.append(user)
-
             data = {
                 "top_5_duel_winners": db_session.query(UserDuelStats).order_by(UserDuelStats.duels_won.desc())[:5],
                 "top_5_duel_points_won": db_session.query(UserDuelStats).order_by(UserDuelStats.profit.desc())[:5],
@@ -46,7 +28,7 @@ def init(app):
                 .filter(UserDuelStats.duels_lost >= 5)
                 .order_by(UserDuelStats.winrate.asc())[:5],
                 "top_5_commands": top_5_commands,
-                "top_5_line_farmers": top_5_line_farmers,
+                "top_5_line_farmers": db_session.query(User).order_by(User.num_lines.desc()).limit(5).all(),
             }
 
             return render_template("stats.html", **data)

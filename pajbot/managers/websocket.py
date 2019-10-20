@@ -28,9 +28,9 @@ class WebSocketServer:
 
             def onMessage(self, payload, isBinary):
                 if isBinary:
-                    log.info("Binary message received: {0} bytes".format(len(payload)))
+                    log.info(f"Binary message received: {len(payload)} bytes")
                 else:
-                    log.info("Text message received: {0}".format(payload.decode("utf8")))
+                    log.info(f"Text message received: {payload.decode("utf8")})
                     if not self.websocket_origin:
                         parsedPayload = json.loads(payload)
                         if parsedPayload["event"] == "open_bets":
@@ -47,8 +47,9 @@ class WebSocketServer:
                             for client in WebSocketServer.clients:
                                 client.sendMessage(payload, False)
 
+
             def onClose(self, wasClean, code, reason):
-                log.info("WebSocket connection closed: {0}".format(reason))
+                log.info(f"WebSocket connection closed: {reason}")
                 try:
                     WebSocketServer.clients.remove(self)
                 except:
@@ -140,4 +141,3 @@ class WebSocketManager:
             log.error(message["message"])
         else:
             pass
-            # log.debug('on_log_message({})'.format(message['message']))

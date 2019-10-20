@@ -1,7 +1,7 @@
 import datetime
 import logging
 
-from numpy import random
+import random
 
 import pajbot.exc
 import pajbot.models
@@ -142,10 +142,8 @@ class RouletteModule(BaseModule):
             examples=[
                 CommandExample(
                     None,
-                    "Roulette for all of your 69 points "
-                    "({}% winrate)".format(100 - self.settings["rigged_percentage"]),
-                    chat="user:!roulette\n"
-                    "bot:datguy1 won 69 points in roulette and now has 138 points! Always lucky PogChamp",
+                    "Roulette for 69 points",
+                    chat="user:!roulette 69\n" "bot:DatGuy1 won 69 points in roulette! FeelsGoodMan",
                     description="Do a roulette for 69 points",
                 ).parse()
             ],
@@ -154,7 +152,7 @@ class RouletteModule(BaseModule):
     def rigged_random_result(self):
         return random.randint(1, 100) > self.settings["rigged_percentage"]
 
-    def roulette(self, **options):
+    def roulette(self, bot, source, message, **rest):
         if self.settings["only_roulette_after_sub"]:
             if self.last_sub is None:
                 return False
@@ -165,34 +163,35 @@ class RouletteModule(BaseModule):
         user = options["source"]
         bot = options["bot"]
 
-        if message:
-            bot.whisper(user.username, "The command is only !roulette and it wagers all your points SmileyFace")
+        if message is None:
+            bot.whisper(source, "I didn't recognize your bet! Usage: !roulette 150 to bet 150 points")
             return False
 
         try:
-            bet = utils.parse_points_amount(user, "all")
+            bet = utils.parse_points_amount(source, msg_split[0])
         except pajbot.exc.InvalidPointAmount as e:
-            bot.whisper(user.username, str(e))
+            bot.whisper(source, str(e))
+            return False
+
+        if not source.can_afford(bet):
+            bot.whisper(source, f"You don't have enough points to do a roulette for {bet} points :(")
             return False
 
         if bet < self.settings["min_roulette_amount"]:
-            bot.whisper(
-                user.username,
-                "You can only roulette for {}+ points FeelsWeirdMan".format(self.settings["min_roulette_amount"]),
-            )
+            bot.whisper(source, f"You have to bet at least {self.settings['min_roulette_amount']} points! :(")
             return False
 
         # Calculating the result
         result = self.rigged_random_result()
 
         points = bet if result else -bet
-        user.points += points
+        source.points += points
 
         with DBManager.create_session_scope() as db_session:
-            r = Roulette(user.id, points)
+            r = Roulette(source.id, points)
             db_session.add(r)
 
-        arguments = {"bet": bet, "user": user.username_raw, "points": user.points_available(), "win": points > 0}
+        arguments = {"bet": bet, "user": source.name, "points": source.points, "win": points > 0}
 
         if points > 0:
             out_message = self.get_phrase("message_won", **arguments)
@@ -202,7 +201,7 @@ class RouletteModule(BaseModule):
         if user.subscriber:
             bot.me(out_message)
 
-        HandlerManager.trigger("on_roulette_finish", user=user, points=points)
+        HandlerManager.trigger("on_roulette_finish", user=source, points=points)
 
     def on_tick(self, **rest):
         if self.output_buffer == "":
@@ -229,18 +228,11 @@ class RouletteModule(BaseModule):
         lose_emote = "forsenSWA"
         for arg in self.output_buffer_args:
             parts.append(
-                "{} {} {}{}".format(
-                    win_emote if arg["win"] else lose_emote, arg["user"], "+" if arg["win"] else "-", arg["bet"]
-                )
+                f"{win_emote if arg['win'] else lose_emote} {arg['user']} {'+' if arg['win'] else '-'}{arg['bet']}"
             )
 
         parts.append(
-            "{} {} {}{}".format(
-                win_emote if arguments["win"] else lose_emote,
-                arguments["user"],
-                "+" if arguments["win"] else "-",
-                arguments["bet"],
-            )
+            f"{win_emote if arguments['win'] else lose_emote} {arguments['user']} {'+' if arguments['win'] else '-'}{arguments['bet']}"
         )
 
         log.debug(parts)
@@ -259,16 +251,12 @@ class RouletteModule(BaseModule):
     def on_user_sub(self, **rest):
         self.last_sub = utils.now()
         if self.settings["only_roulette_after_sub"]:
-            self.bot.say(
-                "Rouletting is now allowed for {} seconds! PogChamp".format(self.settings["after_sub_roulette_time"])
-            )
+            self.bot.say(f"Rouletting is now allowed for {self.settings['after_sub_roulette_time']} seconds! PogChamp")
 
     def on_user_resub(self, **rest):
         self.last_sub = utils.now()
         if self.settings["only_roulette_after_sub"]:
-            self.bot.say(
-                "Rouletting is now allowed for {} seconds! PogChamp".format(self.settings["after_sub_roulette_time"])
-            )
+            self.bot.say(f"Rouletting is now allowed for {self.settings['after_sub_roulette_time']} seconds! PogChamp")
 
     def enable(self, bot):
         HandlerManager.add_handler("on_user_sub", self.on_user_sub)

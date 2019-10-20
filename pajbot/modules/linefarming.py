@@ -22,7 +22,7 @@ class LineFarmingModule(BaseModule):
 
     def on_pubmsg(self, source, **rest):
         if self.bot.is_online or self.settings["count_offline"] is True:
-            source.incr_num_lines()
+            source.num_lines += 1
 
     def enable(self, bot):
         HandlerManager.add_handler("on_pubmsg", self.on_pubmsg)

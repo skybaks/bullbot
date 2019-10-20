@@ -11,14 +11,13 @@ from pajbot.modules.basic.dbmanage import DBManageModule
 from pajbot.modules.basic.debug import DebugModule
 from pajbot.modules.basic.emotes import EmotesModule
 from pajbot.modules.basic.ignore import IgnoreModule
-from pajbot.modules.basic.nuke import NukeModule
-from pajbot.modules.basic.namechange import NamechangeModule
 from pajbot.modules.basic.permaban import PermabanModule
 from pajbot.modules.basic.pointsreset import PointsResetModule
 from pajbot.modules.basic.stream_update import StreamUpdateModule
 from pajbot.modules.bingo import BingoModule
 from pajbot.modules.casechecker import CaseCheckerModule
 from pajbot.modules.circle import CircleModule
+from pajbot.modules.chatters_refresh import ChattersRefreshModule
 from pajbot.modules.deck import DeckModule
 from pajbot.modules.bet import BetModule
 from pajbot.modules.dubtrack import DubtrackModule
@@ -44,8 +43,8 @@ from pajbot.modules.longtimeout import LongTimeoutModule
 from pajbot.modules.massping import MassPingProtectionModule
 from pajbot.modules.math import MathModule
 from pajbot.modules.maxmsglength import MaxMsgLengthModule
+from pajbot.modules.moderators_refresh import ModeratorsRefreshModule
 from pajbot.modules.paidsubmode import PaidSubmodeModule
-from pajbot.modules.paidtimeout import PaidTimeoutDiscountModule
 from pajbot.modules.paidtimeout import PaidTimeoutModule
 from pajbot.modules.paiduntimeout import PaidUntimeoutModule
 from pajbot.modules.playsound import PlaysoundModule
@@ -86,6 +85,7 @@ available_modules = [
     BingoModule,
     CheckModModule,
     CircleModule,
+    ChattersRefreshModule,
     DBManageModule,
     DebugModule,
     DeckModule,
@@ -103,7 +103,6 @@ available_modules = [
     GetTimedOutQuestModule,
     GivePointsModule,
     IgnoreModule,
-    NamechangeModule,
     LastfmModule,
     LeagueRankModule,
     LineFarmingModule,
@@ -114,7 +113,7 @@ available_modules = [
     MassPointsModule,
     MathModule,
     MaxMsgLengthModule,
-    NukeModule,
+    ModeratorsRefreshModule,
     CaseCheckerModule,
     PaidSubmodeModule,
     PaidTimeoutModule,

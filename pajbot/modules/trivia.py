@@ -13,6 +13,7 @@ from pajbot.managers.db import DBManager
 from pajbot.managers.handler import HandlerManager
 from pajbot.managers.schedule import ScheduleManager
 from pajbot.models.command import Command
+from pajbot.models.user import User
 from pajbot.modules import BaseModule
 from pajbot.modules import ModuleSetting
 
@@ -121,7 +122,7 @@ class TriviaModule(BaseModule):
         self.recent_questions = list()  # List of most recent questions
         self.q_memory = 200  # No. of recent questions to remember
         # Stored winstreak [user name, winstreak]
-        self.winstreak = [None, None]
+        self.winstreak = 0
         self.min_streak = 3  # minimum correct answers for a streak
         self.point_bounty = 0
 
@@ -211,9 +212,7 @@ class TriviaModule(BaseModule):
                     else:
                         self.gazatuService = True
                         r = requests.get(
-                            "https://api.gazatu.xyz/trivia/questions?count=1&include=[{}]".format(
-                                ",".join(self.gazCategories)
-                            )
+                            f"https://api.gazatu.xyz/trivia/questions?count=1&include=[{",".join(self.gazCategories)}]"
                         )
                         resjson = r.json()[0]
                         if resjson["disabled"]:
@@ -251,15 +250,11 @@ class TriviaModule(BaseModule):
         try:
             if self.jservice:
                 self.bot.safe_me(
-                    'PogChamp A new question has begun! In the category "{0[category][title]}", the question/hint/clue is "{0[question]}" 🤔'.format(
-                        self.question
-                    )
+                    f'PogChamp A new question has begun! In the category "{self.question["category"]["title"]}", the question/hint/clue is "{self.question["question"]}" 🤔'
                 )
             else:
                 self.bot.safe_me(
-                    'PogChamp A new question has begun! In the category "{0[category]}", the question is "{0[question]}" 🤔'.format(
-                        self.question
-                    )
+                    f'PogChamp A new question has begun! In the category "{self.question["category"]}", the question is "{self.question["question"]}" 🤔'
                 )
         except:
             self.step = 0
@@ -295,21 +290,19 @@ class TriviaModule(BaseModule):
         if self.question["answer"].isnumeric() and hint_chars == 1 and len(self.question["answer"]) > 3:
             hint_str = self.question["answer"][:2] + hint_str[2:]
 
-        self.bot.safe_me('OpieOP Here\'s a hint, "{hint_str}" OpieOP'.format(hint_str=hint_str))
+        self.bot.safe_me(f'OpieOP Here\'s a hint, "{hint_str}" OpieOP')
 
     def step_end(self):
         if self.question is not None:
-            self.winstreak = [None, None]
+            self.winstreak = 0
             self.bot.safe_me(
-                'MingLee No one could answer the trivia! The answer was "{}" MingLee Since you\'re all useless, DatGuy gets one point.'.format(
-                    self.question["answer"]
-                )
+                f'MingLee No one could answer the trivia! The answer was "{self.question["answer"]}" MingLee'
             )
             self.question = None
             self.step = 0
             self.last_question = utils.now()
             with DBManager.create_session_scope() as db_session:
-                user = self.bot.users.find("datguy1", db_session=db_session)
+                user = User.find_by_user_input(db_session, "datguy1")
                 user.points += 1
 
     def check_run(self):
@@ -338,7 +331,7 @@ class TriviaModule(BaseModule):
             self.point_bounty = self.settings["default_point_bounty"]
 
         if self.point_bounty > 0:
-            self.bot.safe_me("The trivia has started! {} points for each right answer!".format(self.point_bounty))
+            self.bot.safe_me(f"The trivia has started! {self.point_bounty} points for each right answer!")
         else:
             self.bot.safe_me("The trivia has started!")
 
@@ -351,7 +344,7 @@ class TriviaModule(BaseModule):
             stopOutput = "The trivia has been stopped. The top five participants are: "
             c = Counter(self.correct_dict)
             for player, correct in c.most_common(5):
-                stopOutput += "{}, with {} correct guesses. ".format(player, correct)
+                stopOutput += f"{player}, with {correct} correct guesses. "
 
             self.bot.safe_me(stopOutput)
 
@@ -369,7 +362,7 @@ class TriviaModule(BaseModule):
         message = options["message"]
 
         if self.trivia_running:
-            bot.me("{}, a trivia is already running".format(source.username_raw))
+            bot.me(f"{source}, a trivia is already running")
             return
 
         self.manualStart = True
@@ -382,7 +375,7 @@ class TriviaModule(BaseModule):
         source = options["source"]
 
         if not self.trivia_running:
-            bot.safe_me("{}, no trivia is active right now".format(source.username_raw))
+            bot.safe_me(f"{source}, no trivia is active right now")
             return
 
         self.stop_trivia(True)
@@ -413,14 +406,10 @@ class TriviaModule(BaseModule):
 
             if correct:
                 if self.point_bounty > 0:
-                    sendMessage = "{} got the answer right! The answer was {} FeelsGoodMan They get {} points! PogChamp".format(
-                        source.username_raw, self.question["answer"], self.point_bounty
-                    )
+                    sendMessage = f"{source} got the answer right! The answer was {self.question["answer"]} FeelsGoodMan They get {self.point_bounty} points! PogChamp"
                     source.points += self.point_bounty
                 else:
-                    sendMessage = "{} got the answer right! The answer was {} FeelsGoodMan".format(
-                        source.username_raw, self.question["answer"]
-                    )
+                    sendMessage = f"{source} got the answer right! The answer was {self.question['answer']} FeelsGoodMan"
 
                 self.question = None
                 self.step = 0
@@ -439,16 +428,14 @@ class TriviaModule(BaseModule):
 
                 # record winstreak of correct answers for user
 
-                if source.username_raw != self.winstreak[0]:
-                    self.winstreak = [source.username_raw, 1]
+                if source.username_raw != self.winstreak:
+                    self.winstreak = 1
                 else:
-                    self.winstreak[1] += 1
-                    if self.winstreak[1] >= 7:
-                        sendMessage += " {} is on a {} question streak. Get a life FeelsWeirdMan".format(
-                            *self.winstreak
-                        )
-                    elif self.winstreak[1] >= self.min_streak:
-                        sendMessage += " {} is on a streak of {} correct answers Pog".format(*self.winstreak)
+                    self.winstreak += 1
+                    if self.winstreak >= 7:
+                        sendMessage += f" {source} is on a {self.winstreak} question streak. Get a life FeelsWeirdMan"
+                    elif self.winstreak >= self.min_streak:
+                        sendMessage += f" {source} is on a streak of {self.winstreak} correct answers Pog"
 
                 self.bot.safe_me(sendMessage)
 

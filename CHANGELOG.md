@@ -1,5 +1,58 @@
 # Changelog
 
+## Unversioned
+
+- Bugfix: Fixed an exception and the message not being handled whenever a message contained an emote modified via the "Channel Points" Twitch feature.
+
+## v1.38
+
+Remember to bring your dependencies up to date with `pip install -r requirements.txt` when updating to this version!
+
+- Major: User data is not stored in redis anymore. Relevant data will automatically be migrated.
+- Major: Added automatic support for Twitch name changes. (`!namechange` command has been removed.)
+
+  This includes a potentially quite large (might take long on large databases) automatic migration that will:
+
+  - Query the Twitch API for the User ID of all your current existing users, and
+  - Delete data about the users that don't exist on Twitch anymore.
+
+  For this reason, a database backup for your old data is recommended before this upgrade:
+
+  ```bash
+  sudo -u pajbot pg_dump --file=sql_dump_streamer.sql --schema=pajbot1_streamer pajbot
+  sudo -u pajbot pg_dump --file=sql_dump_all.sql pajbot
+  sudo -u pajbot ./scripts/redis-dump.py streamer > redis_dump_streamer.bin
+  ```
+
+  When migrating a bot you probably want to either disable the chatters microservice entirely, or remove that bot's entry from the chatters `config.json`.
+
+- Feature: Added module to fetch current chatters and update the database back to the bot (was previously [a microservice](https://github.com/pajbot/chatters)). Includes a new `!reload chatters` command.
+- Feature: Added `!reload subscribers` command to force refresh of subscriber status in the DB.
+- Minor: You can now reference users by their display name, even if the display name contains asian characters (e.g. `!checkmod 테스트계정420` finds the user correctly).
+- Minor: Messages shared with the streamer as part of resub messages are now processed like normal chat messages (They were not processed at all before).
+- Minor: Added `?user_input=true` optional parameter to `/api/v1/users/:login` endpoint to query for usernames more fuzzily.
+- Minor: Added `/api/v1/users/id/:id` to look up users by ID.
+- Minor: Removed system to synchronize points updates to StreamElements.
+- Minor: Small improvement made to the efficiency of caching data from the Twitch API.
+- Minor: Added the `points_rank` user property back.
+- Minor: Added a dump/restore utility for redis data to the `scripts` directory.
+- Minor: Removed some unfinished test code related to notifications.
+- Minor: Placed reasonable minimum/maximum limits on the `Seconds until betting closes` setting for the HSBet module.
+- Minor: Added setting to adjust points tax for the duel module
+- Minor: Link checker module now prints far less debug info about itself.
+- Minor: Added possibility to modify command token cost using `--tokens-cost` in `!add command`/`!edit command` commands.
+- Minor: Added two pluralization cases for when only a single user wins a multi-raffle.
+- Minor: Added logging output for notices received from the SQL server.
+- Minor: The bot automatically now additionally refreshes who is a moderator and who isn't (This data was previously only updated when the user typed a message). A `!reload moderators` command has been added to trigger this update manually.
+- Minor: Added a lot more data to the output message of the `!debug user` command.
+- Bugfix: Errors in the main thread no longer exit the bot (#443)
+- Bugfix: Several places in the bot and Web UI now correctly show the user display name instead of login name
+- Bugfix: Removed unfinished "email tag" API.
+- Bugfix: If the bot is restarted during an active HSBet game, bets will no longer be lost.
+- Bugfix: Web process no longer creates a super long-running database transaction that was never closed.
+- Bugfix: Will no longer run all redis migrations on every bot startup.
+- Bugfix: Fixed a crash when an app access token expired and needed to be refreshed.
+
 ## v1.37
 
 Remember to bring your dependencies up to date with
