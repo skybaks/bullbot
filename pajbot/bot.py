@@ -686,7 +686,7 @@ class Bot:
             return False
 
         if whisper:
-            self.whisper("datguy1", "{} said: {}".format(source.username_raw, message))
+            self.whisper_login("datguy1", "{} said: {}".format(source.username_raw, message))
 
         if msg_lower[:1] == "!":
             msg_lower_parts = msg_lower.split(" ")

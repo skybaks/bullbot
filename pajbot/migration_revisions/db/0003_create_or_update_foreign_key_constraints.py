@@ -39,9 +39,9 @@ def up(cursor, bot):
         "ALTER TABLE command_example DROP CONSTRAINT command_example_command_id_fkey, ADD FOREIGN KEY (command_id) REFERENCES command(id) ON DELETE CASCADE"
     )
 
-    # hsbet_bet
+    # bet_bet
     cursor.execute(
-        'ALTER TABLE hsbet_bet DROP CONSTRAINT hsbet_bet_user_id_fkey, ADD FOREIGN KEY (user_id) REFERENCES "user"(id) ON DELETE CASCADE'
+        'ALTER TABLE bet_bet DROP CONSTRAINT bet_bet_user_id_fkey, ADD FOREIGN KEY (user_id) REFERENCES "user"(id) ON DELETE CASCADE'
     )
 
     # prediction_run_entry
@@ -58,10 +58,3 @@ def up(cursor, bot):
     cursor.execute(
         'ALTER TABLE user_duel_stats DROP CONSTRAINT user_duel_stats_user_id_fkey, ADD FOREIGN KEY (user_id) REFERENCES "user"(id) ON DELETE CASCADE'
     )
-
-    # my stuff. isnt in original.
-    cursor.execute("ALTER TABLE dotabet_bet RENAME TO bet_bet")
-    cursor.execute("ALTER TABLE dotabet_game RENAME TO bet_game")
-    cursor.execute("ALTER TYPE dotabet_outcome RENAME TO bet_outcome")
-    cursor.execute("DROP TABLE bet_bet")
-

@@ -297,7 +297,7 @@ def up(cursor, bot):
     update_foreign_key("banphrase_data", "edited_by", nullable=True)
     update_foreign_key("command_data", "added_by", nullable=True)
     update_foreign_key("command_data", "edited_by", nullable=True)
-    update_foreign_key("hsbet_bet", "user_id")
+    update_foreign_key("bet_bet", "user_id")
     update_foreign_key("pleblist_song", "user_id")
     update_foreign_key("prediction_run_entry", "user_id")
     update_foreign_key("roulette", "user_id")
@@ -347,7 +347,7 @@ def up(cursor, bot):
     delete_foreign_key("banphrase_data", "edited_by")
     delete_foreign_key("command_data", "added_by")
     delete_foreign_key("command_data", "edited_by")
-    delete_foreign_key("hsbet_bet", "user_id")
+    delete_foreign_key("bet_bet", "user_id")
     delete_foreign_key("pleblist_song", "user_id")
     delete_foreign_key("prediction_run_entry", "user_id")
     delete_foreign_key("roulette", "user_id")
@@ -359,7 +359,7 @@ def up(cursor, bot):
     add_foreign_key_again("banphrase_data", "edited_by", nullable=True)
     add_foreign_key_again("command_data", "added_by", nullable=True)
     add_foreign_key_again("command_data", "edited_by", nullable=True)
-    add_foreign_key_again("hsbet_bet", "user_id")
+    add_foreign_key_again("bet_bet", "user_id")
     add_foreign_key_again("pleblist_song", "user_id")
     add_foreign_key_again("prediction_run_entry", "user_id")
     add_foreign_key_again("roulette", "user_id")
@@ -436,7 +436,7 @@ def up(cursor, bot):
     #     TABLE "banphrase_data" CONSTRAINT "banphrase_data_edited_by_fkey" FOREIGN KEY (edited_by) REFERENCES "user"(id) ON DELETE SET NULL
     #     TABLE "command_data" CONSTRAINT "command_data_added_by_fkey" FOREIGN KEY (added_by) REFERENCES "user"(id) ON DELETE SET NULL
     #     TABLE "command_data" CONSTRAINT "command_data_edited_by_fkey" FOREIGN KEY (edited_by) REFERENCES "user"(id) ON DELETE SET NULL
-    #     TABLE "hsbet_bet" CONSTRAINT "hsbet_bet_user_id_fkey" FOREIGN KEY (user_id) REFERENCES "user"(id) ON DELETE CASCADE
+    #     TABLE "bet_bet" CONSTRAINT "bet_bet_user_id_fkey" FOREIGN KEY (user_id) REFERENCES "user"(id) ON DELETE CASCADE
     #     TABLE "pleblist_song" CONSTRAINT "pleblist_song_user_id_fkey" FOREIGN KEY (user_id) REFERENCES "user"(id) ON DELETE CASCADE
     #     TABLE "prediction_run_entry" CONSTRAINT "prediction_run_entry_user_id_fkey" FOREIGN KEY (user_id) REFERENCES "user"(id) ON DELETE CASCADE
     #     TABLE "roulette" CONSTRAINT "roulette_user_id_fkey" FOREIGN KEY (user_id) REFERENCES "user"(id) ON DELETE CASCADE

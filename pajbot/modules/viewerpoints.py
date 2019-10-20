@@ -2,9 +2,9 @@ import logging
 
 from pajbot.managers.db import DBManager
 from pajbot.managers.redis import RedisManager
-from pajbot.managers.user import UserManager
 from pajbot.models.command import Command
 from pajbot.models.command import CommandExample
+from pajbot.models.user import User
 from pajbot.modules import BaseModule
 from pajbot.modules import ModuleSetting
 
@@ -69,24 +69,13 @@ class MassPointsModule(BaseModule):
             bot.say("Error fetching chatters")
             return False
 
-        with RedisManager.pipeline_context() as pipeline:
-            with DBManager.create_session_scope() as db_session:
-                userModels = UserManager.get().bulk_load_user_models(currentChatters, db_session)
-                for userName in currentChatters:
-                    userModel = userModels.get(userName, None)
-                    userInstance = UserManager.get().get_user(
-                        userName, db_session=db_session, user_model=userModel, redis=pipeline
-                    )
-
-                    # Bot/idler check. Quicker than removing from list?
-                    if userInstance.num_lines < 5:
-                        numUsers -= 1
-                        continue
-
-                    if userInstance.subscriber:
-                        userInstance.points += givePoints * self.settings["sub_points"]
-                    else:
-                        userInstance.points += givePoints
+        with DBManager.create_session_scope() as db_session:
+            userModels = db_session.query(User).filter(User.login.in_(currentChatters), User.num_lines > 5)
+            for userModel in userModels:
+                if userInstance.subscriber:
+                    userInstance.points += givePoints * self.settings["sub_points"]
+                else:
+                    userInstance.points += givePoints
 
         bot.say(
             "{} just gave {} viewers {} points each! Enjoy FeelsGoodMan".format(

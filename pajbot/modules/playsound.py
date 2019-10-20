@@ -115,7 +115,7 @@ class PlaysoundModule(BaseModule):
         self.global_cooldown = False
 
     def play_sound(self, bot, source, message, **rest):
-        playsoundURL = f"https://{self.bot.config["web"]["domain"]}/playsounds"
+        playsoundURL = f"https://{self.bot.config['web']['domain']}/playsounds"
 
         if not message:
             bot.say("Playsounds can be tried out at {}".format(playsoundURL))

@@ -212,7 +212,7 @@ class TriviaModule(BaseModule):
                     else:
                         self.gazatuService = True
                         r = requests.get(
-                            f"https://api.gazatu.xyz/trivia/questions?count=1&include=[{",".join(self.gazCategories)}]"
+                            f"https://api.gazatu.xyz/trivia/questions?count=1&include=[{','.join(self.gazCategories)}]"
                         )
                         resjson = r.json()[0]
                         if resjson["disabled"]:
@@ -406,7 +406,7 @@ class TriviaModule(BaseModule):
 
             if correct:
                 if self.point_bounty > 0:
-                    sendMessage = f"{source} got the answer right! The answer was {self.question["answer"]} FeelsGoodMan They get {self.point_bounty} points! PogChamp"
+                    sendMessage = f"{source} got the answer right! The answer was {self.question['answer']} FeelsGoodMan They get {self.point_bounty} points! PogChamp"
                     source.points += self.point_bounty
                 else:
                     sendMessage = f"{source} got the answer right! The answer was {self.question['answer']} FeelsGoodMan"

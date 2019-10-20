@@ -176,7 +176,7 @@ class PaidTimeoutModule(BaseModule):
     def load_commands(self, **options):
         self.commands[self.settings["command_name"].lower().replace("!", "").replace(" ", "")] = Command.raw_command(
             self.paid_timeout,
-            self.can_execute_with_whisper=False,
+            can_execute_with_whisper=False,
             examples=[
                 CommandExample(
                     None,
@@ -191,7 +191,7 @@ class PaidTimeoutModule(BaseModule):
                 self.settings["command_name2"].lower().replace("!", "").replace(" ", "")
             ] = Command.raw_command(
                 self.paid_timeout2,
-                self.can_execute_with_whisper=False,
+                can_execute_with_whisper=False,
                 examples=[
                     CommandExample(
                         None,
