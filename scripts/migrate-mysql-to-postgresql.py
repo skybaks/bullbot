@@ -1,24 +1,24 @@
 #!/usr/bin/env python3
 
-import functools
-import sys
-import os
-
-import MySQLdb
 import datetime
-
+import functools
 import logging
+import os
+import sys
+
 import psycopg2
 from psycopg2 import sql
 from psycopg2.extras import execute_values
+
+import MySQLdb
+import pajbot.migration_revisions.db  # noqa E402 module level import not at top of file
+from pajbot.migration.db import DatabaseMigratable  # noqa E402 module level import not at top of file
+from pajbot.migration.migrate import Migration  # noqa E402 module level import not at top of file
 
 # add /opt/pajbot (parent directory) to the PYTHONPATH
 # so we can import from pajbot.migration, etc..
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-import pajbot.migration_revisions.db  # noqa E402 module level import not at top of file
-from pajbot.migration.db import DatabaseMigratable  # noqa E402 module level import not at top of file
-from pajbot.migration.migrate import Migration  # noqa E402 module level import not at top of file
 
 # python buffers full lines by default
 # to make sure we see the progress as-it-is-created
@@ -27,7 +27,9 @@ print = functools.partial(print, flush=True)
 
 print("MySQL: connecting... ", end="")
 # https://pymysql.readthedocs.io/en/latest/modules/connections.html#pymysql.connections.Connection
-mysql_conn = MySQLdb.connect(unix_socket="/var/run/mysqld/mysqld.sock", database="bullbot", charset="utf8mb4", user="root", passwd="password")
+mysql_conn = MySQLdb.connect(
+    unix_socket="/var/run/mysqld/mysqld.sock", database="bullbot", charset="utf8mb4", user="root", passwd="password"
+)
 print("done.")
 
 print("PostgreSQL: connecting... ", end="")

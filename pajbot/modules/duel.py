@@ -218,7 +218,9 @@ class DuelModule(BaseModule):
                 target = User.find_by_id(db_session, target_id)
 
                 bot.whisper(initiator, "Your duel request against {} has expired. Ditched OMEGALUL".format(target))
-                bot.whisper(target, "Chu ignoring {} for, his duel request against you expired cmonBruh".format(initiator))
+                bot.whisper(
+                    target, "Chu ignoring {} for, his duel request against you expired cmonBruh".format(initiator)
+                )
 
     def cancel_duel(self, bot, source, **rest):
         """

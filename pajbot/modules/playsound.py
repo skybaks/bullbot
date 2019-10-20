@@ -130,7 +130,7 @@ class PlaysoundModule(BaseModule):
             if playsound is None:
                 bot.whisper(
                     source,
-                    "The playsound you gave does not exist. Check out all the valid playsounds here: {playsoundURL}"
+                    "The playsound you gave does not exist. Check out all the valid playsounds here: {playsoundURL}",
                 )
                 return False
 

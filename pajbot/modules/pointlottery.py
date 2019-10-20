@@ -1,5 +1,4 @@
 import logging
-
 import random
 
 from pajbot.models.command import Command
@@ -119,16 +118,11 @@ class PointLotteryModule(BaseModule):
                 tickets = int(message.split(" ")[1])
 
             if not source.can_afford(tickets):
-                bot.whisper(
-                    source.username, f"Sorry, {source}, you don't have enough points! FeelsBadMan"
-                )
+                bot.whisper(source.username, f"Sorry, {source}, you don't have enough points! FeelsBadMan")
                 return False
 
             if tickets <= 0:
-                bot.whisper(
-                    source.username,
-                    f"Sorry, {source}, you have to buy at least 1 ticket! FeelsBadMan"
-                )
+                bot.whisper(source.username, f"Sorry, {source}, you have to buy at least 1 ticket! FeelsBadMan")
                 return False
 
             source.points -= tickets

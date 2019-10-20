@@ -409,7 +409,9 @@ class TriviaModule(BaseModule):
                     sendMessage = f"{source} got the answer right! The answer was {self.question['answer']} FeelsGoodMan They get {self.point_bounty} points! PogChamp"
                     source.points += self.point_bounty
                 else:
-                    sendMessage = f"{source} got the answer right! The answer was {self.question['answer']} FeelsGoodMan"
+                    sendMessage = (
+                        f"{source} got the answer right! The answer was {self.question['answer']} FeelsGoodMan"
+                    )
 
                 self.question = None
                 self.step = 0
