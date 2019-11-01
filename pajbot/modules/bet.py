@@ -103,7 +103,6 @@ class BetModule(BaseModule):
             solveFormula = self.get_odds_ratio(self.winPoints, self.lossPoints)[1]
 
         with DBManager.create_session_scope() as db_session:
-            db_bets = {}
             for username in self.bets:
                 bet_for_win, betPoints = self.bets[username]
                 points = int(betPoints * solveFormula) + 1
@@ -119,7 +118,6 @@ class BetModule(BaseModule):
                 if correct_bet:
                     winners += 1
                     total_winnings += points - betPoints
-                    db_bets[username].profit = points
                     userObject = db_session.query(User).with_for_update().filter_by(username=username).first()
                     userObject.points = userObject.points + points
                     self.bot.whisper(
@@ -130,7 +128,6 @@ class BetModule(BaseModule):
                 else:
                     losers += 1
                     total_losings += betPoints
-                    db_bets[username].profit = -betPoints
                     self.bot.whisper(
                         user.username,
                         "You bet {} points on the wrong outcome, so you lost it all :( . You now have {} points admiralCute".format(
