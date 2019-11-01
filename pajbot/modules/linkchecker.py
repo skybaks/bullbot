@@ -10,7 +10,6 @@ import pajbot.managers
 import pajbot.models
 import pajbot.utils
 from pajbot.actions import Action
-from pajbot.actions import ActionQueue
 from pajbot.apiwrappers.safebrowsing import SafeBrowsingAPI
 from pajbot.managers.adminlog import AdminLogManager
 from pajbot.managers.db import Base
@@ -185,9 +184,6 @@ class LinkCheckerModule(BaseModule):
 
         self.cache = LinkCheckerCache()  # cache[url] = True means url is safe, False means the link is bad
 
-        self.action_queue = ActionQueue()
-        self.action_queue.start()
-
         if bot and "safebrowsingapi" in bot.config["main"]:
             # XXX: This should be loaded as a setting instead.
             # There needs to be a setting for settings to have them as "passwords"
@@ -285,7 +281,7 @@ class LinkCheckerModule(BaseModule):
             # First we perform a basic check
             if self.simple_check(url, action) == self.RET_FURTHER_ANALYSIS:
                 # If the basic check returns no relevant data, we queue up a proper check on the URL
-                self.action_queue.add(self.check_url, url, action)
+                self.bot.action_queue.add(self.check_url, url, action)
 
     def on_commit(self, **rest):
         if self.db_session is not None:
