@@ -40,7 +40,7 @@ function add_random_box({color}) {
 }
 
 function getEmoteURL({urls}) {
-    let sortedSizes = Object.keys(urls).map(size => parseInt(size)).sort();
+    let sortedSizes = Object.keys(urls).map(size => parseInt(size, 10)).sort();
     let largestSize = sortedSizes[sortedSizes.length - 1];
     return {
         url: urls[String(largestSize)],
@@ -261,11 +261,11 @@ function hsbet_set_data(win_points, loss_points) {
 
 function bet_update_data({win: win_points, loss: loss_points}) {
     if (win_points > 0) {
-        $('#winbetters').text(parseInt($('#winbetters').text()) + 1)
-        $('#winpoints').text(win_points + parseInt($('#winpoints')));
+        $('#winbetters').text(parseInt($('#winbetters').text(), 10) + 1)
+        $('#winpoints').text(win_points + parseInt($('#winpoints'), 10));
     } else {
-        $('#lossbetters').text(parseInt($('#lossbetters').text()) + 1)
-        $('#losspoints').text(loss_points + parseInt($('#losspoints')));
+        $('#lossbetters').text(parseInt($('#lossbetters').text(), 10) + 1)
+        $('#losspoints').text(loss_points + parseInt($('#losspoints'), 10));
     }
 }
 
