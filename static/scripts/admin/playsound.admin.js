@@ -1,7 +1,11 @@
 'use strict';
 
+<<<<<<< HEAD
 $(window).load(function () {
     $('div.container').first().removeClass('container');
+=======
+$(window).on('load', (function () {
+>>>>>>> ace5a36aa2233b9ca47957d058a4b2678e61a3b5
 
     $('#toggle-module-checkbox').change(function() {
         let checked = this.checked;
@@ -254,4 +258,10 @@ $(window).load(function () {
             })
         });
     });
+<<<<<<< HEAD
 });
+=======
+
+
+}));
+>>>>>>> ace5a36aa2233b9ca47957d058a4b2678e61a3b5

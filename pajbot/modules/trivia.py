@@ -66,10 +66,8 @@ class TriviaModule(BaseModule):
     def __init__(self, bot):
         super().__init__(bot)
 
-        self.job = ScheduleManager.execute_every(1, self.poll_trivia)
-        self.job.pause()
-        self.checkjob = ScheduleManager.execute_every(10, self.check_run)
-        self.checkjob.pause()
+        self.job = None
+        self.checkjob = None
         self.checkPaused = True
 
         self.jservice = False
@@ -321,7 +319,7 @@ class TriviaModule(BaseModule):
             return
 
         self.trivia_running = True
-        self.job.resume()
+        self.job = ScheduleManager.execute_every(1, self.poll_trivia)
 
         try:
             self.point_bounty = int(message)
@@ -378,9 +376,12 @@ class TriviaModule(BaseModule):
             bot.safe_me(f"{source}, no trivia is active right now")
             return
 
-        self.stop_trivia(True)
+        self.job.remove()
+        self.job = None
+        self.checkjob.remove()
+        self.checkjob = None
         self.checkPaused = True
-        self.checkjob.pause()
+        self.stop_trivia(True)
 
     def command_skip(self, **options):
         if self.question is None:
@@ -461,11 +462,14 @@ class TriviaModule(BaseModule):
         )
 
     def enable(self, bot):
-        self.checkjob.resume()
-        self.checkPaused = False
+        if bot:
+            self.check_job = ScheduleManager.execute_every(10, self.check_run)
+            self.checkPaused = False
+
         HandlerManager.add_handler("on_quit", self.stop_trivia)
 
     def disable(self, bot):
-        self.checkjob.pause()
+        self.check_job.pause()
+        self.check_job = None
         self.checkPaused = True
         HandlerManager.remove_handler("on_quit", self.stop_trivia)
