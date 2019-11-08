@@ -8,12 +8,13 @@ def up(cursor, bot):
 
     # new: bet_game.bet_closed
     cursor.execute("ALTER TABLE bet_game ADD COLUMN bets_closed BOOL")
+    cursor.execute("ALTER TABLE bet_game ADD COLUMN message_closed BOOL")
 
     # bet_game.outcome, points_change, win_bettors, loss_bettors: -NOT NULL
     cursor.execute("ALTER TABLE bet_game ALTER COLUMN outcome DROP NOT NULL")
-    cursor.execute("ALTER TABLE bet_game ALTER COLUMN points_change DROP NOT NULL")
-    cursor.execute("ALTER TABLE bet_game ALTER COLUMN win_bettors DROP NOT NULL")
-    cursor.execute("ALTER TABLE bet_game ALTER COLUMN loss_bettors DROP NOT NULL")
+    cursor.execute("ALTER TABLE bet_game DROP COLUMN points_change")
+    cursor.execute("ALTER TABLE bet_game DROP COLUMN win_bettors")
+    cursor.execute("ALTER TABLE bet_game DROP COLUMN loss_bettors")
 
     # bet_game: Check that either both trackobot_id and outcome are NULL, or both are not.
     cursor.execute(

@@ -1,11 +1,13 @@
 import logging
 
+from sqlalchemy.orm import joinedload
+
 from pajbot import utils
 from pajbot.exc import InvalidPointAmount
 from pajbot.managers.db import DBManager
 from pajbot.managers.handler import HandlerManager
 from pajbot.managers.schedule import ScheduleManager
-from pajbot.models.bet import BetGame
+from pajbot.models.bet import BetBet, BetOutcome, BetGame
 from pajbot.models.command import Command
 from pajbot.models.command import CommandExample
 from pajbot.models.user import User
@@ -16,7 +18,6 @@ log = logging.getLogger(__name__)
 
 
 class BetModule(BaseModule):
-    AUTHOR = "DatGuy1"
     ID = __name__.split(".")[-1]
     NAME = "Betting"
     DESCRIPTION = "Enables betting on games with !bet"
@@ -36,40 +37,37 @@ class BetModule(BaseModule):
         super().__init__(bot)
         self.bot = bot
 
-        self.reinit_params()
-        self.betting_open = False
-        self.message_closed = True
         self.spectating = False
 
-        self.reminder_job = ScheduleManager.execute_every(200, self.reminder_bet)
-        self.reminder_job.pause()
-
     def reminder_bet(self):
-        if self.betting_open:
-            self.bot.me("monkaS 👉 🕒 place your bets people")
-            self.bot.websocket_manager.emit("notification", {"message": "monkaS 👉 🕒 place your bets people"})
-        else:
-            if not self.message_closed:
-                winRatio, lossRatio = self.get_odds_ratio(self.winPoints, self.lossPoints)
-                self.bot.me(
-                    "The betting for the current game has been closed! Winners can expect a {:0.2f} (win betters) or {:0.2f} (loss betters) return "
-                    "ratio".format(winRatio, lossRatio)
-                )
-                self.bot.websocket_manager.emit(
-                    "notification", {"message": "The betting for the current game has been closed!"}
-                )
-                if not self.spectating:
-                    self.bot.execute_delayed(15, self.bot.websocket_manager.emit, ("bet_close_game",))
-                self.message_closed = True
+        with DBManager.create_session_scope() as db_session:
+            current_game = db_session.query(BetGame).filter(BetGame.betting_open).one_or_none()
+            if not current_game:
+                return
 
-    def reinit_params(self):
-        self.winBetters = 0
-        self.winPoints = 0
-        self.lossBetters = 0
-        self.lossPoints = 0
-        self.bets = {}
+            if current_game.betting_open:
+                self.bot.me("monkaS 👉 🕒 place your bets people")
+                self.bot.websocket_manager.emit("notification", {"message": "monkaS 👉 🕒 place your bets people"})
 
-    def create_solve_formula(self, x, y):
+    def get_current_game(self, db_session, with_bets=False, with_users=False):
+        query = db_session.query(BetGame).filter(BetGame.is_running)
+
+        if with_bets:
+            query = query.options(joinedload(BetGame.bets))
+        if with_users:
+            query = query.options(joinedload(BetGame.bets).joinedload(BetBet.user))
+
+        current_game = query.one_or_none()
+        if not current_game:
+            current_game = BetGame()
+            db_session.add(current_game)
+            db_session.flush()
+
+        return current_game
+
+    """ Trial of new system, will move back if doesn't work
+    @staticmethod
+    def create_solve_formula(x, y):
         return 1.0 + (float(x) / (float(y)))
 
     def get_odds_ratio(self, winPoints, lossPoints):
@@ -90,149 +88,153 @@ class BetModule(BaseModule):
                 ratioList[c] = self.minReturn
 
         return tuple(ratioList)
+    """
 
     def spread_points(self, gameResult):
-        winners = 0
-        losers = 0
-        total_winnings = 0
-        total_losings = 0
-
-        if gameResult == "win":
-            solveFormula = self.get_odds_ratio(self.winPoints, self.lossPoints)[0]
-        else:
-            solveFormula = self.get_odds_ratio(self.winPoints, self.lossPoints)[1]
-
         with DBManager.create_session_scope() as db_session:
-            db_bets = {}
-            for username in self.bets:
-                bet_for_win, betPoints = self.bets[username]
-                points = int(betPoints * solveFormula) + 1
+            winners = 0
+            losers = 0
+            current_game = self.get_current_game(db_session, with_bets=True, with_users=True)
 
-                user = self.bot.users.find(username, db_session=db_session)
-                if user is None:
-                    continue
+            current_game.outcome = gameResult
+            points_by_outcome = current_game.get_points_by_outcome(db_session)
+            total_pot = sum(points_by_outcome.values())
 
-                correct_bet = (gameResult == "win" and bet_for_win is True) or (
-                    gameResult == "loss" and bet_for_win is False
-                )
+            for bet in current_game.bets:
+                correct_bet = bet.outcome == current_game.outcome
 
                 if correct_bet:
                     winners += 1
-                    total_winnings += points - betPoints
-                    db_bets[username].profit = points
-                    userObject = db_session.query(User).with_for_update().filter_by(username=username).first()
-                    userObject.points = userObject.points + points
+                    investment_ratio = bet.points / points_by_outcome[bet.outcome]
+                    pot_cut = int(investment_ratio * total_pot)
+                    bet.profit = pot_cut - bet.points
+                    bet.user.points = User.points + pot_cut
+
                     self.bot.whisper(
-                        user.username,
-                        "You bet {} points on the correct outcome and gained an extra {} points, "
-                        "you now have {} points PogChamp".format(betPoints, points - betPoints, userObject.points),
+                        bet.user,
+                        f"You bet {bet.points} points on the correct outcome and gained an extra {bet.profit} points, "
+                        "you now have {bet.user.points} points PogChamp"
                     )
                 else:
                     losers += 1
-                    total_losings += betPoints
-                    db_bets[username].profit = -betPoints
+                    bet.profit = -bet.points
+
                     self.bot.whisper(
-                        user.username,
-                        "You bet {} points on the wrong outcome, so you lost it all :( . You now have {} points admiralCute".format(
-                            betPoints, user.points
-                        ),
+                        bet.user,
+                        f"You bet {betPoints} points on the wrong outcome, so you lost it all :( . You now have {bet.user.points} points admiralCute"
                     )
 
-        startString = (
-            "The game ended as a {}. {} users won an extra {} points, while {}"
-            " lost {} points. Winners can expect a {:0.2f} return ratio.".format(
-                gameResult, winners, total_winnings, losers, total_losings, solveFormula
+
+            winners = len(outcome for outcome, points in points_by_outcome.items() if outcome == current_game.outcome)
+            losers = len(outcome for outcome, points in points_by_outcome.items() if outcome != current_game.outcome)
+            total_winnings = sum(points for outcome, points in points_by_outcome.items() if outcome == current_game.outcome)
+            total_losings = sum(points for outcome, points in points_by_outcome.items() if outcome == current_game.outcome)
+
+            startString = (
+                f"The game ended as a {gameResult.name}. {winners} users won an extra {total_winnings} points, while"
+                "{losers} lost {total_losings} points."
             )
-        )
 
-        if self.spectating:
-            resultString = startString[:20] + "radiant " + startString[20:]
-        else:
-            resultString = startString
+            if self.spectating:
+                resultString = startString[:20] + "radiant " + startString[20:]
+            else:
+                resultString = startString
 
-        self.betting_open = False
-        self.message_closed = True
-        self.reinit_params()
+            # Just to make sure
+            current_game.betting_open = False
+            current_game.message_closed = True
+            self.spectating = False
 
-        bet_game = BetGame(gameResult, total_winnings - total_losings, winners, losers)
+            self.bot.websocket_manager.emit("notification", {"message": resultString, "length": 8})
+            self.bot.me(resultString)
 
-        db_session.add(bet_game)
-
-        self.bot.websocket_manager.emit("notification", {"message": resultString, "length": 8})
-        self.bot.me(resultString)
+            db_session.flush()
 
     def automated_end(self, winning_team, player_team):
         self.bot.say("Closing bet automatically...")
         if winning_team == player_team:
-            self.bot.execute_delayed(0.2, self.spread_points, ("win",))
+            self.bot.execute_now(self.spread_points, BetOutcome.win)
         else:
-            self.bot.execute_delayed(0.2, self.spread_points, ("loss",))
+            self.bot.execute_now(self.spread_points, BetOutcome.loss)
 
     def automated_lock(self):
         self.bot.execute_delayed(15, self.lock_bets)
         self.bot.me("Betting will be locked in 15 seconds! Place your bets people monkaS")
 
     def lock_bets(self):
-        self.betting_open = False
-        self.reminder_bet()
+        with DBManager.create_session_scope() as db_session:
+            current_game = self.get_current_game(db_session)
+
+            points_stats = current_game.get_points_by_outcome(db_session)
+            winRatio, lossRatio = self.get_odds_ratio(current_game[BetOutcome.win], current_game[BetOutcome.loss])
+
+            self.bot.me(
+                "The betting for the current game has been closed! Winners can expect a {:0.2f} (win betters) or {:0.2f} (loss betters) return "
+                "ratio".format(winRatio, lossRatio)
+            )
+            self.bot.websocket_manager.emit(
+                "notification", {"message": "The betting for the current game has been closed!"}
+            )
+
+            if not self.spectating:
+                self.bot.execute_delayed(15, self.bot.websocket_manager.emit, ("bet_close_game",))
+
+            current_game.message_closed = True
+            current_game.bets_closed = True
 
     def start_game(self, openString=None):
-        if not openString:
-            openString = "A new game has begun! Vote with !bet win/lose POINTS"
+        with DBManager.create_session_scope() as db_session:
+            current_game = self.get_current_game(db_session)
 
-        if not self.betting_open:
+            if not openString:
+                openString = "A new game has begun! Vote with !bet win/lose POINTS"
+
             self.bot.websocket_manager.emit("notification", {"message": openString})
             if not self.spectating:
                 self.bot.websocket_manager.emit("bet_new_game")
+
             self.bot.me(openString)
 
-        self.betting_open = True
-        self.message_closed = False
-
-    def command_open(self, **options):
+    def command_open(self, message, **rest):
         openString = "Betting has been opened"
-        message = options["message"]
 
         if message and ["dire", "radi", "spectat"] in message:
             self.spectating = True
             openString += ". Reminder to bet with radiant/dire instead of win/loss"
 
-        self.start_game()
+        self.start_game(openString)
 
-    def command_stats(self, **options):
-        bot = options["bot"]
+    def command_stats(self, bot, **rest):
+        with DBManager.create_session_scope() as db_session:
+            current_game = self.get_current_game(db_session)
+            points_stats = current_game.get_points_by_outcome(db_session)
+            bet_stats = current_game.get_bets_by_outcome(db_session)
+            bot.say(f"{bet_stats[BetGameOutcome.win]}/{bet_stats[BetGameOutcome.loss]} bettors on {points_stats[BetGameOutcome.win]}/{points_stats[BetGameOutcome.loss]} points")
 
-        bot.say(
-            "{}/{} betters on {}/{} points".format(self.winBetters, self.lossBetters, self.winPoints, self.lossPoints)
-        )
+    def command_close(self, bot, source, message, **rest):
+        with DBManager.create_session_scope() as db_session:
+            current_game = self.get_current_game(db_session)
 
-    def command_close(self, **options):
-        bot = options["bot"]
-        source = options["source"]
-        message = options["message"]
+            if current_game.betting_open:
+                count_down = 15
+                if message and message.isdigit():
+                    count_down = int(message)
+                if count_down > 0:
+                    bot.me(f"Betting will be locked in {count_down} seconds! Place your bets people monkaS")
 
-        if self.betting_open:
-            count_down = 15
-            if message and message.isdigit():
-                count_down = int(message)
-            if count_down > 0:
-                bot.me("Betting will be locked in {} seconds! Place your bets people monkaS".format(count_down))
-            bot.execute_delayed(count_down, self.lock_bets)
-        elif message:
-            if "l" in message.lower() or "dire" in message.lower():
-                bot.execute_delayed(0.2, self.spread_points, ("loss",))
-            elif "w" in message.lower() or "radi" in message.lower():
-                bot.execute_delayed(0.2, self.spread_points, ("win",))
-            else:
-                bot.say("Are you pretending {}?".format(source.username_raw))
-                return False
+                bot.execute_delayed(count_down, self.lock_bets)
+            elif message:
+                if "l" in message.lower() or "dire" in message.lower():
+                    bot.execute_now(self.spread_points, BetOutcome.loss)
+                elif "w" in message.lower() or "radi" in message.lower():
+                    bot.execute_now(self.spread_points, BetOutcome.win)
+                else:
+                    bot.say(f"Are you pretending {source}?")
+                    return False
 
-            self.calibrating = True
-            self.spectating = False
+                self.spectating = False
 
-    def command_restart(self, **options):
-        bot = options["bot"]
-        message = options["message"]
+    def command_restart(self, bot, message, **rest):
         reason = ""
 
         if message:
@@ -241,125 +243,84 @@ class BetModule(BaseModule):
             reason = "No reason given EleGiggle"
 
         with DBManager.create_session_scope() as db_session:
-            for username in self.bets:
-                bet_for_win, betPoints = self.bets[username]
-                user = self.bot.users.find(username, db_session=db_session)
-                if not user:
-                    continue
-
-                user.points += betPoints
+            current_game = self.get_current_game(db_session, with_bets=True, with_users=True)
+            for bet in current_game.bets:
+                bet.user.points = User.points + bet.points
                 bot.whisper(
-                    user.username,
-                    "Your {} points bet has been refunded. The reason given is: " "{}".format(betPoints, reason),
+                    bet.user,
+                    f"Your {bet.points} points bet has been refunded. The reason given is: '{reason}'"
                 )
 
-        self.betting_open = False
-        self.message_closed = True
-
-        self.reinit_params()
+        self.spectating = False
 
         bot.me("All your bets have been refunded and betting has been restarted.")
 
-    def command_resetbet(self, **options):
-        options["bot"].me("The bets have been reset :)")
-        self.reinit_params()
+    def command_betstatus(self, bet, **rest):
+        with DBManager.create_session_scope() as db_session:
+            current_game = self.get_current_game(db_session)
+            if current_game.betting_open:
+                bot.say("Betting is open")
+            elif current_game.is_running:
+                bot.say("There is currently a bet with points not awarded yet")
+            else:
+                bot.say("There is no bet running")
 
-    def command_betstatus(self, **options):
-        bot = options["bot"]
-        if self.betting_open:
-            bot.say("Betting is open")
-        elif self.winBetters > 0 or self.lossBetters > 0:
-            bot.say("There is currently a bet with points not given yet")
-        else:
-            bot.say("There is no bet running")
-
-    def command_bet(self, **options):
-        bot = options["bot"]
-        source = options["source"]
-        message = options["message"]
-
+    def command_bet(self, bot, source, message, **rest):
         if message is None:
             return False
 
-        if not self.betting_open:
-            bot.whisper(source.username, "Betting is not currently open. Wait until the next game :\\")
-            return False
+        with DBManager.create_session_scope() as db_session:
+            current_game = self.get_current_game(db_session)
 
-        msg_parts = message.split(" ")
-        if len(msg_parts) < 2:
-            bot.whisper(
-                source.username,
-                "Invalid bet. You must do !bet radiant/dire POINTS (if spectating a game) "
-                "or !bet win/loss POINTS (if playing)",
-            )
-            return False
+            if not current_game.betting_open:
+                if current_game.message_closed:
+                    bot.whisper(source.username, "Betting is not currently open. Wait until the next game :\\")
+                return False
 
-        if source.username in self.bets:
-            bot.whisper(source.username, "You have already bet on this game. Wait until the next game starts!")
-            return False
+            msg_parts = message.split(" ")
 
-        points = 0
-        try:
-            points = utils.parse_points_amount(source, msg_parts[1])
-            if points > self.settings["max_bet"]:
-                points = self.settings["max_bet"]
-        except InvalidPointAmount as e:
-            bot.whisper(
-                source.username,
-                "Invalid bet. You must do !bet radiant/dire POINTS (if spectating a game) "
-                "or !bet win/loss POINTS (if playing) {}".format(e),
-            )
-            return False
+            outcome_input = msg_parts[0].lower()
+            if outcome_input in {"win", "winner", "radiant"}:
+                bet_for = BetOutcome.win
+            elif outcome_input in {"lose", "loss", "loser", "loose", "dire"}:
+                bet_for = BetOutcome.loss
+            else:
+                bot.whisper(source, "Invalid bet. Usage: !bet win/loss POINTS")
+                return False
 
-        if points < 1:
-            bot.whisper(source.username, "You can't bet less than 1 point you goddamn pleb Bruh")
-            return False
+            try:
+                points = utils.parse_points_amount(source, msg_parts[1])
+                if points > self.settings["max_bet"]:
+                    points = self.settings["max_bet"]
+            except InvalidPointAmount as e:
+                bot.whisper(source, f"Invalid bet. Usage: !bet win/loss POINTS. {e}")
+                return False
 
-        if not source.can_afford(points):
-            bot.whisper(source.username, "You don't have {} points to bet".format(points))
-            return False
+            if points < 1:
+                bot.whisper(source, "You can't bet less than 1 point you goddamn pleb Bruh")
+                return False
 
-        outcome = msg_parts[0].lower()
-        bet_for_win = False
+            if not source.can_afford(points):
+                bot.whisper(source, f"You don't have {points} points to bet")
+                return False
 
-        if "w" in outcome or "radi" in outcome:
-            bet_for_win = True
+            user_bet = db_session.query(BetBet).filter_by(game_id=current_game.id, user_id=source.id).one_or_none()
+            if user_bet is not None:
+                bot.whisper(source, "You have already bet on this game. Wait until the next game starts!")
+                return False
 
-        elif "l" in outcome or "dire" in outcome:
-            bet_for_win = False
-        else:
-            bot.whisper(
-                source.username,
-                "Invalid bet. You must do !bet radiant/dire POINTS (if spectating a game) "
-                "or !bet win/loss POINTS (if playing)",
-            )
-            return False
+            user_bet = BetBet(game_id=current_game.id, user_id=source.id, outcome=bet_for, points=points)
+            db_session.add(user_bet)
+            source.points -= points
 
-        if bet_for_win:
-            self.winBetters += 1
-            self.winPoints += points
-        else:
-            self.lossBetters += 1
-            self.lossPoints += points
+            payload = {"win": 0, "loss": 0, bet_for.name = points}
 
-        source.points -= points
-        self.bets[source.username] = (bet_for_win, points)
+            if not self.spectating:
+                bot.websocket_manager.emit("bet_update_data", data=payload)
 
-        payload = {
-            "win_betters": self.winBetters,
-            "loss_betters": self.lossBetters,
-            "win_points": self.winPoints,
-            "loss_points": self.lossPoints,
-        }
+            finishString = f"You have bet {points} points on this game resulting in a {'radiant' if self.spectating}{'win' if bet_for_win else 'loss'}"
 
-        if not self.spectating:
-            bot.websocket_manager.emit("bet_update_data", data=payload)
-
-        finishString = "You have bet {} points on this game resulting in a ".format(points)
-        if self.spectating:
-            finishString = finishString + "radiant "
-
-        bot.whisper(source.username, "{}{}".format(finishString, "win" if bet_for_win else "loss"))
+            bot.whisper(source, finishString)
 
     def load_commands(self, **options):
         self.commands["bet"] = Command.raw_command(
@@ -398,7 +359,7 @@ class BetModule(BaseModule):
         HandlerManager.add_handler("on_lock_bets", self.automated_lock)
         HandlerManager.add_handler("on_end_bets", self.automated_end)
 
-        self.reminder_job.resume()
+        self.reminder_job = ScheduleManager.execute_every(200, self.reminder_bet)
 
         # Move this somewhere better hopefully
         self.maxReturn = self.settings["max_return"] if "max_return" in self.settings else None
@@ -409,4 +370,5 @@ class BetModule(BaseModule):
         HandlerManager.remove_handler("on_lock_bets", self.automated_lock)
         HandlerManager.remove_handler("on_end_bets", self.automated_end)
 
-        self.reminder_job.pause()
+        self.reminder_job.remove()
+        self.reminder_job = None

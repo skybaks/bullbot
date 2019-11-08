@@ -38,12 +38,10 @@ class BetGame(Base):
     # outcome of the bet. NULL/None if the bet has not ended yet
     outcome = Column(BetOutcome, nullable=True)
 
-    points_change = Column(INT, nullable=True)
-    win_bettors = Column(INT, nullable=True)
-    loss_bettors = Column(INT, nullable=True)
-
     # Is the bet closed?
     bets_closed = Column(BOOLEAN, nullable=True)
+    # Has the close message been sent?
+    message_closed = Column(BOOLEAN, nullable=True)
 
     bets = relationship(
         "BetBet", back_populates="game", cascade="all, delete-orphan", passive_deletes=True, collection_class=set
