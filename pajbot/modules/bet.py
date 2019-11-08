@@ -313,12 +313,12 @@ class BetModule(BaseModule):
             db_session.add(user_bet)
             source.points -= points
 
-            payload = {"win": 0, "loss": 0, bet_for.name = points}
+            payload = {"win": 0, "loss": 0, bet_for.name: points}
 
             if not self.spectating:
                 bot.websocket_manager.emit("bet_update_data", data=payload)
 
-            finishString = f"You have bet {points} points on this game resulting in a {'radiant' if self.spectating}{'win' if bet_for_win else 'loss'}"
+            finishString = f"You have bet {points} points on this game resulting in a {'radiant' if self.spectating else ''}{'win' if bet_for_win else 'loss'}"
 
             bot.whisper(source, finishString)
 

@@ -259,11 +259,14 @@ function hsbet_set_data(win_points, loss_points) {
     }
 }
 
-function bet_update_data({win_betters, loss_betters, win_points, loss_points}) {
-    $('#winbetters').text(win_betters);
-    $('#lossbetters').text(loss_betters);
-    $('#winpoints').text(win_points);
-    $('#losspoints').text(loss_points);
+function bet_update_data({win: win_points, loss: loss_points}) {
+    if (win_points > 0) {
+        $('#winbetters').text(parseInt($('#winbetters').text()) + 1)
+        $('#winpoints').text(win_points + parseInt($('#winpoints')));
+    } else {
+        $('#lossbetters').text(parseInt($('#lossbetters').text()) + 1)
+        $('#losspoints').text(loss_points + parseInt($('#losspoints')));
+    }
 }
 
 function create_graph(win, loss) {
