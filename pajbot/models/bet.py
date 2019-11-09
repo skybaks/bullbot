@@ -39,9 +39,9 @@ class BetGame(Base):
     outcome = Column(BetOutcome, nullable=True)
 
     # Is the bet closed?
-    bets_closed = Column(BOOLEAN, nullable=True)
+    bets_closed = Column(BOOLEAN, nullable=False, default=False)
     # Has the close message been sent?
-    message_closed = Column(BOOLEAN, nullable=True)
+    message_closed = Column(BOOLEAN, nullable=False, default=False)
 
     bets = relationship(
         "BetBet", back_populates="game", cascade="all, delete-orphan", passive_deletes=True, collection_class=set
@@ -74,7 +74,7 @@ class BetGame(Base):
             .all()
         )
 
-        points = {key: 0 for key in BetOutcome}
+        points = {key: 0 for key in BetGameOutcome}
         for outcome, num_points in rows:
             points[outcome] = num_points
 
@@ -86,7 +86,7 @@ class BetGame(Base):
 
         rows = db_session.query(BetBet.outcome, func.count()).filter_by(game_id=self.id).group_by(BetBet.outcome).all()
 
-        bets = {key: 0 for key in BetOutcome}
+        bets = {key: 0 for key in BetGameOutcome}
         for outcome, num_bets in rows:
             bets[outcome] = num_bets
 
