@@ -25,6 +25,7 @@ config.ini
 !uwsgi_shared.ini
 *.pid
 /*.sh
+!configs/example.ini
 
 # User created code
 userdispatch.py
