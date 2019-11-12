@@ -36,3 +36,6 @@ venv/
 
 .idea/
 .vscode/
+
+# Temporary
+pajbot/apiwrappers/twitch/gql.py
