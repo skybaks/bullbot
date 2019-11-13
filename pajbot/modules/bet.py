@@ -279,7 +279,7 @@ class BetModule(BaseModule):
             log.debug(current_game.__dict__)
             if not current_game.betting_open:
                 if current_game.message_closed:
-                    bot.whisper(source.username, "Betting is not currently open. Wait until the next game :\\")
+                    bot.whisper(source, "Betting is not currently open. Wait until the next game :\\")
                 return False
 
             msg_parts = message.split(" ")
