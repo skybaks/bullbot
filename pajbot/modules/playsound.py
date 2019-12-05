@@ -115,10 +115,8 @@ class PlaysoundModule(BaseModule):
         self.global_cooldown = False
 
     def play_sound(self, bot, source, message, **rest):
-        playsoundURL = f"https://{self.bot.config['web']['domain']}/playsounds"
-
         if not message:
-            bot.say("Playsounds can be tried out at {}".format(playsoundURL))
+            bot.say(f"Playsounds can be tried out at https://{self.bot.bot_domain}/playsounds")
             return False
 
         playsound_name = message.split(" ")[0].lower()
@@ -130,7 +128,7 @@ class PlaysoundModule(BaseModule):
             if playsound is None:
                 bot.whisper(
                     source,
-                    "The playsound you gave does not exist. Check out all the valid playsounds here: {playsoundURL}",
+                    f"The playsound you gave does not exist. Check out all the valid playsounds here: https://{self.bot.bot_domain}/playsounds",
                 )
                 return False
 
@@ -167,7 +165,7 @@ class PlaysoundModule(BaseModule):
             if not playsound.enabled:
                 bot.whisper(
                     source,
-                    f"The playsound you gave is disabled. Check out all the valid playsounds here: https://{self.bot.config['web']['domain']}/playsounds",
+                    f"The playsound you gave is disabled. Check out all the valid playsounds here: https://{self.bot.bot_domain}/playsounds",
                 )
                 return False
 
