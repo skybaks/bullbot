@@ -242,7 +242,7 @@ class RaffleModule(BaseModule):
 
     def raffle(self, bot, source, message, **rest):
         if self.raffle_running is True:
-            bot.say(f"{source}, a raffle is already running OMGScoots")
+            bot.say(f"{source}, a raffle is already running Bruh")
             return False
 
         self.raffle_users = set()
@@ -370,7 +370,7 @@ class RaffleModule(BaseModule):
 
     def multi_raffle(self, bot, source, message, **rest):
         if self.raffle_running is True:
-            bot.say(f"{source}, a raffle is already running OMGScoots")
+            bot.say(f"{source}, a raffle is already running Bruh")
             return False
 
         points = 100
@@ -404,7 +404,6 @@ class RaffleModule(BaseModule):
             return False
 
         num_participants = len(self.raffle_users)
-        # negative = self.raffle_points < 0
 
         # start out with the theoretical maximum: everybody wins
         num_winners = num_participants

@@ -1,4 +1,5 @@
 def up(cursor, bot):
+    """
     # Useful query for deleting duplicate games:
     # DELETE FROM bet_game a WHERE a.ctid <> (SELECT min(b.ctid) FROM bet_game b WHERE a.internal_id = b.internal_id);
 
@@ -32,3 +33,4 @@ def up(cursor, bot):
 
     # bet_bet.profit: -NOT NULL
     cursor.execute("ALTER TABLE bet_bet ALTER COLUMN profit DROP NOT NULL")
+    """

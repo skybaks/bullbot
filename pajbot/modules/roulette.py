@@ -180,16 +180,22 @@ class RouletteModule(BaseModule):
         # Calculating the result
         result = self.rigged_random_result()
 
-        points = bet if result else -bet
-        source.points += points
+        points_won = int(bet * 0.9) if result else -bet
+        source.points += points_won
 
         with DBManager.create_session_scope() as db_session:
-            r = Roulette(source.id, points)
+            r = Roulette(source.id, points_won)
             db_session.add(r)
 
-        arguments = {"bet": bet, "user": source.name, "points": source.points, "win": points > 0}
+        arguments = {
+            "bet": bet,
+            "points_won": points_won,
+            "user": source.name,
+            "points": source.points,
+            "win": points_won > 0,
+        }
 
-        if points > 0:
+        if points_won > 0:
             out_message = self.get_phrase("message_won", **arguments)
         else:
             out_message = self.get_phrase("message_lost", **arguments)
@@ -197,7 +203,7 @@ class RouletteModule(BaseModule):
         if source.subscriber:
             bot.me(out_message)
 
-        HandlerManager.trigger("on_roulette_finish", user=source, points=points)
+        HandlerManager.trigger("on_roulette_finish", user=source, points=points_won)
 
     def on_tick(self, **rest):
         if self.output_buffer == "":

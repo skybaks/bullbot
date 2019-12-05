@@ -39,11 +39,6 @@ def up(cursor, bot):
         "ALTER TABLE command_example DROP CONSTRAINT command_example_command_id_fkey, ADD FOREIGN KEY (command_id) REFERENCES command(id) ON DELETE CASCADE"
     )
 
-    # bet_bet
-    cursor.execute(
-        'ALTER TABLE bet_bet DROP CONSTRAINT bet_bet_user_id_fkey, ADD FOREIGN KEY (user_id) REFERENCES "user"(id) ON DELETE CASCADE'
-    )
-
     # prediction_run_entry
     cursor.execute(
         'ALTER TABLE prediction_run_entry DROP CONSTRAINT prediction_run_entry_user_id_fkey, ADD FOREIGN KEY (user_id) REFERENCES "user"(id) ON DELETE CASCADE'

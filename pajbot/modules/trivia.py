@@ -67,7 +67,7 @@ class TriviaModule(BaseModule):
         super().__init__(bot)
 
         self.job = None
-        self.checkjob = None
+        self.check_job = None
         self.checkPaused = True
 
         self.jservice = False
@@ -336,7 +336,8 @@ class TriviaModule(BaseModule):
         HandlerManager.add_handler("on_message", self.on_message)
 
     def stop_trivia(self, endStep=False):
-        self.job.pause()
+        if self.job:
+            self.job.pause()
 
         if self.trivia_running:
             stopOutput = "The trivia has been stopped. The top five participants are: "
@@ -366,26 +367,23 @@ class TriviaModule(BaseModule):
         self.manualStart = True
         self.start_trivia(message)
         self.checkPaused = False
-        self.checkjob.resume()
+        self.check_job.resume()
 
-    def command_stop(self, **options):
-        bot = options["bot"]
-        source = options["source"]
-
+    def command_stop(self, bot, source, **rest):
         if not self.trivia_running:
             bot.safe_me(f"{source}, no trivia is active right now")
             return
 
         self.job.remove()
         self.job = None
-        self.checkjob.remove()
-        self.checkjob = None
+        self.check_job.remove()
+        self.check_job = None
         self.checkPaused = True
         self.stop_trivia(True)
 
-    def command_skip(self, **options):
+    def command_skip(self, bot, **rest):
         if self.question is None:
-            options["bot"].say("There is currently no question.")
+            bot.say("There is currently no question.")
         else:
             self.question = None
             self.step = 0

@@ -141,8 +141,6 @@ class DuelModule(BaseModule):
         if message is None:
             return False
 
-        max_pot = self.settings["max_put"]
-
         msg_split = message.split()
         input = msg_split[0]
 
@@ -163,9 +161,6 @@ class DuelModule(BaseModule):
                             f"{source} tried to duel you for {duel_price} points. What a cheapskate EleGiggle",
                         )
                         return False
-
-                    if duel_price > max_pot:
-                        duel_price = max_pot
                 except ValueError:
                     pass
 
@@ -384,7 +379,8 @@ class DuelModule(BaseModule):
 
                 if source is not None and challenged is not None:
                     self.bot.whisper(
-                        source, f"{challenged} didn't accept your duel request in time, so the duel has been cancelled. Ditched pepeLaugh"
+                        source,
+                        f"{challenged} didn't accept your duel request in time, so the duel has been cancelled. Ditched pepeLaugh",
                     )
 
                 del self.duel_targets[self.duel_requests[source.id]]

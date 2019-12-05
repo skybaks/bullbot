@@ -29,9 +29,6 @@ class BetGame(Base):
     # ID
     id = Column(INT, primary_key=True)
 
-    # Internal ID
-    internal_id = Column(INT, nullable=True, unique=True)
-
     # Timestamp
     timestamp = Column(UtcDateTime(), default=utils.now())
 

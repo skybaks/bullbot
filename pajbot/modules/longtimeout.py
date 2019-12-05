@@ -6,6 +6,7 @@ from pajbot import utils
 from pajbot.managers.db import DBManager
 from pajbot.managers.schedule import ScheduleManager
 from pajbot.models.longtimeout import LongTimeout
+from pajbot.models.user import User
 from pajbot.modules import BaseModule
 
 log = logging.getLogger(__name__)
@@ -19,15 +20,15 @@ class LongTimeoutModule(BaseModule):
 
     def __init__(self, bot):
         super().__init__(bot)
-        self.checkJob = ScheduleManager.execute_every(30, self.check_retimeout)
-        self.checkJob.pause()
+        self.checkJob = None
         self.mysqlFormat = "%Y-%m-%d %H:%M:%S"
 
     def check_retimeout(self):
-        with DBManager.create_session_scope() as session:
-            timeoutList = session.query(LongTimeout).all()
+        with DBManager.create_session_scope() as db_session:
+            timeoutList = db_session.query(LongTimeout).all()
             timeNow = utils.now()
             for timeoutItem in timeoutList:
+                timeoutUser = timeoutItem.user
                 timeoutEnd = timeoutItem.timeout_recent_end
                 overallStart = timeoutItem.timeout_start
                 overallEnd = timeoutItem.timeout_end
@@ -35,11 +36,9 @@ class LongTimeoutModule(BaseModule):
                 if timeNow > overallEnd:
                     self.bot.whisper(
                         timeoutItem.timeout_author,
-                        "{}'s timeout of {} hours has ended.".format(
-                            timeoutItem.username, round((overallEnd - overallStart).seconds / 3600, 2)
-                        ),
+                        f"{timeoutUser}'s timeout of {round((overallEnd - overallStart).seconds / 3600, 2)} hours has ended.",
                     )
-                    session.delete(timeoutItem)
+                    db_session.delete(timeoutItem)
                     continue
 
                 if timeoutEnd < timeNow:
@@ -50,27 +49,21 @@ class LongTimeoutModule(BaseModule):
                     timeoutHours = round(float(timeoutDuration / 3600), 2)
                     timeoutItem.timeout_recent_end = timeNow + timedelta(seconds=timeoutDuration)
                     self.bot.whisper(
-                        timeoutItem.timeout_author,
-                        "Timing out {} for an additional {} hours".format(timeoutItem.username, timeoutHours),
+                        timeoutItem.timeout_author, f"Timing out {timeoutUser} for an additional {timeoutHours} hours"
                     )
                     self.bot._timeout(
-                        timeoutItem.username,
+                        timeoutUser,
                         timeoutDuration,
-                        "Timed out {} for an additional {} hours, per {}'s !longtimeout".format(
-                            timeoutItem.username, timeoutHours, timeoutItem.timeout_author
-                        ),
+                        f"Timed out {timeoutUser} for an additional {timeoutHours} hours, per {timeoutItem.timeout_author}'s !longtimeout",
                     )
-                    session.add(timeoutItem)
+                    db_session.add(timeoutItem)
 
-    def long_timeout(self, **options):
-        bot = options["bot"]
-        message = options["message"]
-        source = options["source"]
+    def long_timeout(self, bot, message, source, **options):
         errorString = "Invalid usage. !longtimeout user days"
         daysDuration = 0
 
         if not message or len(message.split(" ")) < 2:
-            bot.whisper(source.username, errorString)
+            bot.whisper(source, errorString)
             return False
 
         splitMsg = message.split(" ")
@@ -81,96 +74,70 @@ class LongTimeoutModule(BaseModule):
             if timeoutDuration > 1209600:
                 timeoutDuration = 1209600
 
-            nowTime = datetime.now()
-            nowFormatted = nowTime.strftime(self.mysqlFormat)
+            nowTime = utils.now()
             endTime = nowTime + timedelta(days=daysDuration)
-            endFormatted = endTime.strftime(self.mysqlFormat)
-            with bot.users.find_context(splitMsg[0]) as badPerson:
-                if not badPerson:
-                    bot.whisper(source.username, 'User "{}" doesn\'t exist in the database'.format(splitMsg[0]))
-                    return False
+            with DBManager.create_session_scope() as db_session:
+                badPerson = User.find_or_create_from_user_input(db_session, bot.twitch_helix_api, splitMsg[0])
 
                 if badPerson.moderator:
-                    bot.whisper(source.username, "You can't timeout mods")
+                    bot.whisper(source, "You can't timeout mods")
                     return False
 
                 if badPerson.level >= 420:
-                    bot.whisper(
-                        source.username, "{}'s level is too high, you can't time them out.".format(badPerson.username)
-                    )
+                    bot.whisper(source, f"{badPerson}'s level is too high, you can't time them out.")
                     return False
 
-                with DBManager.create_session_scope() as session:
-                    if session.query(LongTimeout).filter(LongTimeout.username == badPerson.username).count() != 0:
-                        bot.whisper(source.username, "{} already exists in the database".format(badPerson.username))
-                        return False
+                if db_session.query(LongTimeout).filter(LongTimeout.user_id == badPerson.id).count() != 0:
+                    bot.whisper(source, f"{badPerson} already exists in the database")
+                    return False
 
-                    longtimeout = LongTimeout(
-                        username=badPerson.username,
-                        timeout_start=nowFormatted,
-                        timeout_end=endFormatted,
-                        timeout_author=source.username,
-                    )
+                longtimeout = LongTimeout(
+                    user_id=badPerson.id, timeout_start=nowTime, timeout_end=endTime, timeout_author=source.name,
+                )
 
-                    session.add(longtimeout)
+                db_session.add(longtimeout)
 
-                    bot._timeout(
-                        badPerson.username,
-                        timeoutDuration,
-                        "Timed out by {} for {} days total".format(source.username, daysDuration),
-                    )
-                    bot.whisper(
-                        source.username, "Timed out {} for 14 days, per your !longtimeout".format(badPerson.username)
-                    )
+                bot._timeout(badPerson, timeoutDuration, f"Timed out by {source} for {daysDuration} days total")
+                bot.whisper(source, f"Timed out {badPerson} for {daysDuration} days, per your !longtimeout")
 
         except ValueError:
-            bot.whisper(source.username, errorString)
+            bot.whisper(source, errorString)
             return False
         except Exception as e:
             log.error(e)
 
-    def list_timeouts(self, **options):
-        bot = options["bot"]
-        source = options["source"]
-
-        with DBManager.create_session_scope() as session:
-            timeoutList = session.query(LongTimeout).all()
+    def list_timeouts(self, bot, source, **rest):
+        with DBManager.create_session_scope() as db_session:
+            timeoutList = db_session.query(LongTimeout).all()
 
             if not timeoutList:
-                bot.whisper(source.username, "There are currently no long timeouts.")
+                bot.whisper(source, "There are currently no long timeouts.")
                 return True
 
             listString = ""
             for timeoutItem in timeoutList:
                 # log.debug(timeoutItem.__dict__)
-                listString += "{}: {}, ".format(
-                    timeoutItem.username, datetime.strftime(timeoutItem.timeout_end, self.mysqlFormat)
-                )
+                listString += f"{timeoutItem.user}: {timeoutItem.timeout_end}, "
 
-            bot.whisper(source.username, listString[:-2])
+            bot.whisper(source, listString[:-2])
 
-    def remove_timeout(self, **options):
-        bot = options["bot"]
-        message = options["message"]
-        source = options["source"]
-
+    def remove_timeout(self, bot, message, source, **rest):
         if not message:
-            bot.whisper(source.username, "Invalid usage. !removetimeout user")
+            bot.whisper(source, "Invalid usage. !removetimeout user")
             return False
 
-        with DBManager.create_session_scope() as session:
-            remTimeout = session.query(LongTimeout).filter_by(username=message.split()[0]).one_or_none()
+        with DBManager.create_session_scope() as db_session:
+            targetUser = User.find_or_create_from_user_input(db_session, bot.twitch_helix_api, message.split()[0])
+            remTimeout = db_session.query(LongTimeout).filter_by(user_id=targetUser.id).one_or_none()
             if not remTimeout:
-                bot.whisper(source.username, "User doesn't exist. See !listtimeouts")
+                bot.whisper(source, f"User '{targetUser}' doesn't exist. See !listtimeouts")
                 return False
 
             bot.whisper(
-                source.username,
-                "{}'s timeout of {} days has been cancelled.".format(
-                    remTimeout.username, (remTimeout.timeout_end - remTimeout.timeout_start).days
-                ),
+                source,
+                f"{remTimeout.user}'s timeout of {(remTimeout.timeout_end - remTimeout.timeout_start).days} days has been cancelled.",
             )
-            session.delete(remTimeout)
+            db_session.delete(remTimeout)
 
     def load_commands(self, **options):
         from pajbot.models.command import Command
@@ -219,9 +186,13 @@ class LongTimeoutModule(BaseModule):
         )
 
     def enable(self, bot):
-        if bot:
-            self.checkJob.resume()
+        if not bot:
+            return
+
+        self.checkJob = ScheduleManager.execute_every(30, self.check_retimeout)
 
     def disable(self, bot):
-        if bot:
-            self.checkJob.pause()
+        if not bot:
+            return
+
+        self.checkJob.remove()

@@ -20,7 +20,6 @@ from pajbot.apiwrappers.authentication.token_manager import AppAccessTokenManage
 from pajbot.apiwrappers.twitch.helix import TwitchHelixAPI
 from pajbot.apiwrappers.twitch.id import TwitchIDAPI
 from pajbot.apiwrappers.twitch.kraken_v5 import TwitchKrakenV5API
-from pajbot.apiwrappers.twitch.gql import GQLAPI
 from pajbot.apiwrappers.twitch.legacy import TwitchLegacyAPI
 from pajbot.apiwrappers.twitch.tmi import TwitchTMIAPI
 from pajbot.constants import VERSION
@@ -123,9 +122,6 @@ class Bot:
         self.twitch_helix_api = TwitchHelixAPI(RedisManager.get(), self.app_token_manager)
         self.twitch_v5_api = TwitchKrakenV5API(self.api_client_credentials, RedisManager.get())
         self.twitch_legacy_api = TwitchLegacyAPI(self.api_client_credentials, RedisManager.get())
-        self.twitch_gql_api = GQLAPI()
-
-        self.twitch_gql_api.start_poll()
 
         self.twitch_tmi_api = TwitchTMIAPI()
 
@@ -679,7 +675,7 @@ class Bot:
             return False
 
         if whisper:
-            self.whisper_login("datguy1", "{} said: {}".format(source.username_raw, message))
+            self.whisper_login("datguy1", "{} said: {}".format(source, message))
 
         if msg_lower[:1] == "!":
             msg_lower_parts = msg_lower.split(" ")

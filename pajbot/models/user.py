@@ -208,7 +208,6 @@ class User(Base):
         try:
             yield
         except:
-            log.debug(f"Returning {amount} {currency} to {self}")
             setattr(self, currency, getattr(self, currency) + amount)
             raise
 
