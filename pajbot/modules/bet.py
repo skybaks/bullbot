@@ -164,7 +164,7 @@ class BetModule(BaseModule):
         with DBManager.create_session_scope() as db_session:
             current_game = self.get_current_game(db_session)
 
-            points_stats = current_game.get_points_by_outcome(db_session)
+            # Currently unused: points_stats = current_game.get_points_by_outcome(db_session)
 
             self.bot.me(
                 f"The betting for the current game has been closed!"  # Winners can expect {winRatio} (win bettors) or {lossRatio} (loss bettors) point return on their bet"
