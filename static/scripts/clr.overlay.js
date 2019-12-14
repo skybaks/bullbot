@@ -259,16 +259,6 @@ function hsbet_set_data(win_points, loss_points) {
     }
 }
 
-function bet_update_data({win: win_points, loss: loss_points}) {
-    if (win_points > 0) {
-        $('#winbetters').text(parseInt($('#winbetters').text(), 10) + 1)
-        $('#winpoints').text(win_points + parseInt($('#winpoints'), 10));
-    } else {
-        $('#lossbetters').text(parseInt($('#lossbetters').text(), 10) + 1)
-        $('#losspoints').text(loss_points + parseInt($('#losspoints'), 10));
-    }
-}
-
 function create_graph(win, loss) {
     var ctx = $('#hsbet .chart').get(0).getContext('2d');
     if (win == 0) {
@@ -373,6 +363,16 @@ function bet_new_game() {
     bet_el.fadeIn(1000, function() {
         console.log('Faded in');
     });
+}
+
+function bet_update_data({win: win_points, loss: loss_points}) {
+    if (win_points > 0) {
+        $('#winbetters').text(parseInt($('#winbetters').text(), 10) + 1)
+        $('#winpoints').text(parseInt($('#winpoints').text(), 10) + win_points);
+    } else {
+        $('#lossbetters').text(parseInt($('#lossbetters').text(), 10) + 1)
+        $('#losspoints').text(parseInt($('#losspoints').text(), 10) + loss_points);
+    }
 }
 
 function bet_close_bet() {

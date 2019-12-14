@@ -325,6 +325,9 @@ class SubAlertModule(BaseModule):
                     source.username, addPoints, tierSub, monthText
                 )
             )
+
+        elif tags["msg-id"] == "rewardgift":
+            pass
         else:
             log.debug(f"Unhandled msg-id: {tags['msg-id']} - tags: {tags}")
 

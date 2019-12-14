@@ -45,11 +45,7 @@ class MassPointsModule(BaseModule):
             ],
         )
 
-    def command_masspoints(self, **options):
-        bot = options["bot"]
-        source = options["source"]
-        message = options["message"]
-
+    def command_masspoints(self, bot, source, message, **rest):
         if not message:
             return False
 
@@ -59,25 +55,31 @@ class MassPointsModule(BaseModule):
         try:
             givePoints = int(pointsArgument)
         except ValueError:
-            bot.whisper(source.username_raw, "Error: You must give an integer")
+            bot.whisper(source, "Error: You must give an integer")
             return False
 
-        currentChatters = bot.twitch_tmi_api.get_chatters(bot.streamer)
+        currentChatters = bot.twitch_tmi_api.get_chatters_by_login(bot.streamer)
         numUsers = len(currentChatters)
         if not currentChatters:
             bot.say("Error fetching chatters")
             return False
 
-        with DBManager.create_session_scope() as db_session:
-            userModels = db_session.query(User).filter(User.login.in_(currentChatters), User.num_lines > 5)
-            for userModel in userModels:
-                if userModel.subscriber:
-                    userModel.points += givePoints * self.settings["sub_points"]
-                else:
-                    userModel.points += givePoints
+        userBasics = bot.twitch_helix_api.bulk_get_user_basics_by_login(currentChatters)
 
-        bot.say(
-            "{} just gave {} viewers {} points each! Enjoy FeelsGoodMan".format(
-                source.username_raw, numUsers, givePoints
-            )
-        )
+        # Filtering
+        userBasics = [e for e in userBasics if e is not None]
+
+        with DBManager.create_session_scope() as db_session:
+            # Convert to models
+            userModels = [User.from_basics(db_session, e) for e in userBasics]
+
+            for userModel in userModels:
+                if userModel.num_lines < 5:
+                    continue
+
+                if userModel.subscriber:
+                    userModel.points = userModel.points + givePoints * self.settings["sub_points"]
+                else:
+                    userModel.points = userModel.points + givePoints
+ 
+        bot.say(f"{source} just gave {numUsers} viewers {givePoints} points each! Enjoy FeelsGoodMan")

@@ -157,8 +157,8 @@ class PlaysoundModule(BaseModule):
 
             if not source.can_afford(cost):
                 bot.whisper(
-                    source.username,
-                    "You need {0} points to play this playsound, ".format(cost) + "you have {}.".format(source.points),
+                    source,
+                    f"You need {cost} points to play this playsound, you have {source.points}.",
                 )
                 return False
 

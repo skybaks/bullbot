@@ -25,20 +25,15 @@ class EmoteCounterModule(BaseModule):
         self.emoteNames = []
         self.emoteValues = [0, 0]
 
-    def emote_counter(self, **options):
-        bot = options["bot"]
-        source = options["source"]
-        message = options["message"]
-        args = options["args"]
-
+    def emote_counter(self, bot, source, message, args, **rest):
         msg_parts = message.split(" ")
 
         if self.votingOpen:
-            bot.whisper(source.username, "Voting is already open.")
+            bot.whisper(source, "Voting is already open.")
             return False
 
         if len(msg_parts) < 3 or len(args["emote_instances"]) < 2:
-            bot.whisper(source.username, self.usageResponse)
+            bot.whisper(source, self.usageResponse)
             return False
 
         first_emote = args["emote_instances"][0].emote
@@ -49,33 +44,28 @@ class EmoteCounterModule(BaseModule):
         try:
             duration = int(msg_parts[2])
         except ValueError:
-            bot.whisper(source.username, self.usageResponse)
+            bot.whisper(source, self.usageResponse)
             return False
 
         self.votingOpen = True
         bot.websocket_manager.emit("emotecounter_start", payload)
-        bot.say(
-            "It's time to start voting for {} or {} ! You only get one vote.".format(
-                first_emote.code, second_emote.code
-            )
-        )
+        bot.say(f"It's time to start voting for {first_emote.code} or {second_emote.code} ! You only get one vote.")
         HandlerManager.add_handler("on_message", self.on_message)
-        bot.execute_delayed(duration, self.cleanup_counter, ({}))
+        bot.execute_delayed(duration, self.cleanup_counter)
 
-    def cleanup_counter(self, **options):
+    def generate_win_text(self, winnerName, winnerValue, loserName, loserValue):
+        return f"{winnerName} won with {winnerValue} votes while {loserName} had {loserValue} votes"
+
+    def cleanup_counter(self, **rest):
         winnerText = ""
         if self.emoteValues[0] > self.emoteValues[1]:
-            winnerText = "{} won with {} votes while {} had {} votes".format(
-                self.emoteNames[0], self.emoteValues[0], self.emoteNames[1], self.emoteValues[1]
-            )
+            winnerText = self.generate_win_text(self.emoteNames[0], self.emoteValues[0], self.emoteNames[1], self.emoteValues[1])
         elif self.emoteValues[1] > self.emoteValues[0]:
-            winnerText = "{} won with {} votes while {} had {} votes".format(
-                self.emoteNames[1], self.emoteValues[1], self.emoteNames[0], self.emoteValues[0]
-            )
+            winnerText = self.generate_win_text(self.emoteNames[1], self.emoteValues[1], self.emoteNames[0], self.emoteValues[0])
         else:
-            winnerText = "Both emotes drew on {} votes!".format(self.emoteValues[0])
+            winnerText = f"Both emotes drew on {self.emoteValues[0]} votes!"
 
-        self.bot.say("The voting has ended! {}".format(winnerText))
+        self.bot.say(f"The voting has ended! {winnerText}")
         self.bot.websocket_manager.emit("emotecounter_close")
         HandlerManager.remove_handler("on_message", self.on_message)
         self.votedUsers = []
@@ -84,7 +74,7 @@ class EmoteCounterModule(BaseModule):
         self.votingOpen = False
 
     def on_message(self, source, message, whisper, **rest):
-        if source.username_raw in self.votedUsers or whisper:
+        if source.login in self.votedUsers or whisper:
             return False
 
         cleanMessage = unidecode(message).strip().split()
@@ -98,7 +88,7 @@ class EmoteCounterModule(BaseModule):
         else:
             return False
 
-        self.votedUsers.append(source.username_raw)
+        self.votedUsers.append(source.login)
         self.bot.websocket_manager.emit(
             "emotecounter_update", {"value1": self.emoteValues[0], "value2": self.emoteValues[1]}
         )
@@ -123,4 +113,7 @@ class EmoteCounterModule(BaseModule):
         )
 
     def enable(self, bot):
+        if not bot:
+            return
+
         self.bot = bot

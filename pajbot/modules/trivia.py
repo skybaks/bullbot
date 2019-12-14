@@ -123,6 +123,7 @@ class TriviaModule(BaseModule):
         self.winstreak = 0
         self.min_streak = 3  # minimum correct answers for a streak
         self.point_bounty = 0
+        self.leak_answers = False
 
     def format_answer(self):
         # Fixme, Ug Th Fa Au Hy Ne
@@ -246,6 +247,9 @@ class TriviaModule(BaseModule):
 
     def step_announce(self):
         try:
+            if self.leak_answers:
+                log.debug(self.question["answer"])
+
             if self.jservice:
                 self.bot.safe_me(
                     f'PogChamp A new question has begun! In the category "{self.question["category"]["title"]}", the question/hint/clue is "{self.question["question"]}" 🤔'
@@ -301,7 +305,7 @@ class TriviaModule(BaseModule):
             self.last_question = utils.now()
             with DBManager.create_session_scope() as db_session:
                 user = User.find_by_user_input(db_session, "datguy1")
-                user.points += 1
+                user.points = user.points + 1
 
     def check_run(self):
         if self.bot.is_online:
@@ -355,11 +359,10 @@ class TriviaModule(BaseModule):
 
         HandlerManager.remove_handler("on_message", self.on_message)
 
-    def command_start(self, **options):
-        bot = options["bot"]
-        source = options["source"]
-        message = options["message"]
+    def command_leak(self, **rest):
+        self.leak_answers = not self.leak_answers
 
+    def command_start(self, bot, source, message, **rest):
         if self.trivia_running:
             bot.me(f"{source}, a trivia is already running")
             return
@@ -459,6 +462,13 @@ class TriviaModule(BaseModule):
             },
         )
 
+        self.commands["leakanswers"] = Command.raw_command(
+            self.command_leak,
+            level=500,
+            description="Log the answers to stdout"
+        )
+            
+
     def enable(self, bot):
         if bot:
             self.check_job = ScheduleManager.execute_every(10, self.check_run)
@@ -467,7 +477,9 @@ class TriviaModule(BaseModule):
         HandlerManager.add_handler("on_quit", self.stop_trivia)
 
     def disable(self, bot):
-        self.check_job.pause()
-        self.check_job = None
-        self.checkPaused = True
+        if bot:
+            self.check_job.remove()
+            self.check_job = None
+            self.checkPaused = True
+
         HandlerManager.remove_handler("on_quit", self.stop_trivia)

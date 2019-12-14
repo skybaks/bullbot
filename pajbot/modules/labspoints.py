@@ -4,7 +4,9 @@ import threading
 from currency_converter import CurrencyConverter
 from socketIO_client_nexus import SocketIO
 
+from pajbot.managers.db import DBManager
 from pajbot.managers.schedule import ScheduleManager
+from pajbot.models.user import User
 from pajbot.modules import BaseModule
 from pajbot.modules import ModuleSetting
 
@@ -46,20 +48,20 @@ class asyncSocketIO:
         if "historical" in detailedArgs:
             return False
 
-        user = self.bot.users.find(detailedArgs["name"])
-        if user is None:
-            return False
 
-        usdAmount = self.currencyConverter.convert(float(detailedArgs["amount"]), detailedArgs["currency"], "USD")
+        with DBManager.create_session_scope() as db_session:
+            user = User.find_by_user_input(db_session, detailedArgs["name"])
+            if user is None:
+                return False
 
-        finalValue = int(usdAmount * int(usdPoints))
+            usdAmount = self.currencyConverter.convert(float(detailedArgs["amount"]), detailedArgs["currency"], "USD")
 
-        user.points += finalValue
-        user.save()
+            finalValue = int(usdAmount * int(usdPoints))
 
-        self.bot.whisper(
-            user.username, "You have been given {} points due to a donation in your name".format(finalValue)
-        )
+            user.points = user.points + finalValue
+            user.save()
+
+            self.bot.whisper(user, f"You have been given {finalValue} points due to a donation in your name")
 
     def _receiveEventsThread(self):
         self.socketIO.wait()
@@ -83,9 +85,8 @@ class DonationPointsModule(BaseModule):
         ModuleSetting(key="usdValue", label="1 USD equals how many points", type="number", required=True),
     ]
 
-    def __init__(self, bot):
-        super().__init__(bot)
-        self.bot = bot
-
     def enable(self, bot):
-        asyncSocketIO(self.bot, self.settings)
+        if not bot:
+            return
+
+        asyncSocketIO(bot, self.settings)

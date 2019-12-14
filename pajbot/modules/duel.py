@@ -153,16 +153,17 @@ class DuelModule(BaseModule):
             duel_price = 1
             if len(msg_split) > 1:
                 try:
-                    duel_price = int(msg_split[1])
+                    duel_price = utils.parse_points_amount(source, msg_split[1])
                     if duel_price < 1:
-                        bot.whisper(source.username, f"Really? {duel_price} points?")
-                        bot.whisper(
-                            user.username,
-                            f"{source} tried to duel you for {duel_price} points. What a cheapskate EleGiggle",
-                        )
+                        # bot.whisper(source, f"Really? {duel_price} points?")
+                        # bot.whisper(
+                        #     user,
+                        #     f"{source} tried to duel you for {duel_price} points. What a cheapskate EleGiggle",
+                        # )
                         return False
-                except ValueError:
-                    pass
+                except InvalidPointAmount as e:
+                    bot.whisper(source, f"{e}. Usage: !duel USERNAME POINTS")
+                    return False
 
             if source.id in self.duel_requests:
                 currently_duelling = User.find_by_id(db_session, self.duel_requests[source.id])
@@ -187,7 +188,7 @@ class DuelModule(BaseModule):
                 )
                 return False
 
-            if user.username in self.blUsers:
+            if user.login in self.blUsers:
                 return True
 
             if not user.can_afford(duel_price) or not source.can_afford(duel_price):

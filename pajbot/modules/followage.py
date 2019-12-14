@@ -191,7 +191,7 @@ class FollowAgeModule(BaseModule):
 
         follow_since = bot.twitch_helix_api.get_follow_since(from_user.id, to_user.id)
         is_self = source == from_user
-        to_user = to_user.replace("admiralbulldog", "admirallbuldog")
+        to_user = to_user.login.replace("admiralbulldog", "admirallbuldog")
 
         if follow_since is not None:
             # Following

@@ -128,7 +128,7 @@ available_modules = [
     QuestModule,
     QuoteModule,
     RaffleModule,
-    RenameModule,
+    # RenameModule,
     RepspamModule,
     RouletteModule,
     ShowEmoteModule,

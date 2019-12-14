@@ -200,8 +200,18 @@ class RouletteModule(BaseModule):
         else:
             out_message = self.get_phrase("message_lost", **arguments)
 
-        if source.subscriber:
+        if self.settings["options_output"] == "1. Show results in chat":
             bot.me(out_message)
+        if self.settings["options_output"] == "2. Show results in whispers":
+            bot.whisper(source, out_message)
+        if (
+            self.settings["options_output"]
+            == "3. Show results in chat if it's over X points else it will be whispered."
+        ):
+            if abs(points_won) >= self.settings["min_show_points"]:
+                bot.me(out_message)
+            else:
+                bot.whisper(source, out_message)
 
         HandlerManager.trigger("on_roulette_finish", user=source, points=points_won)
 

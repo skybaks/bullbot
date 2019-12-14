@@ -30,15 +30,13 @@ class BetGame(Base):
     id = Column(INT, primary_key=True)
 
     # Timestamp
-    timestamp = Column(UtcDateTime(), default=utils.now())
+    timestamp = Column(UtcDateTime(), nullable=False)
 
     # outcome of the bet. NULL/None if the bet has not ended yet
     outcome = Column(BetOutcome, nullable=True)
 
     # Is the bet closed?
     bets_closed = Column(BOOLEAN, nullable=False, default=False)
-    # Has the close message been sent?
-    message_closed = Column(BOOLEAN, nullable=False, default=False)
 
     bets = relationship(
         "BetBet", back_populates="game", cascade="all, delete-orphan", passive_deletes=True, collection_class=set
@@ -88,6 +86,9 @@ class BetGame(Base):
             bets[outcome] = num_bets
 
         return bets
+
+    def __init__(self):
+        self.timestamp = utils.now()
 
 
 class BetBet(Base):

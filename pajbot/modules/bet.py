@@ -30,7 +30,7 @@ class BetModule(BaseModule):
         ModuleSetting(  # Not required
             key="min_return", label="Minimum return odds", type="text", placeholder="", default="1.10"
         ),
-        ModuleSetting(key="max_bet", label="Maximum bet", type="number", placeholder="", default="2000"),
+        ModuleSetting(key="max_bet", label="Maximum bet", type="number", placeholder="", default="3000"),
     ]
 
     def __init__(self, bot):
@@ -58,7 +58,7 @@ class BetModule(BaseModule):
             query = query.options(joinedload(BetGame.bets).joinedload(BetBet.user))
 
         current_game = query.one_or_none()
-        if not current_game:
+        if not current_game and create_new:
             current_game = BetGame()
             db_session.add(current_game)
             db_session.flush()
@@ -92,6 +92,7 @@ class BetModule(BaseModule):
 
     def spread_points(self, gameResult):
         with DBManager.create_session_scope() as db_session:
+            # What is faster? Doing it like this or with a generator afterwards?
             winners = 0
             losers = 0
             current_game = self.get_current_game(db_session, with_bets=True, with_users=True)
@@ -125,8 +126,6 @@ class BetModule(BaseModule):
                         f"You bet {bet.points} points on the wrong outcome, so you lost it all :( . You now have {newPoints} points admiralCute",
                     )
 
-            winners = len([outcome for outcome, points in points_by_outcome.items() if outcome == current_game.outcome])
-            losers = len([outcome for outcome, points in points_by_outcome.items() if outcome != current_game.outcome])
             total_winnings = sum(
                 points for outcome, points in points_by_outcome.items() if outcome == current_game.outcome
             )
@@ -143,7 +142,6 @@ class BetModule(BaseModule):
 
             # Just to make sure
             current_game.bets_closed = True
-            current_game.message_closed = True
             self.spectating = False
 
             self.bot.websocket_manager.emit("notification", {"message": resultString, "length": 8})
@@ -167,28 +165,32 @@ class BetModule(BaseModule):
             current_game = self.get_current_game(db_session)
 
             points_stats = current_game.get_points_by_outcome(db_session)
-            winning_points = sum(points for outcome, points in points_stats.items() if outcome == BetGameOutcome.win)
-            losing_points = sum(points for outcome, points in points_stats.items() if outcome == BetGameOutcome.loss)
+            # winning_points = sum(points for outcome, points in points_stats.items() if outcome == BetGameOutcome.win)
+            # losing_points = sum(points for outcome, points in points_stats.items() if outcome == BetGameOutcome.loss)
+            total_points = sum(points_stats.values())
 
-            winRatio = winning_points / losing_points * 100
-            lossRatio = losing_points / winning_points * 100
+            # winRatio = int((1 / points_stats[BetGameOutcome.win]) * total_points)
+            # lossRatio = int((1 / points_stats[BetGameOutcome.loss]) * total_points)
 
             self.bot.me(
-                f"The betting for the current game has been closed! Winners can expect a {winRatio:.2f} (win bettors) or {lossRatio:.2f} (loss bettors) return on their bet"
+                f"The betting for the current game has been closed!" # Winners can expect {winRatio} (win bettors) or {lossRatio} (loss bettors) point return on their bet"
             )
             self.bot.websocket_manager.emit(
                 "notification", {"message": "The betting for the current game has been closed!"}
             )
 
             if not self.spectating:
-                self.bot.execute_delayed(15, self.bot.websocket_manager.emit, ("bet_close_game",))
+                self.bot.execute_delayed(15, self.bot.websocket_manager.emit, "bet_close_game")
 
-            current_game.message_closed = True
             current_game.bets_closed = True
 
     def start_game(self, openString=None):
         with DBManager.create_session_scope() as db_session:
             current_game = self.get_current_game(db_session)
+
+            if current_game.betting_open == False:
+                self.bot.say("Betting is already open Pepega")
+                return False
 
             if not openString:
                 openString = "A new game has begun! Vote with !bet win/lose POINTS"
@@ -210,7 +212,11 @@ class BetModule(BaseModule):
 
     def command_stats(self, bot, **rest):
         with DBManager.create_session_scope() as db_session:
-            current_game = self.get_current_game(db_session)
+            current_game = db_session.query(BetGame).filter(BetGame.betting_open).one_or_none()
+            if not current_game:
+                bot.say("No bet is currently running WeirdChamp")
+                return False
+
             points_stats = current_game.get_points_by_outcome(db_session)
             bet_stats = current_game.get_bets_by_outcome(db_session)
             bot.say(
@@ -219,7 +225,10 @@ class BetModule(BaseModule):
 
     def command_close(self, bot, source, message, **rest):
         with DBManager.create_session_scope() as db_session:
-            current_game = self.get_current_game(db_session)
+            current_game = db_session.query(BetGame).filter(BetGame.betting_open).one_or_none()
+            if not current_game:
+                bot.say(f"{source}?")
+                return False
 
             if current_game.betting_open:
                 count_down = 15
@@ -241,13 +250,7 @@ class BetModule(BaseModule):
                 self.spectating = False
 
     def command_restart(self, bot, message, **rest):
-        reason = ""
-
-        if message:
-            reason = message
-        else:
-            reason = "No reason given EleGiggle"
-
+        reason = message if message else "No reason given EleGiggle"
         with DBManager.create_session_scope() as db_session:
             current_game = self.get_current_game(db_session, with_bets=True, with_users=True)
             for bet in current_game.bets:
@@ -262,13 +265,14 @@ class BetModule(BaseModule):
 
     def command_betstatus(self, bot, **rest):
         with DBManager.create_session_scope() as db_session:
-            current_game = self.get_current_game(db_session)
-            if current_game.betting_open:
+            current_game = db_session.query(BetGame).filter(BetGame.betting_open).one_or_none()
+
+            if not current_game:
+                bot.say("There is no bet running")
+            elif current_game.betting_open:
                 bot.say("Betting is open")
             elif current_game.is_running:
                 bot.say("There is currently a bet with points not awarded yet")
-            else:
-                bot.say("There is no bet running")
 
     def command_bet(self, bot, source, message, **rest):
         if message is None:
@@ -277,7 +281,7 @@ class BetModule(BaseModule):
         with DBManager.create_session_scope() as db_session:
             current_game = self.get_current_game(db_session)
             if not current_game.betting_open:
-                if current_game.message_closed:
+                if current_game.bets_closed:
                     bot.whisper(source, "Betting is not currently open. Wait until the next game :\\")
                 return False
 
@@ -294,8 +298,8 @@ class BetModule(BaseModule):
 
             try:
                 points = utils.parse_points_amount(source, msg_parts[1])
-                if points > 2000:  # self.settings["max_bet"]:
-                    points = 2000  # self.settings["max_bet"]
+                if points > self.settings["max_bet"]:
+                    points = self.settings["max_bet"]
             except InvalidPointAmount as e:
                 bot.whisper(source, f"Invalid bet. Usage: !bet win/loss POINTS. {e}")
                 return False
@@ -315,7 +319,7 @@ class BetModule(BaseModule):
 
             user_bet = BetBet(game_id=current_game.id, user_id=source.id, outcome=bet_for, points=points)
             db_session.add(user_bet)
-            source.points -= points
+            source.points = source.points - points
 
             payload = {"win": 0, "loss": 0, bet_for.name: points}
 
