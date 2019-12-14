@@ -59,9 +59,13 @@ class EmoteCounterModule(BaseModule):
     def cleanup_counter(self, **rest):
         winnerText = ""
         if self.emoteValues[0] > self.emoteValues[1]:
-            winnerText = self.generate_win_text(self.emoteNames[0], self.emoteValues[0], self.emoteNames[1], self.emoteValues[1])
+            winnerText = self.generate_win_text(
+                self.emoteNames[0], self.emoteValues[0], self.emoteNames[1], self.emoteValues[1]
+            )
         elif self.emoteValues[1] > self.emoteValues[0]:
-            winnerText = self.generate_win_text(self.emoteNames[1], self.emoteValues[1], self.emoteNames[0], self.emoteValues[0])
+            winnerText = self.generate_win_text(
+                self.emoteNames[1], self.emoteValues[1], self.emoteNames[0], self.emoteValues[0]
+            )
         else:
             winnerText = f"Both emotes drew on {self.emoteValues[0]} votes!"
 

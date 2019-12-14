@@ -463,11 +463,8 @@ class TriviaModule(BaseModule):
         )
 
         self.commands["leakanswers"] = Command.raw_command(
-            self.command_leak,
-            level=500,
-            description="Log the answers to stdout"
+            self.command_leak, level=500, description="Log the answers to stdout"
         )
-            
 
     def enable(self, bot):
         if bot:

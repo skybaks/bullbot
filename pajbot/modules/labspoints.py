@@ -48,7 +48,6 @@ class asyncSocketIO:
         if "historical" in detailedArgs:
             return False
 
-
         with DBManager.create_session_scope() as db_session:
             user = User.find_by_user_input(db_session, detailedArgs["name"])
             if user is None:

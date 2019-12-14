@@ -81,5 +81,5 @@ class MassPointsModule(BaseModule):
                     userModel.points = userModel.points + givePoints * self.settings["sub_points"]
                 else:
                     userModel.points = userModel.points + givePoints
- 
+
         bot.say(f"{source} just gave {numUsers} viewers {givePoints} points each! Enjoy FeelsGoodMan")

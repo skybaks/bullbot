@@ -173,7 +173,7 @@ class BetModule(BaseModule):
             # lossRatio = int((1 / points_stats[BetGameOutcome.loss]) * total_points)
 
             self.bot.me(
-                f"The betting for the current game has been closed!" # Winners can expect {winRatio} (win bettors) or {lossRatio} (loss bettors) point return on their bet"
+                f"The betting for the current game has been closed!"  # Winners can expect {winRatio} (win bettors) or {lossRatio} (loss bettors) point return on their bet"
             )
             self.bot.websocket_manager.emit(
                 "notification", {"message": "The betting for the current game has been closed!"}
