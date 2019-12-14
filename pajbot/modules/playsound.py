@@ -156,9 +156,7 @@ class PlaysoundModule(BaseModule):
                 cost = self.settings["point_cost"]
 
             if not source.can_afford(cost):
-                bot.whisper(
-                    source, f"You need {cost} points to play this playsound, you have {source.points}.",
-                )
+                bot.whisper(source, f"You need {cost} points to play this playsound, you have {source.points}.")
                 return False
 
             if not playsound.enabled:

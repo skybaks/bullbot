@@ -1,5 +1,4 @@
 import logging
-from datetime import datetime
 from datetime import timedelta
 
 from pajbot import utils
@@ -92,7 +91,7 @@ class LongTimeoutModule(BaseModule):
                     return False
 
                 longtimeout = LongTimeout(
-                    user_id=badPerson.id, timeout_start=nowTime, timeout_end=endTime, timeout_author=source.name,
+                    user_id=badPerson.id, timeout_start=nowTime, timeout_end=endTime, timeout_author=source.name
                 )
 
                 db_session.add(longtimeout)

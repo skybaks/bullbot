@@ -58,7 +58,7 @@ class BetModule(BaseModule):
             query = query.options(joinedload(BetGame.bets).joinedload(BetBet.user))
 
         current_game = query.one_or_none()
-        if not current_game and create_new:
+        if not current_game:
             current_game = BetGame()
             db_session.add(current_game)
             db_session.flush()
@@ -165,12 +165,6 @@ class BetModule(BaseModule):
             current_game = self.get_current_game(db_session)
 
             points_stats = current_game.get_points_by_outcome(db_session)
-            # winning_points = sum(points for outcome, points in points_stats.items() if outcome == BetGameOutcome.win)
-            # losing_points = sum(points for outcome, points in points_stats.items() if outcome == BetGameOutcome.loss)
-            total_points = sum(points_stats.values())
-
-            # winRatio = int((1 / points_stats[BetGameOutcome.win]) * total_points)
-            # lossRatio = int((1 / points_stats[BetGameOutcome.loss]) * total_points)
 
             self.bot.me(
                 f"The betting for the current game has been closed!"  # Winners can expect {winRatio} (win bettors) or {lossRatio} (loss bettors) point return on their bet"
@@ -188,7 +182,7 @@ class BetModule(BaseModule):
         with DBManager.create_session_scope() as db_session:
             current_game = self.get_current_game(db_session)
 
-            if current_game.betting_open == False:
+            if current_game.betting_open is False:
                 self.bot.say("Betting is already open Pepega")
                 return False
 
