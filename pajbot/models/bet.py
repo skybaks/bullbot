@@ -51,7 +51,7 @@ class BetGame(Base):
         return self.outcome.is_(None)
 
     @hybrid_property
-    def betting_open(self): # Remove 'and not None' check since it's not nullable
+    def betting_open(self):  # Remove 'and not None' check since it's not nullable
         return self.is_running and self.bets_closed is False
 
     @betting_open.expression
