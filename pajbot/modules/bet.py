@@ -257,7 +257,6 @@ class BetModule(BaseModule):
 
             current_game.timestamp = utils.now()
 
-
         self.spectating = False
 
         bot.me("All your bets have been refunded and betting has been restarted.")
