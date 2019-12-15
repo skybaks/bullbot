@@ -206,7 +206,7 @@ class BetModule(BaseModule):
 
     def command_stats(self, bot, **rest):
         with DBManager.create_session_scope() as db_session:
-            current_game = db_session.query(BetGame).filter(BetGame.betting_open).one_or_none()
+            current_game = db_session.query(BetGame).filter(BetGame.is_running).one_or_none()
             if not current_game:
                 bot.say("No bet is currently running WeirdChamp")
                 return False
@@ -221,7 +221,7 @@ class BetModule(BaseModule):
         with DBManager.create_session_scope() as db_session:
             current_game = db_session.query(BetGame).filter(BetGame.betting_open).one_or_none()
             if not current_game:
-                bot.say(f"{source}?")
+                bot.say(f"{source} stop pretending WeirdChamp ✋ (bets are already locked)")
                 return False
 
             if current_game.betting_open:
@@ -253,13 +253,18 @@ class BetModule(BaseModule):
                     bet.user, f"Your {bet.points} points bet has been refunded. The reason given is: '{reason}'"
                 )
 
+                db_session.delete(bet)
+
+            current_game.timestamp = utils.now()
+
+
         self.spectating = False
 
         bot.me("All your bets have been refunded and betting has been restarted.")
 
     def command_betstatus(self, bot, **rest):
         with DBManager.create_session_scope() as db_session:
-            current_game = db_session.query(BetGame).filter(BetGame.betting_open).one_or_none()
+            current_game = db_session.query(BetGame).filter(BetGame.is_running).one_or_none()
 
             if not current_game:
                 bot.say("There is no bet running")

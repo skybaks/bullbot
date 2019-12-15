@@ -51,12 +51,12 @@ class BetGame(Base):
         return self.outcome.is_(None)
 
     @hybrid_property
-    def betting_open(self):
-        return self.is_running and self.bets_closed is not None and self.bets_closed is False
+    def betting_open(self): # Remove 'and not None' check since it's not nullable
+        return self.is_running and self.bets_closed is False
 
     @betting_open.expression
     def betting_open(self):
-        return and_(self.is_running, self.bets_closed.isnot(None), self.bets_closed is False)
+        return and_(self.is_running, self.bets_closed.is_(False))
 
     def get_points_by_outcome(self, db_session):
         """ Returns how many points are bet on win and how many points
