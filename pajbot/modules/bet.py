@@ -45,9 +45,8 @@ class BetModule(BaseModule):
             if not current_game:
                 return
 
-            if current_game.betting_open:
-                self.bot.me("monkaS 👉 🕒 place your bets people")
-                self.bot.websocket_manager.emit("notification", {"message": "monkaS 👉 🕒 place your bets people"})
+            self.bot.me("monkaS 👉 🕒 place your bets people")
+            self.bot.websocket_manager.emit("notification", {"message": "monkaS 👉 🕒 place your bets people"})
 
     def get_current_game(self, db_session, with_bets=False, with_users=False):
         query = db_session.query(BetGame).filter(BetGame.is_running)
