@@ -58,7 +58,7 @@ class BetModule(BaseModule):
             query = query.options(joinedload(BetGame.bets).joinedload(BetBet.user))
 
         current_game = query.one_or_none()
-        if not current_game:
+        if current_game is None:
             current_game = BetGame()
             db_session.add(current_game)
             db_session.flush()
@@ -182,9 +182,11 @@ class BetModule(BaseModule):
         with DBManager.create_session_scope() as db_session:
             current_game = self.get_current_game(db_session)
 
-            if current_game.betting_open is False:
+            if current_game.betting_open:
                 self.bot.say("Betting is already open Pepega")
                 return False
+
+            current_game.bets_closed = False
 
             if not openString:
                 openString = "A new game has begun! Vote with !bet win/lose POINTS"
@@ -198,7 +200,7 @@ class BetModule(BaseModule):
     def command_open(self, message, **rest):
         openString = "Betting has been opened"
 
-        if message and ["dire", "radi", "spectat"] in message:
+        if message and any(specHint in message for specHint in ["dire", "radi", "spectat"]):
             self.spectating = True
             openString += ". Reminder to bet with radiant/dire instead of win/loss"
 
