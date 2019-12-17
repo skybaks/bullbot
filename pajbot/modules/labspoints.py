@@ -58,7 +58,6 @@ class asyncSocketIO:
             finalValue = int(usdAmount * int(usdPoints))
 
             user.points = user.points + finalValue
-            user.save()
 
             self.bot.whisper(user, f"You have been given {finalValue} points due to a donation in your name")
 

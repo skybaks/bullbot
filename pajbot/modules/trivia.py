@@ -340,6 +340,7 @@ class TriviaModule(BaseModule):
         HandlerManager.add_handler("on_message", self.on_message)
 
     def stop_trivia(self, endStep=False):
+        self.trivia_running = False
         if self.job:
             self.job.pause()
 
@@ -354,7 +355,6 @@ class TriviaModule(BaseModule):
         if endStep:
             self.step_end()
 
-        self.trivia_running = False
         self.correct_dict = {}
 
         HandlerManager.remove_handler("on_message", self.on_message)

@@ -33,7 +33,7 @@ class LongTimeoutModule(BaseModule):
                 overallEnd = timeoutItem.timeout_end
 
                 if timeNow > overallEnd:
-                    self.bot.whisper(
+                    self.bot.whisper_login(
                         timeoutItem.timeout_author,
                         f"{timeoutUser}'s timeout of {round((overallEnd - overallStart).seconds / 3600, 2)} hours has ended.",
                     )
