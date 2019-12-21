@@ -220,9 +220,9 @@ class BetModule(BaseModule):
 
     def command_close(self, bot, source, message, **rest):
         with DBManager.create_session_scope() as db_session:
-            current_game = db_session.query(BetGame).filter(BetGame.betting_open).one_or_none()
+            current_game = db_session.query(BetGame).filter(BetGame.is_running).one_or_none()
             if not current_game:
-                bot.say(f"{source} stop pretending WeirdChamp ✋ (bets are already locked)")
+                bot.say(f"{source}, no bet currently exists")
                 return False
 
             if current_game.betting_open:
@@ -243,6 +243,8 @@ class BetModule(BaseModule):
                     return False
 
                 self.spectating = False
+            else:
+                bot.say("WTFF")
 
     def command_restart(self, bot, message, **rest):
         reason = message if message else "No reason given EleGiggle"
