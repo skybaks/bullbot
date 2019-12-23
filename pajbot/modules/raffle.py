@@ -325,6 +325,7 @@ class RaffleModule(BaseModule):
 
             self.bot.me(f"The raffle has finished! {winner} {format_win(self.raffle_points)} points! PogChamp")
 
+
             winner.points = winner.points + self.raffle_points
 
             HandlerManager.trigger("on_raffle_win", winner=winner, points=self.raffle_points)

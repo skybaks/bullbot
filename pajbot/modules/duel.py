@@ -231,11 +231,10 @@ class DuelModule(BaseModule):
         with DBManager.create_session_scope() as db_session:
             challenged = User.find_by_id(db_session, self.duel_requests[source.id])
             bot.whisper(source, f"You have cancelled the duel vs {challenged}")
-
-        del self.duel_targets[self.duel_requests[source.id]]
-        del self.duel_requests[source.id]
+        del self.duel_targets[challenged.id]
         del self.duel_request_price[source.id]
         del self.duel_begin_time[source.id]
+        del self.duel_requests[source.id]
 
     def accept_duel(self, bot, source, **rest):
         """
@@ -262,10 +261,10 @@ class DuelModule(BaseModule):
                     f"Your duel request with {source} was cancelled due to one of you not having enough points.",
                 )
 
-                del self.duel_requests[self.duel_targets[source.id]]
+                del self.duel_requests[requestor.id]
+                del self.duel_request_price[requestor.id]
+                del self.duel_begin_time[requestor.id]
                 del self.duel_targets[source.id]
-                del self.duel_request_price[source.id]
-                del self.duel_begin_time[source.id]
 
                 return False
 
@@ -281,7 +280,7 @@ class DuelModule(BaseModule):
 
             # Persist duel statistics
             winner.duel_stats.won(winning_pot)
-            winner.duel_stats.lost(duel_price)
+            loser.duel_stats.lost(duel_price)
 
             arguments = {
                 "winner": winner.name,
@@ -298,10 +297,10 @@ class DuelModule(BaseModule):
                 message = self.get_phrase("message_won", **arguments)
             bot.say(message)
 
-            del self.duel_requests[self.duel_targets[source.id]]
+            del self.duel_requests[requestor.id]
+            del self.duel_request_price[requestor.id]
+            del self.duel_begin_time[requestor.id]
             del self.duel_targets[source.id]
-            del self.duel_request_price[source.id]
-            del self.duel_begin_time[source.id]
 
             HandlerManager.trigger(
                 "on_duel_complete", winner=winner, loser=loser, points_won=winning_pot, points_bet=duel_price
@@ -324,10 +323,10 @@ class DuelModule(BaseModule):
             bot.whisper(source, f"You have declined the duel vs {requestor}")
             bot.whisper(requestor, f"{source} declined the duel challenge with you.")
 
-            del self.duel_targets[source.id]
-            del self.duel_requests[requestor.id]
-            del self.duel_request_price[source.id]
-            del self.duel_begin_time[source.id]
+        del self.duel_targets[source.id]
+        del self.duel_requests[requestor.id]
+        del self.duel_request_price[requestor.id]
+        del self.duel_begin_time[requestor.id]
 
     def status_duel(self, bot, source, **rest):
         """
@@ -385,10 +384,10 @@ class DuelModule(BaseModule):
                         f"{challenged} didn't accept your duel request in time, so the duel has been cancelled. Ditched pepeLaugh",
                     )
 
-                del self.duel_targets[self.duel_requests[source.id]]
-                del self.duel_requests[source.id]
-                del self.duel_request_price[source.id]
-                del self.duel_begin_time[source.id]
+            del self.duel_targets[self.duel_requests[source.id]]
+            del self.duel_requests[source.id]
+            del self.duel_request_price[source.id]
+            del self.duel_begin_time[source.id]
 
     def enable(self, bot):
         if not bot:
