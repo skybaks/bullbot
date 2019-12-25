@@ -271,6 +271,8 @@ class Bot:
             "molly_age_in_years": self.c_molly_age_in_years,
         }
 
+        self.user_agent = f"pajbot1/{VERSION} ({self.nickname})"
+
     @property
     def password(self):
         return f"oauth:{self.bot_token_manager.token.access_token}"
@@ -433,7 +435,7 @@ class Bot:
 
     def privmsg_from_file(self, url, per_chunk=35, chunk_delay=30, target=None):
         try:
-            r = requests.get(url)
+            r = requests.get(url, headers={"User-Agent": self.user_agent})
             r.raise_for_status()
 
             content_type = r.headers["Content-Type"]
@@ -459,7 +461,7 @@ class Bot:
     # Usage: !eval bot.eval_from_file(event, 'https://pastebin.com/raw/LhCt8FLh')
     def eval_from_file(self, event, url):
         try:
-            r = requests.get(url)
+            r = requests.get(url, headers={"User-Agent": self.user_agent})
             r.raise_for_status()
 
             content_type = r.headers["Content-Type"]
