@@ -58,7 +58,7 @@ class MassPointsModule(BaseModule):
             bot.whisper(source, "Error: You must give an integer")
             return False
 
-        currentChatters = bot.twitch_tmi_api.get_chatters_by_login(bot.streamer)
+        currentChatters = bot.twitch_tmi_api.get_chatter_logins_by_login(bot.streamer)
         numUsers = len(currentChatters)
         if not currentChatters:
             bot.say("Error fetching chatters")
