@@ -280,10 +280,13 @@ class BetModule(BaseModule):
             return False
 
         with DBManager.create_session_scope() as db_session:
-            current_game = self.get_current_game(db_session)
-            if not current_game.betting_open:
-                if current_game.bets_closed:
-                    bot.whisper(source, "Betting is not currently open. Wait until the next game :\\")
+            current_game = db_session.query(BetGame).filter(BetGame.is_running).one_or_none()
+            if not current_game:
+                bot.whisper(source, "There is currently no bet")
+                return False
+
+            if current_game.betting_open is False:
+                bot.whisper(source, "Betting is not currently open. Wait until the next game :\\")
                 return False
 
             msg_parts = message.split(" ")
