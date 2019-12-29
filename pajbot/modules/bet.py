@@ -179,13 +179,17 @@ class BetModule(BaseModule):
 
     def start_game(self, openString=None):
         with DBManager.create_session_scope() as db_session:
-            current_game = self.get_current_game(db_session)
+            current_game = db_session.query(BetGame).filter(BetGame.is_running).one_or_none()
 
-            if current_game.betting_open:
+            if current_game is None:
+                current_game = BetGame()
+                db_session.add(current_game)
+                db_session.flush()
+            elif current_game.betting_open is True:
+                current_game.bets_closed = False
+            else:
                 self.bot.say("Betting is already open Pepega")
                 return False
-
-            current_game.bets_closed = False
 
             if not openString:
                 openString = "A new game has begun! Vote with !bet win/lose POINTS"
@@ -306,6 +310,9 @@ class BetModule(BaseModule):
                     points = self.settings["max_bet"]
             except InvalidPointAmount as e:
                 bot.whisper(source, f"Invalid bet. Usage: !bet win/loss POINTS. {e}")
+                return False
+            except IndexError:
+                bot.whisper(source, "Invalid bet. Usage: !bet win/loss POINTS")
                 return False
 
             if points < 1:
