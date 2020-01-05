@@ -31,12 +31,12 @@ from pajbot.apiwrappers.twitch.badges import BadgeNotFoundError
 log = logging.getLogger(__name__)
 
 
-def requires_level(level):
+def requires_level(level, redirect_url='/'):
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
             if "user" not in session:
-                abort(403)
+                return redirect("/login?n="+redirect_url)
             with DBManager.create_session_scope() as db_session:
                 user = db_session.query(User).filter_by(id=session["user"]["id"]).one_or_none()
                 if user is None:
