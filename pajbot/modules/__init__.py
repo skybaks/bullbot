@@ -74,6 +74,7 @@ from pajbot.modules.vanish import VanishModule
 from pajbot.modules.viewerpoints import MassPointsModule
 from pajbot.modules.warning import WarningModule
 from pajbot.modules.wolfram import WolframModule
+from pajbot.modules.discord_bot import DiscordModule
 
 available_modules = [
     AbCommandModule,
@@ -128,6 +129,7 @@ available_modules = [
     QuestModule,
     QuoteModule,
     RaffleModule,
+    DiscordModule,
     # RenameModule,
     RepspamModule,
     RouletteModule,
