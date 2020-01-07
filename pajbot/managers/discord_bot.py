@@ -135,14 +135,10 @@ class DiscordBotManager(object):
             user = User.find_by_id(db_session, userconnections.twitch_id)
             if user.tier is None:
                 tier = 0
-            elif user.tier == '1000':
-                tier = 1
-            elif user.tier == '2000':
-                tier = 2
-            elif user.tier == '3000':
-                tier = 3
+            elif user.tier >= 1:
+                tier = user.tier
             else:
-                tier = 0
+                tier =0
             await self.private_message(message.author, 
                 f'Tier {tier} sub:\nTwitch : {user} (<https://twitch.tv/{user.login}/>) \nDiscord : {message.author.display_name}#{message.author.discriminator} (<https://discordapp.com/users/{message.author.id}>)\nSteam : <https://steamcommunity.com/profiles/{userconnections.steam_id}/>'
             )
@@ -229,10 +225,10 @@ class DiscordBotManager(object):
                         member_assigned_tier2 = tier2_role in member.roles
                     if tier3_role is not None:
                         member_assigned_tier3 = tier3_role in member.roles
-                    if quick_dict[member_id][0] == '2000':
+                    if quick_dict[member_id][0] == 2:
                         if member_assigned_tier3 and tier3_role is not None:
                             await self.remove_role(member, tier3_role)
-                    elif quick_dict[member_id][0] == '3000':
+                    elif quick_dict[member_id][0] == 3:
                         if member_assigned_tier2 and tier2_role is not None:
                             await self.remove_role(member, tier2_role)
                     else:
@@ -240,13 +236,13 @@ class DiscordBotManager(object):
                             await self.remove_role(member, tier2_role)
                         if member_assigned_tier3 and tier3_role is not None:
                             await self.remove_role(member, tier3_role)
-                    if member_assigned_tier3 and quick_dict[member_id][0] != '3000' and self.settings['notify_on_unsub'] and self.settings['notify_on_tier3']:
+                    if member_assigned_tier3 and quick_dict[member_id][0] != 3 and self.settings['notify_on_unsub'] and self.settings['notify_on_tier3']:
                         #notify role removal
                         for member_to_notify in role_to_notify.members:
                             await self.private_message(member_to_notify, 
                                 f'Tier 3 sub removal notification:\nTwitch : {User.find_by_id(db_session, quick_dict[member_id][1].twitch_id)} (<https://twitch.tv/{User.find_by_id(db_session, quick_dict[member_id][1].twitch_id).login}/>) \nDiscord : {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam : <https://steamcommunity.com/profiles/{quick_dict[member_id][1].steam_id}/>'
                             )
-                    if member_assigned_tier2 and quick_dict[member_id][0] != '2000' and self.settings['notify_on_unsub'] and self.settings['notify_on_tier2']:
+                    if member_assigned_tier2 and quick_dict[member_id][0] != 2 and self.settings['notify_on_unsub'] and self.settings['notify_on_tier2']:
                         #notify role removal
                         for member_to_notify in role_to_notify.members:
                             await self.private_message(member_to_notify,
@@ -262,7 +258,7 @@ class DiscordBotManager(object):
                 member_id = str(member.id)
                 if role_to_ignore is None or role_to_ignore not in member.roles:
                     if member_id in quick_dict:
-                        if not member_assigned_tier3 and quick_dict[member_id][0] == '3000':
+                        if not member_assigned_tier3 and quick_dict[member_id][0] == 3:
                             await self.add_role(member, tier3_role)
                             if member_assigned_tier2:
                                 await self.remove_role(member, tier2_role)
@@ -282,9 +278,9 @@ class DiscordBotManager(object):
                                     await self.private_message(member_to_notify,
                                         f'New tier 2 sub notification:\nTwitch : {User.find_by_id(db_session, quick_dict[member_id][1].twitch_id)}(<https://twitch.tv/{User.find_by_id(db_session, quick_dict[member_id][1].twitch_id).login}/>)\nDiscord : {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam : <https://steamcommunity.com/profiles/{quick_dict[member_id][1].steam_id}/>'
                                     )
-                        if member_assigned_tier3 and quick_dict[member_id][0] != '3000':
+                        if member_assigned_tier3 and quick_dict[member_id][0] != 2:
                             subs_to_return.append([(utils.now() + timedelta(days=int(self.settings['grace_time']))).__str__(), member_id])
-                        elif member_assigned_tier2 and quick_dict[member_id][0] != '2000':
+                        elif member_assigned_tier2 and quick_dict[member_id][0] != 2:
                             subs_to_return.append([(utils.now() + timedelta(days=int(self.settings['grace_time']))).__str__(), member_id])
                     else:
                         if member_assigned_tier2:

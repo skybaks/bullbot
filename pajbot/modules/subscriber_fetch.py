@@ -74,7 +74,7 @@ CREATE TEMPORARY TABLE subscribers(
     id TEXT PRIMARY KEY NOT NULL,
     login TEXT NOT NULL,
     name TEXT NOT NULL,
-    tier TEXT NOT NULL
+    tier INTEGER NOT NULL
 )
 ON COMMIT DROP"""
                 )

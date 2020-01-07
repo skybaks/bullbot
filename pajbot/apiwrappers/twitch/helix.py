@@ -172,8 +172,12 @@ class TwitchHelixAPI(BaseTwitchAPI):
         #     "cursor": "xxxx"
         #   }
         # }
-
-        subscribers = {entry["user_id"]:entry['tier'] for entry in response["data"]}
+        switcher = {
+            '3000':3,
+            '2000':2,
+            '1000':1
+        }
+        subscribers = {entry["user_id"]:switcher[entry['tier']] for entry in response["data"]}
         pagination_cursor = response["pagination"]["cursor"]
 
         return subscribers, pagination_cursor

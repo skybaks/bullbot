@@ -90,7 +90,7 @@ class User(Base):
     ignored = Column(BOOLEAN, nullable=False, server_default="FALSE")
     banned = Column(BOOLEAN, nullable=False, server_default="FALSE")
     timeout_end = Column(UtcDateTime(), nullable=True, server_default="NULL")
-    tier = Column(TEXT, nullable=True)
+    tier = Column(INT, nullable=True)
     last_pair = Column(UtcDateTime(), nullable=True, server_default="NULL")
 
     _rank = relationship("UserRank", primaryjoin=foreign(id) == UserRank.user_id, lazy="select")

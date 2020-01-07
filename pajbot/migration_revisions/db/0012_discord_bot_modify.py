@@ -5,7 +5,7 @@ log = logging.getLogger("pajbot")
 
 def up(cursor, bot):
     # new: tier record
-    cursor.execute('ALTER TABLE "user" ADD COLUMN tier TEXT DEFAULT NULL')
+    cursor.execute('ALTER TABLE "user" ADD COLUMN tier INTEGER DEFAULT NULL')
 
     # new: last_pair record
     cursor.execute('ALTER TABLE "user" ADD COLUMN last_pair TIMESTAMPTZ DEFAULT NULL')
