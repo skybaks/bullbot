@@ -39,21 +39,21 @@ class DiscordModule(BaseModule):
             default=""
         ),
         ModuleSetting(
-            key="twitchsubrole", 
+            key="twitch_sub_role", 
             label="Role given to twitch subs", 
             type="text", 
             placeholder="", 
             default=""
         ),
         ModuleSetting(
-            key="tier2role", 
+            key="tier_2_role", 
             label="Role given to tier 2 subs", 
             type="text", 
             placeholder="", 
             default=""
         ),
         ModuleSetting(
-            key="tier3role", 
+            key="tier_3_role", 
             label="Role given to tier 3 subs", 
             type="text", 
             placeholder="", 

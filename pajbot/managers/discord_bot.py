@@ -92,7 +92,7 @@ class DiscordBotManager(object):
         self.bot = bot
         self.client = CustomClient(self)
 
-        self.commands = dict()
+        self.commands = {}
         self.add_command('connections', self._connections)
         self.add_command('check', self._check)
         self.settings = None
@@ -172,11 +172,11 @@ class DiscordBotManager(object):
         role_to_notify = None
         role_to_ignore = None
         for role in self.guild.roles:
-            if role.name == self.settings['twitchsubrole']:
+            if role.name == self.settings['twitch_sub_role']:
                 sub_role = role
-            elif role.name == self.settings['tier2role']:
+            elif role.name == self.settings['tier_2_role']:
                 tier2_role = role
-            elif role.name == self.settings['tier3role']:
+            elif role.name == self.settings['tier_3_role']:
                 tier3_role = role
             elif role.name == self.settings['role_to_notify']:
                 role_to_notify = role
