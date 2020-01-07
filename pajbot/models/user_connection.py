@@ -18,7 +18,7 @@ class UserConnections(Base):
     discord_user_id = Column(TEXT, primary_key=True, nullable=False)
     disord_username = Column(TEXT, primary_key=True, nullable=False)
 
-    # Steam user id 
+    #steamID64
     steam_id = Column(TEXT, primary_key=True, nullable=False)
 
     def __init__(self, *args, **kwargs):

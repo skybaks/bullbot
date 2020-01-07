@@ -116,16 +116,16 @@ class User(Base):
         UserDuelStats, uselist=False, cascade="all, delete-orphan", passive_deletes=True, back_populates="user"
     )
 
+    def _setcd(self, db_session):
+        self.last_pair = utils.now()
+        db_session.merge(self)
+        return self
+
     @hybrid_property
     def offcd(self):
         if self.last_pair:
             return (self.last_pair + timedelta(days=1)) < utils.now()  
         return True
-
-    def _setcd(self, db_session):
-        self.last_pair = utils.now()
-        db_session.merge(self)
-        return self
 
     @hybrid_property
     def username(self):
