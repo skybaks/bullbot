@@ -207,25 +207,22 @@ class DiscordBotManager(object):
                     await self.remove_role(member, tier3_role)
                 if member_assigned_tier2 and tier2_role is not None:
                     await self.remove_role(member, tier2_role)
-                if member_assigned_tier3 and self.settings['notify_on_unsub'] and self.settings['notify_on_tier3']:
-                    #notify role removal
-                    for member_to_notify in role_to_notify.members:
-                        user = User.find_by_id(db_session, unlinks['twitch_id'])
-                        steam_id = unlinks['steam_id']
+                for member_to_notify in role_to_notify.members:
+                    user = User.find_by_id(db_session, unlinks['twitch_id'])
+                    steam_id = unlinks['steam_id']
+                    message = "Account Data Unlinked : Tier {tier} sub removal notification:\nTwitch : "+ f'{user} (<https://twitch.tv/{user.login}/>)\nDiscord : {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam : <https://steamcommunity.com/profiles/{steam_id}/>'
+                    if member_assigned_tier3 and self.settings['notify_on_unsub'] and self.settings['notify_on_tier3']:
                         await self.private_message(member_to_notify, 
-                            f'Account Data Unlinked : Tier 3 sub removal notification:\nTwitch : {user} (<https://twitch.tv/{user.login}/>)\nDiscord : {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam : <https://steamcommunity.com/profiles/{steam_id}/>'
+                            message.format(tier=3)
                         )
-                if member_assigned_tier2 and self.settings['notify_on_unsub'] and self.settings['notify_on_tier2']:
-                    #notify role removal
-                    for member_to_notify in role_to_notify.members:
-                        user = User.find_by_id(db_session, unlinks['twitch_id'])
-                        steam_id = unlinks['steam_id']
+                    if member_assigned_tier2 and self.settings['notify_on_unsub'] and self.settings['notify_on_tier2']:
+
                         await self.private_message(member_to_notify,
-                            f'Account Data Unlinked : Tier 2 sub removal notification:\nTwitch : {user} (<https://twitch.tv/{user.login}/>)\nDiscord : {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam : <https://steamcommunity.com/profiles/{steam_id}/>'
+                            message.format(tier=2)
                         )
             subs_to_return = []
-            for sub in queued_subs:
-                if datetime.strptime(sub[0], '%Y-%m-%d %H:%M:%S.%f') < datetime.now(): #must be run now
+            for sub in queued_subs: # sub [date_to_be_removed, member_id]
+                if datetime.strptime(sub[0], '%Y-%m-%d %H:%M:%S.%f') < utils.now(): # must be run now
                     member = self.guild.get_member(int(sub[1]))
                     member_id = str(member.id)
                     if tier2_role is not None:
@@ -286,9 +283,9 @@ class DiscordBotManager(object):
                                         f'New tier 2 sub notification:\nTwitch : {User.find_by_id(db_session, quick_dict[member_id][1].twitch_id)}(<https://twitch.tv/{User.find_by_id(db_session, quick_dict[member_id][1].twitch_id).login}/>)\nDiscord : {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam : <https://steamcommunity.com/profiles/{quick_dict[member_id][1].steam_id}/>'
                                     )
                         if member_assigned_tier3 and quick_dict[member_id][0] != '3000':
-                            subs_to_return.append([(datetime.now() + timedelta(days=int(self.settings['grace_time']))).__str__(), member_id])
+                            subs_to_return.append([(utils.now() + timedelta(days=int(self.settings['grace_time']))).__str__(), member_id])
                         elif member_assigned_tier2 and quick_dict[member_id][0] != '2000':
-                            subs_to_return.append([(datetime.now() + timedelta(days=int(self.settings['grace_time']))).__str__(), member_id])
+                            subs_to_return.append([(utils.now() + timedelta(days=int(self.settings['grace_time']))).__str__(), member_id])
                     else:
                         if member_assigned_tier2:
                             await self.remove_role(member, tier2_role)
