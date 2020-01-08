@@ -15,54 +15,51 @@ from datetime import datetime, timedelta
 
 log = logging.getLogger("pajbot")
 
-class Command(object):
 
-    def __init__(self, name, handler, admin=False, args=''): #--arg-req(name) --arg-opt(age)
+class Command(object):
+    def __init__(self, name, handler, admin=False, args=""):  # --arg-req(name) --arg-opt(age)
         self.name = name
         self.admin = admin
 
         self.args = []
 
         if not asyncio.iscoroutinefunction(handler):
-            log.warning('A command must be a coroutine') 
+            log.warning("A command must be a coroutine")
             handler = asyncio.coroutine(handler)
         self.handler = handler
-        self.help = handler.__doc__ or ''
+        self.help = handler.__doc__ or ""
 
     def __str__(self):
-        return '<Command {}: admin={}, args={}>'.format(
-            self.name, self.admin, len(self.args) > 0)
+        return "<Command {}: admin={}, args={}>".format(self.name, self.admin, len(self.args) > 0)
 
     async def call(self, message):
-        data = ' '.join(message.content.split(' ')[1:])
+        data = " ".join(message.content.split(" ")[1:])
         if len(self.args) > 0:
-            log.info('Regexp required for command %s', self)
+            log.info("Regexp required for command %s", self)
             match = checkMatch(self.args, data)
             if not match:
-                log.error('Regexp failed')
+                log.error("Regexp failed")
                 return
-            log.debug('kwargs for cmd: %s', match.groupdict())
-            log.info('Calling handler with kwargs for command %s', self)
+            log.debug("kwargs for cmd: %s", match.groupdict())
+            log.info("Calling handler with kwargs for command %s", self)
             await self.handler(message, **match.groupdict())
         else:
-            log.info('Calling handler for command %s', self)
+            log.info("Calling handler for command %s", self)
             await self.handler(message)
 
 
 class CustomClient(discord.Client):
-    
     def __init__(self, bot):
         self.bot = bot
         super().__init__()
 
     async def on_ready(self):
         for guild in self.guilds:
-            if guild.name == self.bot.settings['discord_guild']:
+            if guild.name == self.bot.settings["discord_guild"]:
                 break
         self.bot.guild = guild
         log.info(
-            f'{self.user} is connected to the following guild:\n'
-            f'{self.bot.guild.name}(id: {self.bot.guild.id})'
+            f"{self.user} is connected to the following guild:\n" f"{self.bot.guild.name}(id: {self.bot.guild.id})"
         )
         await self.bot.check_discord_roles()
 
@@ -73,28 +70,27 @@ class CustomClient(discord.Client):
             return
         data = message.content.split("!")
         if len(data) <= 1:
-            log.debug('no command in message')
+            log.debug("no command in message")
             return
         cmd = self.bot.commands.get(data[1].split(" ")[0])
 
         if not cmd:
-            log.debug('%s not a command', data[1])
+            log.debug("%s not a command", data[1])
             return
 
         # Go on.
-        log.info('Found command %s, calling it', cmd)
+        log.info("Found command %s, calling it", cmd)
         await cmd.call(message)
 
 
 class DiscordBotManager(object):
-
     def __init__(self, bot, redis):
         self.bot = bot
         self.client = CustomClient(self)
 
         self.commands = {}
-        self.add_command('connections', self._connections)
-        self.add_command('check', self._check)
+        self.add_command("connections", self._connections)
+        self.add_command("check", self._check)
         self.settings = None
         self.redis = redis
         self.thread = None
@@ -103,34 +99,32 @@ class DiscordBotManager(object):
         queued_subs = self.redis.get("queued-subs-discord")
         unlinkinfo = self.redis.get("unlinks-subs-discord")
         if unlinkinfo == None:
-            data = {'array' : []}
+            data = {"array": []}
             self.redis.set("unlinks-subs-discord", json.dumps(data))
         if queued_subs == None:
-            data = {'array' : []}
+            data = {"array": []}
             self.redis.set("queued-subs-discord", json.dumps(data))
 
     def add_command(self, *args, **kwargs):
         cmd = Command(*args, **kwargs)
         self.commands[cmd.name] = cmd
-        log.info('Added command %s', cmd)
+        log.info("Added command %s", cmd)
 
     async def _check(self, message):
         for role in self.guild.get_member(message.author.id).roles:
-            if role.name == self.settings['admin_role']:
-                await self._private_message(message.author, 
-                    f"Check Complete!"
-                )
+            if role.name == self.settings["admin_role"]:
+                await self._private_message(message.author, f"Check Complete!")
                 await self.check_discord_roles()
                 return
 
     async def _connections(self, message):
         with DBManager.create_session_scope() as db_session:
             try:
-                userconnections = db_session.query(UserConnections).filter_by(discord_user_id=str(message.author.id)).one()
-            except:
-                await self._private_message(message.author, 
-                    f"Your info has not been setup!"
+                userconnections = (
+                    db_session.query(UserConnections).filter_by(discord_user_id=str(message.author.id)).one()
                 )
+            except:
+                await self._private_message(message.author, f"Your info has not been setup!")
                 return
             user = User.find_by_id(db_session, userconnections.twitch_id)
             if user.tier is None:
@@ -138,9 +132,10 @@ class DiscordBotManager(object):
             elif user.tier >= 1:
                 tier = user.tier
             else:
-                tier =0
-            await self.private_message(message.author, 
-                f'Tier {tier} sub:\nTwitch : {user} (<https://twitch.tv/{user.login}/>) \nDiscord : {message.author.display_name}#{message.author.discriminator} (<https://discordapp.com/users/{message.author.id}>)\nSteam : <https://steamcommunity.com/profiles/{userconnections.steam_id}/>'
+                tier = 0
+            await self.private_message(
+                message.author,
+                f"Tier {tier} sub:\nTwitch : {user} (<https://twitch.tv/{user.login}/>) \nDiscord : {message.author.display_name}#{message.author.discriminator} (<https://discordapp.com/users/{message.author.id}>)\nSteam : <https://steamcommunity.com/profiles/{userconnections.steam_id}/>",
             )
 
     async def private_message(self, member, message):
@@ -154,9 +149,7 @@ class DiscordBotManager(object):
 
     async def _private_message(self, member, message):
         await member.create_dm()
-        await member.dm_channel.send(
-           message
-        )
+        await member.dm_channel.send(message)
 
     async def _remove_role(self, member, role):
         await member.remove_roles(role)
@@ -172,28 +165,33 @@ class DiscordBotManager(object):
         role_to_notify = None
         role_to_ignore = None
         for role in self.guild.roles:
-            if role.name == self.settings['twitch_sub_role']:
+            if role.name == self.settings["twitch_sub_role"]:
                 sub_role = role
-            elif role.name == self.settings['tier_2_role']:
+            elif role.name == self.settings["tier_2_role"]:
                 tier2_role = role
-            elif role.name == self.settings['tier_3_role']:
+            elif role.name == self.settings["tier_3_role"]:
                 tier3_role = role
-            elif role.name == self.settings['role_to_notify']:
+            elif role.name == self.settings["role_to_notify"]:
                 role_to_notify = role
-            elif role.name == self.settings['ignore_role']:
+            elif role.name == self.settings["ignore_role"]:
                 role_to_ignore = role
 
         quick_dict = {}
         with DBManager.create_session_scope() as db_session:
             all_connections = db_session.query(UserConnections).all()
             for connection in all_connections:
-                quick_dict[connection.discord_user_id] = [User.find_by_id(db_session, connection.twitch_id).tier, connection]
+                quick_dict[connection.discord_user_id] = [
+                    User.find_by_id(db_session, connection.twitch_id).tier,
+                    connection,
+                ]
                 if self.guild.get_member(int(connection.discord_user_id)).display_name != connection.disord_username:
-                    connection._update_disord_username(db_session, self.guild.get_member(int(connection.discord_user_id)).display_name)
-            queued_subs = json.loads(self.redis.get('queued-subs-discord'))['array']
-            unlinkinfo = json.loads(self.redis.get('unlinks-subs-discord'))['array']
+                    connection._update_disord_username(
+                        db_session, self.guild.get_member(int(connection.discord_user_id)).display_name
+                    )
+            queued_subs = json.loads(self.redis.get("queued-subs-discord"))["array"]
+            unlinkinfo = json.loads(self.redis.get("unlinks-subs-discord"))["array"]
             for unlink in unlinkinfo:
-                member = self.guild.get_member(int(unlink['discord_user_id']))
+                member = self.guild.get_member(int(unlink["discord_user_id"]))
                 member_id = str(member.id)
                 if tier2_role is not None:
                     member_assigned_tier2 = tier2_role in member.roles
@@ -204,21 +202,20 @@ class DiscordBotManager(object):
                 if member_assigned_tier2 and tier2_role is not None:
                     await self.remove_role(member, tier2_role)
                 for member_to_notify in role_to_notify.members:
-                    user = User.find_by_id(db_session, unlinks['twitch_id'])
-                    steam_id = unlinks['steam_id']
-                    message = "Account Data Unlinked : Tier {tier} sub removal notification:\nTwitch : "+ f'{user} (<https://twitch.tv/{user.login}/>)\nDiscord : {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam : <https://steamcommunity.com/profiles/{steam_id}/>'
-                    if member_assigned_tier3 and self.settings['notify_on_unsub'] and self.settings['notify_on_tier3']:
-                        await self.private_message(member_to_notify, 
-                            message.format(tier=3)
-                        )
-                    if member_assigned_tier2 and self.settings['notify_on_unsub'] and self.settings['notify_on_tier2']:
+                    user = User.find_by_id(db_session, unlinks["twitch_id"])
+                    steam_id = unlinks["steam_id"]
+                    message = (
+                        "Account Data Unlinked : Tier {tier} sub removal notification:\nTwitch : "
+                        + f"{user} (<https://twitch.tv/{user.login}/>)\nDiscord : {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam : <https://steamcommunity.com/profiles/{steam_id}/>"
+                    )
+                    if member_assigned_tier3 and self.settings["notify_on_unsub"] and self.settings["notify_on_tier3"]:
+                        await self.private_message(member_to_notify, message.format(tier=3))
+                    if member_assigned_tier2 and self.settings["notify_on_unsub"] and self.settings["notify_on_tier2"]:
 
-                        await self.private_message(member_to_notify,
-                            message.format(tier=2)
-                        )
+                        await self.private_message(member_to_notify, message.format(tier=2))
             subs_to_return = []
-            for sub in queued_subs: # sub [date_to_be_removed, member_id]
-                if datetime.strptime(sub[0], '%Y-%m-%d %H:%M:%S.%f') < utils.now(): # must be run now
+            for sub in queued_subs:  # sub [date_to_be_removed, member_id]
+                if datetime.strptime(sub[0], "%Y-%m-%d %H:%M:%S.%f") < utils.now():  # must be run now
                     member = self.guild.get_member(int(sub[1]))
                     member_id = str(member.id)
                     if tier2_role is not None:
@@ -236,17 +233,29 @@ class DiscordBotManager(object):
                             await self.remove_role(member, tier2_role)
                         if member_assigned_tier3 and tier3_role is not None:
                             await self.remove_role(member, tier3_role)
-                    if member_assigned_tier3 and quick_dict[member_id][0] != 3 and self.settings['notify_on_unsub'] and self.settings['notify_on_tier3']:
-                        #notify role removal
+                    if (
+                        member_assigned_tier3
+                        and quick_dict[member_id][0] != 3
+                        and self.settings["notify_on_unsub"]
+                        and self.settings["notify_on_tier3"]
+                    ):
+                        # notify role removal
                         for member_to_notify in role_to_notify.members:
-                            await self.private_message(member_to_notify, 
-                                f'Tier 3 sub removal notification:\nTwitch : {User.find_by_id(db_session, quick_dict[member_id][1].twitch_id)} (<https://twitch.tv/{User.find_by_id(db_session, quick_dict[member_id][1].twitch_id).login}/>) \nDiscord : {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam : <https://steamcommunity.com/profiles/{quick_dict[member_id][1].steam_id}/>'
+                            await self.private_message(
+                                member_to_notify,
+                                f"Tier 3 sub removal notification:\nTwitch : {User.find_by_id(db_session, quick_dict[member_id][1].twitch_id)} (<https://twitch.tv/{User.find_by_id(db_session, quick_dict[member_id][1].twitch_id).login}/>) \nDiscord : {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam : <https://steamcommunity.com/profiles/{quick_dict[member_id][1].steam_id}/>",
                             )
-                    if member_assigned_tier2 and quick_dict[member_id][0] != 2 and self.settings['notify_on_unsub'] and self.settings['notify_on_tier2']:
-                        #notify role removal
+                    if (
+                        member_assigned_tier2
+                        and quick_dict[member_id][0] != 2
+                        and self.settings["notify_on_unsub"]
+                        and self.settings["notify_on_tier2"]
+                    ):
+                        # notify role removal
                         for member_to_notify in role_to_notify.members:
-                            await self.private_message(member_to_notify,
-                                f'Tier 2 sub removal notification:\nTwitch : {User.find_by_id(db_session, quick_dict[member_id][1].twitch_id)} (<https://twitch.tv/{User.find_by_id(db_session, quick_dict[member_id][1].twitch_id).login}/>)\nDiscord : {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam : <https://steamcommunity.com/profiles/{quick_dict[member_id][1].steam_id}/>'
+                            await self.private_message(
+                                member_to_notify,
+                                f"Tier 2 sub removal notification:\nTwitch : {User.find_by_id(db_session, quick_dict[member_id][1].twitch_id)} (<https://twitch.tv/{User.find_by_id(db_session, quick_dict[member_id][1].twitch_id).login}/>)\nDiscord : {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam : <https://steamcommunity.com/profiles/{quick_dict[member_id][1].steam_id}/>",
                             )
                 else:
                     subs_to_return.append(sub)
@@ -254,7 +263,7 @@ class DiscordBotManager(object):
                 return
             for member in sub_role.members:
                 member_assigned_tier2 = tier2_role is not None and tier2_role in member.roles
-                member_assigned_tier3 = tier3_role is not None and tier3_role in member.roles 
+                member_assigned_tier3 = tier3_role is not None and tier3_role in member.roles
                 member_id = str(member.id)
                 if role_to_ignore is None or role_to_ignore not in member.roles:
                     if member_id in quick_dict:
@@ -262,26 +271,32 @@ class DiscordBotManager(object):
                             await self.add_role(member, tier3_role)
                             if member_assigned_tier2:
                                 await self.remove_role(member, tier2_role)
-                            #notify role addition
-                            if self.settings['notify_on_new_sub'] and self.settings['notify_on_tier3']:
+                            # notify role addition
+                            if self.settings["notify_on_new_sub"] and self.settings["notify_on_tier3"]:
                                 for member_to_notify in role_to_notify.members:
-                                    await self.private_message(member_to_notify,
-                                        f'New tier 3 sub notification:\nTwitch : {User.find_by_id(db_session, quick_dict[member_id][1].twitch_id)} (<https://twitch.tv/{User.find_by_id(db_session, quick_dict[member_id][1].twitch_id).login}/>)\nDiscord : {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam : <https://steamcommunity.com/profiles/{quick_dict[member_id][1].steam_id}/>'
+                                    await self.private_message(
+                                        member_to_notify,
+                                        f"New tier 3 sub notification:\nTwitch : {User.find_by_id(db_session, quick_dict[member_id][1].twitch_id)} (<https://twitch.tv/{User.find_by_id(db_session, quick_dict[member_id][1].twitch_id).login}/>)\nDiscord : {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam : <https://steamcommunity.com/profiles/{quick_dict[member_id][1].steam_id}/>",
                                     )
-                        if not member_assigned_tier2 and quick_dict[member_id][0] == '2000':
+                        if not member_assigned_tier2 and quick_dict[member_id][0] == "2000":
                             await self.add_role(member, tier2_role)
                             if member_assigned_tier3:
                                 await self.remove_role(member, tier3_role)
-                            #notify role addition
-                            if self.settings['notify_on_new_sub'] and self.settings['notify_on_tier2']:
+                            # notify role addition
+                            if self.settings["notify_on_new_sub"] and self.settings["notify_on_tier2"]:
                                 for member_to_notify in role_to_notify.members:
-                                    await self.private_message(member_to_notify,
-                                        f'New tier 2 sub notification:\nTwitch : {User.find_by_id(db_session, quick_dict[member_id][1].twitch_id)}(<https://twitch.tv/{User.find_by_id(db_session, quick_dict[member_id][1].twitch_id).login}/>)\nDiscord : {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam : <https://steamcommunity.com/profiles/{quick_dict[member_id][1].steam_id}/>'
+                                    await self.private_message(
+                                        member_to_notify,
+                                        f"New tier 2 sub notification:\nTwitch : {User.find_by_id(db_session, quick_dict[member_id][1].twitch_id)}(<https://twitch.tv/{User.find_by_id(db_session, quick_dict[member_id][1].twitch_id).login}/>)\nDiscord : {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam : <https://steamcommunity.com/profiles/{quick_dict[member_id][1].steam_id}/>",
                                     )
                         if member_assigned_tier3 and quick_dict[member_id][0] != 2:
-                            subs_to_return.append([(utils.now() + timedelta(days=int(self.settings['grace_time']))).__str__(), member_id])
+                            subs_to_return.append(
+                                [(utils.now() + timedelta(days=int(self.settings["grace_time"]))).__str__(), member_id]
+                            )
                         elif member_assigned_tier2 and quick_dict[member_id][0] != 2:
-                            subs_to_return.append([(utils.now() + timedelta(days=int(self.settings['grace_time']))).__str__(), member_id])
+                            subs_to_return.append(
+                                [(utils.now() + timedelta(days=int(self.settings["grace_time"]))).__str__(), member_id]
+                            )
                     else:
                         if member_assigned_tier2:
                             await self.remove_role(member, tier2_role)
@@ -297,9 +312,9 @@ class DiscordBotManager(object):
                     if role_to_ignore is None or role_to_ignore not in member.roles:
                         if sub_role not in member.roles or str(member.id) not in quick_dict:
                             await self.remove_role(member, tier3_role)
-            data = {'array' : subs_to_return}
+            data = {"array": subs_to_return}
             self.redis.set("queued-subs-discord", json.dumps(data))
-            data = {'array' : []}
+            data = {"array": []}
             self.redis.set("unlinks-subs-discord", json.dumps(data))
             db_session.commit()
         log.info("Discord roles Checked!")
@@ -339,13 +354,13 @@ class DiscordBotManager(object):
 
     async def run(self):
         try:
-            await self.client.start(self.settings['discord_token'])
+            await self.client.start(self.settings["discord_token"])
         except:
             pass
 
     def stop(self):
         self.private_loop.create_task(self._stop())
-        
+
     async def _stop(self):
         log.info("Discord closing")
         await self.cancel_scheduled_task(self.discord_task)

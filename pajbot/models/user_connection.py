@@ -8,17 +8,18 @@ from pajbot.managers.db import Base
 
 log = logging.getLogger(__name__)
 
+
 class UserConnections(Base):
     __tablename__ = "user_connections"
 
     # Twitch user ID
     twitch_id = Column(TEXT, primary_key=True, nullable=False)
 
-    # Discord user id 
+    # Discord user id
     discord_user_id = Column(TEXT, primary_key=True, nullable=False)
     disord_username = Column(TEXT, primary_key=True, nullable=False)
 
-    #steamID64
+    # steamID64
     steam_id = Column(TEXT, primary_key=True, nullable=False)
 
     def __init__(self, *args, **kwargs):
@@ -26,10 +27,10 @@ class UserConnections(Base):
 
     def jsonify(self):
         return {
-            "twitch_id" : self.twitch_id,
-            "discord_user_id" : self.discord_user_id,
-            "disord_username" : self.disord_username,
-            "steam_id" : self.steam_id
+            "twitch_id": self.twitch_id,
+            "discord_user_id": self.discord_user_id,
+            "disord_username": self.disord_username,
+            "steam_id": self.steam_id,
         }
 
     def __eq__(self, other):
@@ -47,6 +48,8 @@ class UserConnections(Base):
 
     @staticmethod
     def _create(db_session, twitch_id, discord_user_id, disord_username, steam_id):
-        user_con = UserConnections(twitch_id=twitch_id, discord_user_id=discord_user_id, disord_username=disord_username, steam_id=steam_id)
+        user_con = UserConnections(
+            twitch_id=twitch_id, discord_user_id=discord_user_id, disord_username=disord_username, steam_id=steam_id
+        )
         db_session.add(user_con)
         return user_con

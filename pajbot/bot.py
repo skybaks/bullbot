@@ -202,7 +202,7 @@ class Bot:
         self.epm_manager = EpmManager()
         self.ecount_manager = EcountManager()
         self.twitter_manager = TwitterManager(self)
-        self.discord_bot_manager = DiscordBotManager(self, RedisManager.get()) 
+        self.discord_bot_manager = DiscordBotManager(self, RedisManager.get())
         self.module_manager = ModuleManager(self.socket_manager, bot=self).load()
         self.commands = CommandManager(
             socket_manager=self.socket_manager, module_manager=self.module_manager, bot=self

@@ -16,6 +16,7 @@ import asyncio
 
 log = logging.getLogger(__name__)
 
+
 class DiscordModule(BaseModule):
     AUTHOR = "TroyDota"
     ID = __name__.split(".")[-1]
@@ -24,98 +25,41 @@ class DiscordModule(BaseModule):
     CATEGORY = "Feature"
 
     SETTINGS = [
+        ModuleSetting(key="discord_token", label="Token for discord bot", type="text", placeholder="", default=""),
+        ModuleSetting(key="discord_guild", label="Name of discord server", type="text", placeholder="", default=""),
         ModuleSetting(
-            key="discord_token", 
-            label="Token for discord bot",
-            type="text", 
-            placeholder="", 
-            default=""
+            key="twitch_sub_role", label="Role given to twitch subs", type="text", placeholder="", default=""
+        ),
+        ModuleSetting(key="tier_2_role", label="Role given to tier 2 subs", type="text", placeholder="", default=""),
+        ModuleSetting(key="tier_3_role", label="Role given to tier 3 subs", type="text", placeholder="", default=""),
+        ModuleSetting(key="role_to_notify", label="Role to notify", type="text", placeholder="", default=""),
+        ModuleSetting(key="admin_role", label="Role of Admin", type="text", placeholder="", default=""),
+        ModuleSetting(key="ignore_role", label="Role of users to ignore", type="text", placeholder="", default=""),
+        ModuleSetting(
+            key="grace_time",
+            label="Time after unsub that the discord roles are not changed in days",
+            type="number",
+            placeholder="",
+            default="7",
         ),
         ModuleSetting(
-            key="discord_guild",
-            label="Name of discord server", 
-            type="text", 
-            placeholder="", 
-            default=""
+            key="notify_on_unsub",
+            label="Sends a message to users mentioned upon an unsub",
+            type="boolean",
+            placeholder="",
+            default=True,
         ),
         ModuleSetting(
-            key="twitch_sub_role", 
-            label="Role given to twitch subs", 
-            type="text", 
-            placeholder="", 
-            default=""
+            key="notify_on_new_sub",
+            label="Sends a message to role mentioned upon an new sub",
+            type="boolean",
+            placeholder="",
+            default=True,
         ),
-        ModuleSetting(
-            key="tier_2_role", 
-            label="Role given to tier 2 subs", 
-            type="text", 
-            placeholder="", 
-            default=""
-        ),
-        ModuleSetting(
-            key="tier_3_role", 
-            label="Role given to tier 3 subs", 
-            type="text", 
-            placeholder="", 
-            default=""
-        ),
-        ModuleSetting(
-            key="role_to_notify", 
-            label="Role to notify", 
-            type="text", 
-            placeholder="", 
-            default=""
-        ),
-        ModuleSetting(
-            key="admin_role", 
-            label="Role of Admin", 
-            type="text", 
-            placeholder="", 
-            default=""
-        ),
-        ModuleSetting(
-            key="ignore_role", 
-            label="Role of users to ignore", 
-            type="text", 
-            placeholder="", 
-            default=""
-        ),
-        ModuleSetting(
-            key="grace_time", 
-            label="Time after unsub that the discord roles are not changed in days", 
-            type="number", 
-            placeholder="", 
-            default="7"
-        ),
-        ModuleSetting(
-            key="notify_on_unsub", 
-            label="Sends a message to users mentioned upon an unsub", 
-            type="boolean", 
-            placeholder="", 
-            default=True
-        ),
-        ModuleSetting(
-            key="notify_on_new_sub", 
-            label="Sends a message to role mentioned upon an new sub", 
-            type="boolean", 
-            placeholder="", 
-            default=True
-        ),
-        ModuleSetting(
-            key="notify_on_tier2", 
-            label="Notify by tier 2", 
-            type="boolean", 
-            placeholder="", 
-            default=False
-        ),
-        ModuleSetting(
-            key="notify_on_tier3", 
-            label="Notify by tier 3", 
-            type="boolean", 
-            placeholder="", 
-            default=True
-        ),
-    ] 
+        ModuleSetting(key="notify_on_tier2", label="Notify by tier 2", type="boolean", placeholder="", default=False),
+        ModuleSetting(key="notify_on_tier3", label="Notify by tier 3", type="boolean", placeholder="", default=True),
+    ]
+
     def __init__(self, bot):
         super().__init__(bot)
         self.bot = bot

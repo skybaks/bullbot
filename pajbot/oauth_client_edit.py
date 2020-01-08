@@ -12,6 +12,7 @@ from flask import request, redirect, json, session
 from flask_oauthlib.utils import to_bytes
 import requests
 import base64
+
 try:
     from urlparse import urljoin
     import urllib2 as http
@@ -19,6 +20,7 @@ except ImportError:
     from urllib import request as http
     from urllib.parse import urljoin
 log = logging.getLogger(__name__)
+
 
 class OAuthEdited(OAuth):
     def remote_app(self, name, register=True, **kwargs):
@@ -35,9 +37,19 @@ class OAuthEdited(OAuth):
             self.remote_apps[name] = remote
         return remote
 
-class OAuthRemoteAppEdited(OAuthRemoteApp):          
-    def request(self, url, data=None, headers=None, format='urlencoded',
-                method='GET', content_type=None, token=None, discord = False):
+
+class OAuthRemoteAppEdited(OAuthRemoteApp):
+    def request(
+        self,
+        url,
+        data=None,
+        headers=None,
+        format="urlencoded",
+        method="GET",
+        content_type=None,
+        token=None,
+        discord=False,
+    ):
         """
         Sends a request to the remote server with OAuth tokens attached.
 
@@ -59,8 +71,8 @@ class OAuthRemoteAppEdited(OAuthRemoteApp):
 
         client = self.make_client(token)
         url = self.expand_url(url)
-        if method == 'GET':
-            assert format == 'urlencoded'
+        if method == "GET":
+            assert format == "urlencoded"
             if data:
                 url = add_params_to_uri(url, data)
                 data = None
@@ -68,21 +80,16 @@ class OAuthRemoteAppEdited(OAuthRemoteApp):
             if content_type is None:
                 data, content_type = encode_request_data(data, format)
             if content_type is not None:
-                headers['Content-Type'] = content_type
-        
+                headers["Content-Type"] = content_type
 
         if self.request_token_url:
             # oauth1
-            uri, headers, body = client.sign(
-                url, http_method=method, body=data, headers=headers
-            )
+            uri, headers, body = client.sign(url, http_method=method, body=data, headers=headers)
         else:
             # oauth2
-            uri, headers, body = client.add_token(
-                url, http_method=method, body=data, headers=headers
-            )
+            uri, headers, body = client.add_token(url, http_method=method, body=data, headers=headers)
 
-        if hasattr(self, 'pre_request'):
+        if hasattr(self, "pre_request"):
             # This is designed for some rubbish services like weibo.
             # Since they don't follow the standards, we need to
             # change the uri, headers, or body.
@@ -95,15 +102,10 @@ class OAuthRemoteAppEdited(OAuthRemoteApp):
         if discord:
             response = requests.request(method, uri, headers=headers, data=to_bytes(body, self.encoding))
             if response.status_code not in (200, 201):
-                raise OAuthException(
-                    'Invalid response from %s' % self.name,
-                    type='invalid_response', data=data
-                )
-            return jsonify(response.text.encode('utf8'))
-        
-        resp, content = self.http_request(
-            uri, headers, data=to_bytes(body, self.encoding), method=method
-        )
+                raise OAuthException("Invalid response from %s" % self.name, type="invalid_response", data=data)
+            return jsonify(response.text.encode("utf8"))
+
+        resp, content = self.http_request(uri, headers, data=to_bytes(body, self.encoding), method=method)
         return OAuthResponse(resp, content, self.content_type)
 
     def handle_oauth2_response_discord(self, args):
@@ -111,47 +113,40 @@ class OAuthRemoteAppEdited(OAuthRemoteApp):
 
         client = self.make_client()
         remote_args = {
-            'client_id': self.consumer_key,
-            'client_secret': self.consumer_secret,
-            'code': args.get('code'),
-            'redirect_uri': session.get('%s_oauthredir' % self.name),
-            'scope': 'identify'
+            "client_id": self.consumer_key,
+            "client_secret": self.consumer_secret,
+            "code": args.get("code"),
+            "redirect_uri": session.get("%s_oauthredir" % self.name),
+            "scope": "identify",
         }
-        log.debug('Prepare oauth2 remote args %r', remote_args)
+        log.debug("Prepare oauth2 remote args %r", remote_args)
         remote_args.update(self.access_token_params)
         headers = copy(self._access_token_headers)
-        if self.access_token_method == 'POST':
-            headers.update({'Content-Type': 'application/x-www-form-urlencoded'})
+        if self.access_token_method == "POST":
+            headers.update({"Content-Type": "application/x-www-form-urlencoded"})
             body = client.prepare_request_body(**remote_args)
-            response = requests.request(self.access_token_method, self.expand_url(self.access_token_url), headers=headers, data = to_bytes(body, self.encoding))
+            response = requests.request(
+                self.access_token_method,
+                self.expand_url(self.access_token_url),
+                headers=headers,
+                data=to_bytes(body, self.encoding),
+            )
             if response.status_code not in (200, 201):
-                raise OAuthException(
-                    'Invalid response from %s' % self.name,
-                    type='invalid_response', data=data
-                )
-            return jsonify(response.text.encode('utf8'))
-        elif self.access_token_method == 'GET':
+                raise OAuthException("Invalid response from %s" % self.name, type="invalid_response", data=data)
+            return jsonify(response.text.encode("utf8"))
+        elif self.access_token_method == "GET":
             qs = client.prepare_request_body(**remote_args)
             url = self.expand_url(self.access_token_url)
-            url += ('?' in url and '&' or '?') + qs
+            url += ("?" in url and "&" or "?") + qs
             response = requests.request(self.access_token_method, url, headers=headers)
             if response.status_code not in (200, 201):
-                raise OAuthException(
-                    'Invalid response from %s' % self.name,
-                    type='invalid_response', data=data
-                )
-            return jsonify(response.text.encode('utf8'))
+                raise OAuthException("Invalid response from %s" % self.name, type="invalid_response", data=data)
+            return jsonify(response.text.encode("utf8"))
         else:
-            raise OAuthException(
-                'Unsupported access_token_method: %s' %
-                self.access_token_method
-            )
+            raise OAuthException("Unsupported access_token_method: %s" % self.access_token_method)
         data = parse_response(resp, content, content_type=self.content_type)
         if resp.code not in (200, 201):
-            raise OAuthException(
-                'Invalid response from %s' % self.name,
-                type='invalid_response', data=data
-            )
+            raise OAuthException("Invalid response from %s" % self.name, type="invalid_response", data=data)
         return data
 
     def authorized_response(self, args=None, spotify=False, discord=False):
@@ -163,33 +158,30 @@ class OAuthRemoteAppEdited(OAuthRemoteApp):
         elif discord:
             data = self.handle_oauth2_response_discord(args)
         else:
-            if 'oauth_verifier' in args:
+            if "oauth_verifier" in args:
                 data = self.handle_oauth1_response(args)
-            elif 'code' in args:
+            elif "code" in args:
                 data = self.handle_oauth2_response(args)
             else:
                 data = self.handle_unknown_response()
 
         # free request token
-        session.pop('%s_oauthtok' % self.name, None)
-        session.pop('%s_oauthredir' % self.name, None)
+        session.pop("%s_oauthtok" % self.name, None)
+        session.pop("%s_oauthredir" % self.name, None)
         return data
 
     def handle_oauth2_response_spotify(self, args):
         """Handles an oauth2 authorization response."""
 
         client = self.make_client()
-        remote_args = {
-            'code': args.get('code'),
-            'redirect_uri': session.get('%s_oauthredir' % self.name)
-        }
-        log.debug('Prepare oauth2 remote args %r', remote_args)
+        remote_args = {"code": args.get("code"), "redirect_uri": session.get("%s_oauthredir" % self.name)}
+        log.debug("Prepare oauth2 remote args %r", remote_args)
         remote_args.update(self.access_token_params)
-        data = f'{self._consumer_key}:{self._consumer_secret}'
+        data = f"{self._consumer_key}:{self._consumer_secret}"
         encoded = str(base64.b64encode(data.encode("utf-8")), "utf-8")
-        headers = {'Authorization' : f'Basic {encoded}'}
-        if self.access_token_method == 'POST':
-            headers.update({'Content-Type': 'application/x-www-form-urlencoded'})
+        headers = {"Authorization": f"Basic {encoded}"}
+        if self.access_token_method == "POST":
+            headers.update({"Content-Type": "application/x-www-form-urlencoded"})
             body = client.prepare_request_body(**remote_args)
             resp, content = self.http_request(
                 self.expand_url(self.access_token_url),
@@ -197,26 +189,15 @@ class OAuthRemoteAppEdited(OAuthRemoteApp):
                 data=to_bytes(body, self.encoding),
                 method=self.access_token_method,
             )
-        elif self.access_token_method == 'GET':
+        elif self.access_token_method == "GET":
             qs = client.prepare_request_body(**remote_args)
             url = self.expand_url(self.access_token_url)
-            url += ('?' in url and '&' or '?') + qs
-            resp, content = self.http_request(
-                url,
-                headers=headers,
-                method=self.access_token_method,
-            )
+            url += ("?" in url and "&" or "?") + qs
+            resp, content = self.http_request(url, headers=headers, method=self.access_token_method,)
         else:
-            raise OAuthException(
-                'Unsupported access_token_method: %s' %
-                self.access_token_method
-            )
+            raise OAuthException("Unsupported access_token_method: %s" % self.access_token_method)
 
         data = parse_response(resp, content, content_type=self.content_type)
         if resp.code not in (200, 201):
-            raise OAuthException(
-                'Invalid response from %s' % self.name,
-                type='invalid_response', data=data
-            )
+            raise OAuthException("Invalid response from %s" % self.name, type="invalid_response", data=data)
         return data
-

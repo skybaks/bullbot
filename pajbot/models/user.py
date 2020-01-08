@@ -16,7 +16,7 @@ from pajbot.exc import FailedCommand
 from pajbot.managers.db import Base
 from pajbot.managers.redis import RedisManager
 from pajbot.models.duel import UserDuelStats
-from datetime import timedelta 
+from datetime import timedelta
 
 log = logging.getLogger(__name__)
 
@@ -124,7 +124,7 @@ class User(Base):
     @hybrid_property
     def offcd(self):
         if self.last_pair:
-            return (self.last_pair + timedelta(days=1)) < utils.now()  
+            return (self.last_pair + timedelta(days=1)) < utils.now()
         return True
 
     @hybrid_property

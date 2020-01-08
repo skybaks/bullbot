@@ -34,17 +34,17 @@ def init(app):
         access_token_url="https://id.twitch.tv/oauth2/token",
         authorize_url="https://id.twitch.tv/oauth2/authorize",
     )
-    try:    
+    try:
         discord = oauth.remote_app(
             "discord",
             consumer_key=app.bot_config["discord"]["client_id"],
             consumer_secret=app.bot_config["discord"]["client_secret"],
             request_token_params={},
-            base_url='https://discordapp.com/api',
+            base_url="https://discordapp.com/api",
             request_token_url=None,
             access_token_method="POST",
-            access_token_url='https://discordapp.com/api/oauth2/token',
-            authorize_url='https://discordapp.com/api/oauth2/authorize',
+            access_token_url="https://discordapp.com/api/oauth2/token",
+            authorize_url="https://discordapp.com/api/oauth2/authorize",
         )
     except:
         discord = None
@@ -53,7 +53,7 @@ def init(app):
         steam = OpenID(app)
         if app.bot_config["steam"]["secret_key"] is not None:
             app.secret_key = app.bot_config["steam"]["secret_key"]
-            _steam_id_re = re.compile('steamcommunity.com/openid/id/(.*?)$')
+            _steam_id_re = re.compile("steamcommunity.com/openid/id/(.*?)$")
             return
         steam = None
     except:
@@ -101,7 +101,9 @@ def init(app):
         return twitch.authorize(
             callback=callback_url, state=state, scope=" ".join(streamer_scopes), force_verify="true"
         )
+
     if discord is not None:
+
         @app.route("/discord_login")
         def discord_login():
             callback_url = (
@@ -110,23 +112,22 @@ def init(app):
                 else url_for("authorized", _external=True)
             )
             state = request.args.get("n") or request.referrer or None
-            return discord.authorize(
-                callback=callback_url, state=state, scope="identify", force_verify="true"
-            )
+            return discord.authorize(callback=callback_url, state=state, scope="identify", force_verify="true")
 
     if steam is not None:
+
         @app.route("/steam_login")
         @steam.loginhandler
         def steam_login():
-            session['next_url'] = request.args.get("n") or request.referrer or None
+            session["next_url"] = request.args.get("n") or request.referrer or None
             return steam.try_login("http://steamcommunity.com/openid")
 
         @steam.after_login
         def new_user(resp):
             match = _steam_id_re.search(resp.identity_url)
-            session['steam_id'] = match.group(1)
-            next_url = session['next_url']
-            session.pop('next_url', None)
+            session["steam_id"] = match.group(1)
+            next_url = session["next_url"]
+            session.pop("next_url", None)
             return redirect(next_url)
 
     @app.route("/login/error")
@@ -202,7 +203,7 @@ def init(app):
         next_url = get_next_url(request, "state")
         return redirect(next_url)
 
-    @app.route('/login/discord_auth')
+    @app.route("/login/discord_auth")
     def discord_auth():
         try:
             resp = discord.authorized_response(discord=True)
@@ -229,8 +230,8 @@ def init(app):
 
         session["discord_token"] = (resp["access_token"],)
         me_api_response = discord.get(url="api/users/@me", discord=True)
-        session["discord_id"] = me_api_response['id']
-        session["discord_username"] = me_api_response['username']
+        session["discord_id"] = me_api_response["id"]
+        session["discord_username"] = me_api_response["username"]
         next_url = get_next_url(request, "state")
         return redirect(next_url)
 
@@ -244,10 +245,10 @@ def init(app):
     def logout():
         session.pop("twitch_token", None)
         session.pop("user", None)
-        session.pop('steam_id', None)
-        session.pop('discord_token', None)
-        session.pop('discord_id', None)
-        session.pop('discord_username', None)
+        session.pop("steam_id", None)
+        session.pop("discord_token", None)
+        session.pop("discord_id", None)
+        session.pop("discord_username", None)
         next_url = get_next_url(request)
         if next_url.startswith("/admin"):
             next_url = "/"
@@ -255,9 +256,9 @@ def init(app):
 
     @app.route("/logout_discord")
     def logout_discord():
-        session.pop('discord_token', None)
-        session.pop('discord_id', None)
-        session.pop('discord_username', None)
+        session.pop("discord_token", None)
+        session.pop("discord_id", None)
+        session.pop("discord_username", None)
         next_url = get_next_url(request)
         if next_url.startswith("/admin"):
             next_url = "/"
@@ -265,13 +266,14 @@ def init(app):
 
     @app.route("/logout_steam")
     def logout_steam():
-        session.pop('steam_id', None)
+        session.pop("steam_id", None)
         next_url = get_next_url(request)
         if next_url.startswith("/admin"):
             next_url = "/"
         return redirect(next_url)
 
     if discord is not None:
+
         @discord.tokengetter
         def get_discord_oauth_token():
             return session.get("discord_token")
