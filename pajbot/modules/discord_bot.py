@@ -26,15 +26,15 @@ class DiscordModule(BaseModule):
 
     SETTINGS = [
         ModuleSetting(key="discord_token", label="Token for discord bot", type="text", placeholder="", default=""),
-        ModuleSetting(key="discord_guild", label="Name of discord server", type="text", placeholder="", default=""),
+        ModuleSetting(key="discord_guild", label="ID of discord server", type="text", placeholder="", default=""),
         ModuleSetting(
-            key="twitch_sub_role", label="Role given to twitch subs", type="text", placeholder="", default=""
+            key="twitch_sub_role", label="ID of role given to twitch subs", type="text", placeholder="", default=""
         ),
-        ModuleSetting(key="tier_2_role", label="Role given to tier 2 subs", type="text", placeholder="", default=""),
-        ModuleSetting(key="tier_3_role", label="Role given to tier 3 subs", type="text", placeholder="", default=""),
-        ModuleSetting(key="role_to_notify", label="Role to notify", type="text", placeholder="", default=""),
-        ModuleSetting(key="admin_role", label="Role of Admin", type="text", placeholder="", default=""),
-        ModuleSetting(key="ignore_role", label="Role of users to ignore", type="text", placeholder="", default=""),
+        ModuleSetting(key="tier2_role", label="ID of role given to tier 2 subs", type="text", placeholder="", default=""),
+        ModuleSetting(key="tier3_role", label="ID of role given to tier 3 subs", type="text", placeholder="", default=""),
+        ModuleSetting(key="notify_role", label="ID of role for notifications", type="text", placeholder="", default=""),
+        ModuleSetting(key="admin_role", label="ID of role for Admins", type="text", placeholder="", default=""),
+        ModuleSetting(key="ignore_role", label="ID of role for ignored users", type="text", placeholder="", default=""),
         ModuleSetting(
             key="grace_time",
             label="Time after unsub that the discord roles are not changed in days",
