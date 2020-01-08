@@ -1,3 +1,6 @@
+from pajbot.modules.base import BaseModule
+from pajbot.modules.base import ModuleSetting
+from pajbot.modules.base import ModuleType
 from pajbot.modules.basic.ab import AbCommandModule
 from pajbot.modules.basic.admincommands import AdminCommandsModule
 from pajbot.modules.ascii import AsciiProtectionModule
@@ -51,7 +54,6 @@ from pajbot.modules.pyramid import PyramidModule
 from pajbot.modules.quest import QuestModule
 from pajbot.modules.quote import QuoteModule
 from pajbot.modules.raffle import RaffleModule
-
 # from pajbot.modules.rename import RenameModule
 from pajbot.modules.repspam import RepspamModule
 from pajbot.modules.roulette import RouletteModule
