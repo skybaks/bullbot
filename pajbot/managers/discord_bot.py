@@ -77,7 +77,7 @@ class DiscordBotManager(object):
         self.bot = bot
         self.client = CustomClient(self)
 
-        self.commands = dict()
+        self.commands = {}
         self.add_command("connections", self._connections)
         self.add_command("check", self._check)
         self.settings = None
