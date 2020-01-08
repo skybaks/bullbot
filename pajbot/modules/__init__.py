@@ -54,6 +54,7 @@ from pajbot.modules.pyramid import PyramidModule
 from pajbot.modules.quest import QuestModule
 from pajbot.modules.quote import QuoteModule
 from pajbot.modules.raffle import RaffleModule
+
 # from pajbot.modules.rename import RenameModule
 from pajbot.modules.repspam import RepspamModule
 from pajbot.modules.roulette import RouletteModule
