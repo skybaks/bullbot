@@ -60,6 +60,13 @@ class DiscordModule(BaseModule):
             placeholder="",
             default=True,
         ),
+        ModuleSetting(
+            key="pause_bot",
+            label="Enable to stop the bot from removing roles",
+            type="boolean",
+            placeholder="",
+            default=False,
+        ),
         ModuleSetting(key="notify_on_tier2", label="Notify by tier 2", type="boolean", placeholder="", default=False),
         ModuleSetting(key="notify_on_tier3", label="Notify by tier 3", type="boolean", placeholder="", default=True),
     ]
