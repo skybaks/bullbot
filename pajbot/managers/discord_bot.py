@@ -152,8 +152,6 @@ class DiscordBotManager(object):
                 )
         except Exception as e:
             log.error(e)
-            logging.exception("Discord Bot error")
-            raise
 
     async def private_message(self, member, message):
         await self._private_message(member, message)
@@ -332,9 +330,8 @@ class DiscordBotManager(object):
                 self.redis.set("unlinks-subs-discord", json.dumps(data))
                 db_session.commit()
             log.info("Discord roles Checked!")
-        except:
-            logging.exception("Discord Bot error")
-            raise
+        except Exception as e:
+            log.error(e)
 
     async def run_periodically(self, wait_time, func, *args):
         while True:
