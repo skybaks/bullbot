@@ -176,11 +176,6 @@ class DiscordBotManager(object):
 
     async def check_discord_roles(self):
         try:
-            twitch_sub_role = None
-            tier2_role = None
-            tier3_role = None
-            notify_role = None
-            ignore_role = None
             twitch_sub_role = self.guild.get_role(int(self.settings["twitch_sub_role"]))
             tier2_role = self.guild.get_role(int(self.settings["tier2_role"]))
             tier3_role = self.guild.get_role(int(self.settings["tier3_role"]))
@@ -214,21 +209,20 @@ class DiscordBotManager(object):
                         user = User.find_by_id(db_session, unlinks["twitch_id"])
                         steam_id = unlinks["steam_id"]
                         message = (
-                            "Account Data Unlinked : Tier {tier} sub removal notification:\nTwitch : "
-                            + f"{user} (<https://twitch.tv/{user.login}/>)\nDiscord : {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam : <https://steamcommunity.com/profiles/{steam_id}/>"
+                            "Account Data Unlinked : Tier {tier} sub removal notification:\nTwitch : {user} (<https://twitch.tv/{user.login}/>)\nDiscord : {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam : <https://steamcommunity.com/profiles/{steam_id}/>"
                         )
                         if (
                             member_assigned_tier3
                             and self.settings["notify_on_unsub"]
                             and self.settings["notify_on_tier3"]
                         ):
-                            await self.private_message(member_to_notify, message.format(tier=3))
+                            await self.private_message(member_to_notify, message.format(tier=3, user=user, member=member, steam_id=steam_id))
                         if (
                             member_assigned_tier2
                             and self.settings["notify_on_unsub"]
                             and self.settings["notify_on_tier2"]
                         ):
-                            await self.private_message(member_to_notify, message.format(tier=2))
+                            await self.private_message(member_to_notify, message.format(tier=2, user=user, member=member, steam_id=steam_id))
                 subs_to_return = []
                 if not self.settings["pause_bot"]:
                     for sub in queued_subs:  # sub [date_to_be_removed, member_id]
@@ -283,9 +277,10 @@ class DiscordBotManager(object):
                     if ignore_role is None or ignore_role not in member.roles:
                         if member_id in quick_dict:
                             message = (
-                                "New tier {tier} sub notification:\nTwitch : "
-                                + f"{User.find_by_id(db_session, quick_dict[member_id][1].twitch_id)} (<https://twitch.tv/{User.find_by_id(db_session, quick_dict[member_id][1].twitch_id).login}/>)\nDiscord : {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam : <https://steamcommunity.com/profiles/{quick_dict[member_id][1].steam_id}/>"
+                                "New tier {tier} sub notification:\nTwitch : {user} (<https://twitch.tv/{user.login}/>)\nDiscord : {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam : <https://steamcommunity.com/profiles/{steam_id}/>"
                             )
+                            user = User.find_by_id(db_session, quick_dict[member_id][1].twitch_id)
+                            steam_id = quick_dict[member_id][1].steam_id
                             for member_to_notify in notify_role.members:
                                 if not member_assigned_tier3 and quick_dict[member_id][0] == 3:
                                     await self.add_role(member, tier3_role)
@@ -293,14 +288,14 @@ class DiscordBotManager(object):
                                         await self.remove_role(member, tier2_role)
                                     # notify role addition
                                     if self.settings["notify_on_new_sub"] and self.settings["notify_on_tier3"]:
-                                        await self.private_message(member_to_notify, message.format(tier=3))
+                                        await self.private_message(member_to_notify, message.format(tier=3, user=user, member=member, steam_id=steam_id))
                                 elif not member_assigned_tier2 and quick_dict[member_id][0] == 2:
                                     await self.add_role(member, tier2_role)
                                     if member_assigned_tier3:
                                         await self.remove_role(member, tier3_role)
                                     # notify role addition
                                     if self.settings["notify_on_new_sub"] and self.settings["notify_on_tier2"]:
-                                        await self.private_message(member_to_notify, message.format(tier=2))
+                                        await self.private_message(member_to_notify, message.format(tier=2, user=user, member=member, steam_id=steam_id))
                             if (member_assigned_tier3 and quick_dict[member_id][0] != 3) or (
                                 member_assigned_tier2 and quick_dict[member_id][0] != 2
                             ):
