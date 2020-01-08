@@ -30,8 +30,12 @@ class DiscordModule(BaseModule):
         ModuleSetting(
             key="twitch_sub_role", label="ID of role given to twitch subs", type="text", placeholder="", default=""
         ),
-        ModuleSetting(key="tier2_role", label="ID of role given to tier 2 subs", type="text", placeholder="", default=""),
-        ModuleSetting(key="tier3_role", label="ID of role given to tier 3 subs", type="text", placeholder="", default=""),
+        ModuleSetting(
+            key="tier2_role", label="ID of role given to tier 2 subs", type="text", placeholder="", default=""
+        ),
+        ModuleSetting(
+            key="tier3_role", label="ID of role given to tier 3 subs", type="text", placeholder="", default=""
+        ),
         ModuleSetting(key="notify_role", label="ID of role for notifications", type="text", placeholder="", default=""),
         ModuleSetting(key="admin_role", label="ID of role for Admins", type="text", placeholder="", default=""),
         ModuleSetting(key="ignore_role", label="ID of role for ignored users", type="text", placeholder="", default=""),
