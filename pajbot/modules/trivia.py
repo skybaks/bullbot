@@ -380,8 +380,9 @@ class TriviaModule(BaseModule):
             bot.safe_me(f"{source}, no trivia is active right now")
             return
 
-        self.job.remove()
-        self.job = None
+        if self.job is not None:
+            self.job.remove()
+            self.job = None
         self.check_job.remove()
         self.check_job = None
         self.checkPaused = True
