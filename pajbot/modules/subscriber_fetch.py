@@ -88,10 +88,10 @@ ON COMMIT DROP"""
                 def add_return_dict(dict_v, key, value):
                     dict_v[key] = value
                     return dict_v
-                [add_return_dict(basics.jsonify(), "tier", subscriber_ids_and_tier[basics.jsonify()['id']]) for basics in user_basics]
+                
                 db_session.execute(
                     text("INSERT INTO subscribers(id, login, name, tier) VALUES (:id, :login, :name, :tier)"),
-                    ,
+                    [add_return_dict(basics.jsonify(), "tier", subscriber_ids_and_tier[basics.jsonify()['id']]) for basics in user_basics],
                 )
 
             # hint to understand this query: "excluded" is a PostgreSQL keyword that referers
