@@ -1,6 +1,10 @@
 from pajbot.modules.base import BaseModule
 from pajbot.modules.base import ModuleSetting
 from pajbot.modules.base import ModuleType
+from pajbot.modules.linkchecker import BlacklistedLink
+from pajbot.modules.linkchecker import WhitelistedLink
+from pajbot.modules.linktracker import LinkTrackerLink
+
 from pajbot.modules.basic.ab import AbCommandModule
 from pajbot.modules.basic.admincommands import AdminCommandsModule
 from pajbot.modules.ascii import AsciiProtectionModule
