@@ -192,8 +192,8 @@ class DiscordBotManager(object):
                         connection._update_disord_username(db_session, member.display_name + "#" + member.discriminator)
                 queued_subs = json.loads(self.redis.get("queued-subs-discord"))["array"]
                 unlinkinfo = json.loads(self.redis.get("unlinks-subs-discord"))["array"]
-                for unlink in unlinkinfo:
-                    member = self.guild.get_member(int(unlink["discord_user_id"]))
+                for unlinks in unlinkinfo:
+                    member = self.guild.get_member(int(unlinks["discord_user_id"]))
                     member_id = str(member.id)
                     if tier2_role is not None:
                         member_assigned_tier2 = tier2_role in member.roles
