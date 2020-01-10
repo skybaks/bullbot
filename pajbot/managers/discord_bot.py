@@ -50,8 +50,8 @@ class CustomClient(discord.Client):
     async def on_ready(self):
         for guild in self.guilds:
             if guild.id == int(self.bot.settings["discord_guild"]):
+                self.bot.guild = guild
                 break
-        self.bot.guild = guild
         log.info(f"Discord Bot has started!")
         await self.bot.check_discord_roles()
 
@@ -107,8 +107,6 @@ class DiscordBotManager(object):
                 return
         except Exception as e:
             log.error(e)
-            logging.exception("Discord Bot error")
-            raise
 
     async def _connections(self, message):
         try:
@@ -135,7 +133,7 @@ class DiscordBotManager(object):
                 if not userconnections:
                     await self._private_message(
                         author,
-                        f"You have not set up your info yet got to https://{self.bot.data[bot_domain]}/user to add data to your account!",
+                        f"You have not set up your info yet got to https://{self.bot.bot_domain}/user to add data to your account!",
                     )
                     return
                 user = User.find_by_id(db_session, userconnections.twitch_id)
@@ -329,7 +327,6 @@ class DiscordBotManager(object):
                 data = {"array": []}
                 self.redis.set("unlinks-subs-discord", json.dumps(data))
                 db_session.commit()
-            log.info("Discord roles Checked!")
         except Exception as e:
             log.error(e)
 
@@ -368,7 +365,7 @@ class DiscordBotManager(object):
 
     async def run(self):
         try:
-            await self.client.start(self.settings["discord_token"])
+            await self.client.start(self.bot.config["discord"]["discord_token"])
         except:
             pass
 

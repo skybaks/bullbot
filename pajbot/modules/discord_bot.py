@@ -25,7 +25,6 @@ class DiscordModule(BaseModule):
     CATEGORY = "Feature"
 
     SETTINGS = [
-        ModuleSetting(key="discord_token", label="Token for discord bot", type="text", placeholder="", default=""),
         ModuleSetting(key="discord_guild", label="ID of discord server", type="text", placeholder="", default=""),
         ModuleSetting(
             key="twitch_sub_role", label="ID of role given to twitch subs", type="text", placeholder="", default=""

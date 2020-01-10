@@ -49,18 +49,15 @@ def init(app):
     except:
         discord = None
 
-    try:
-        if (
-            "steam" in app.bot_config
-            and "secret_key" in app.bot_config["steam"]
-            and len(app.bot_config["steam"]["secret_key"]) > 5
-        ):
-            steam = OpenID(app)
-            app.secret_key = app.bot_config["steam"]["secret_key"]
-            _steam_id_re = re.compile("steamcommunity.com/openid/id/(.*?)$")
-        else:
-            steam = None
-    except:
+    if (
+        "steam" in app.bot_config
+        and "secret_key" in app.bot_config["steam"]
+        and len(app.bot_config["steam"]["secret_key"]) > 5
+    ):
+        steam = OpenID(app)
+        app.secret_key = app.bot_config["steam"]["secret_key"]
+        _steam_id_re = re.compile("steamcommunity.com/openid/id/(.*?)$")
+    else:
         steam = None
 
     @app.route("/login")
