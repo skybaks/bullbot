@@ -54,7 +54,6 @@ def init(app):
         if app.bot_config["steam"]["secret_key"] is not None:
             app.secret_key = app.bot_config["steam"]["secret_key"]
             _steam_id_re = re.compile("steamcommunity.com/openid/id/(.*?)$")
-            return
         steam = None
     except:
         steam = None
