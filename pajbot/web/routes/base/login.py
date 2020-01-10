@@ -50,11 +50,16 @@ def init(app):
         discord = None
 
     try:
-        steam = OpenID(app)
-        if app.bot_config["steam"]["secret_key"] is not None:
+        if (
+            "steam" in app.bot_config
+            and "secret_key" in app.bot_config["steam"]
+            and len(app.bot_config["steam"]["secret_key"]) > 5
+        ):
+            steam = OpenID(app)
             app.secret_key = app.bot_config["steam"]["secret_key"]
             _steam_id_re = re.compile("steamcommunity.com/openid/id/(.*?)$")
-        steam = None
+        else:
+            steam = None
     except:
         steam = None
 
