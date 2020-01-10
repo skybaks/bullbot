@@ -48,10 +48,7 @@ class CustomClient(discord.Client):
         super().__init__()
 
     async def on_ready(self):
-        for guild in self.guilds:
-            if guild.id == int(self.bot.settings["discord_guild"]):
-                self.bot.guild = guild
-                break
+        self.bot.guild =  self.get_guild(int(self.bot.settings["discord_guild"]))
         log.info(f"Discord Bot has started!")
         await self.bot.check_discord_roles()
 
