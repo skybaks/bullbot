@@ -49,31 +49,31 @@ class CustomClient(discord.Client):
 
     async def on_ready(self):
         self.bot.guild =  self.get_guild(int(self.bot.settings["discord_guild"]))
+        if not self.bot.guild:
+            log.error("Discord Guild not found!")
+            return
         log.info(f"Discord Bot has started!")
         await self.bot.check_discord_roles()
 
     async def on_message(self, message):
-        # If invite in private message, join server
-
         if not message.content.startswith("!"):
             return
         data = message.content.split("!")
         if len(data) <= 1:
             return
         cmd = self.bot.commands.get(data[1].split(" ")[0])
-
         if not cmd:
             return
-
-        # Go on.
-        await cmd.call(message)
+        try:
+            await cmd.call(message)
+        except Exception e:
+            log.error(e)
 
 
 class DiscordBotManager(object):
     def __init__(self, bot, redis):
         self.bot = bot
         self.client = CustomClient(self)
-
         self.commands = {}
         self.add_command("connections", self._connections)
         self.add_command("check", self._check)
@@ -96,17 +96,15 @@ class DiscordBotManager(object):
         self.commands[cmd.name] = cmd
 
     async def _check(self, message):
-        try:
+        if self.guild:
             admin_role = self.guild.get_role(int(self.settings["admin_role"]))
             if admin_role in self.guild.get_member(message.author.id).roles:
                 await self.check_discord_roles()
                 await self._private_message(message.author, f"Check Complete!")
                 return
-        except Exception as e:
-            log.error(e)
 
     async def _connections(self, message):
-        try:
+        if self.guild:
             with DBManager.create_session_scope() as db_session:
                 userconnections = None
                 author = self.guild.get_member(message.author.id)
@@ -145,8 +143,6 @@ class DiscordBotManager(object):
                     message.author,
                     f"Tier {tier} sub:\nTwitch : {user} (<https://twitch.tv/{user.login}/>) \nDiscord : {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam : <https://steamcommunity.com/profiles/{userconnections.steam_id}/>",
                 )
-        except Exception as e:
-            log.error(e)
 
     async def private_message(self, member, message):
         await self._private_message(member, message)
@@ -168,7 +164,7 @@ class DiscordBotManager(object):
         await member.add_roles(role)
 
     async def check_discord_roles(self):
-        try:
+        if self.guild:
             twitch_sub_role = self.guild.get_role(int(self.settings["twitch_sub_role"]))
             tier2_role = self.guild.get_role(int(self.settings["tier2_role"]))
             tier3_role = self.guild.get_role(int(self.settings["tier3_role"]))
@@ -324,14 +320,15 @@ class DiscordBotManager(object):
                 data = {"array": []}
                 self.redis.set("unlinks-subs-discord", json.dumps(data))
                 db_session.commit()
-        except Exception as e:
-            log.error(e)
 
     async def run_periodically(self, wait_time, func, *args):
         while True:
             await asyncio.sleep(wait_time)
             if not self.client.is_closed():
-                await func(*args)
+                try:
+                    await func(*args)
+                except Exception as e:
+                    log.error(e)
 
     def schedule_task_periodically(self, wait_time, func, *args):
         return self.private_loop.create_task(self.run_periodically(wait_time, func, *args))
