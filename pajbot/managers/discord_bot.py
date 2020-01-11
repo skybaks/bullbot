@@ -170,6 +170,8 @@ class DiscordBotManager(object):
                         connection,
                     ]
                     member = self.guild.get_member(int(connection.discord_user_id))
+                    if not connection.twitch_login:
+                        connection._update_twitch_login(db_session, user_linked.login)
                     if connection.twitch_login != user_linked.login:
                         twitch_name_changes.append([connection.twitch_login, connection.twitch_id])
                         if tier2_role is not None:
@@ -196,6 +198,7 @@ class DiscordBotManager(object):
                                 await self.private_message(
                                     member_to_notify, message.format(tier=2, steam_id=steam_id, old=connection.twitch_login, steam_id=user_linked.login)
                                 )
+                        connection._update_twitch_login(db_session, user_linked.login)
                     if member and member.display_name + "#" + member.discriminator != connection.disord_username:
                         connection._update_disord_username(db_session, member.display_name + "#" + member.discriminator)
                 queued_subs = json.loads(self.redis.get("queued-subs-discord"))["array"]
