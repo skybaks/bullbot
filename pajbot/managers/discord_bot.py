@@ -128,7 +128,7 @@ class DiscordBotManager(object):
                 if not userconnections:
                     await self._private_message(
                         author,
-                        f"You have not set up your account info yet, go to https://{self.bot.bot_domain}/user to pair your twitch and steam to your discord account!",
+                        f"You have not set up your account info yet, go to https://{self.bot.bot_domain}/connections to pair your twitch and steam to your discord account!",
                     )
                     return
                 user = User.find_by_id(db_session, userconnections.twitch_id)
@@ -141,7 +141,7 @@ class DiscordBotManager(object):
                 member = self.guild.get_member(int(userconnections.discord_user_id))
                 await self.private_message(
                     message.author,
-                    f"Tier {tier} sub:\nTwitch : {user} (<https://twitch.tv/{user.login}/>) \nDiscord : {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam : <https://steamcommunity.com/profiles/{userconnections.steam_id}/>",
+                    f"Tier {tier} sub:\nTwitch: {user} (<https://twitch.tv/{user.login}>) \nDiscord: {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam: <https://steamcommunity.com/profiles/{userconnections.steam_id}>",
                 )
 
     async def private_message(self, member, message):
@@ -197,7 +197,7 @@ class DiscordBotManager(object):
                     for member_to_notify in notify_role.members:
                         user = User.find_by_id(db_session, unlinks["twitch_id"])
                         steam_id = unlinks["steam_id"]
-                        message = "Account Data Unlinked : Tier {tier} sub removal notification:\nTwitch : {user} (<https://twitch.tv/{user.login}/>)\nDiscord : {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam : <https://steamcommunity.com/profiles/{steam_id}/>"
+                        message = "Account Data Unlinked: Tier {tier} sub removal notification:\nTwitch: {user} (<https://twitch.tv/{user.login}>)\nDiscord: {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam: <https://steamcommunity.com/profiles/{steam_id}>"
                         if (
                             member_assigned_tier3
                             and self.settings["notify_on_unsub"]
@@ -241,7 +241,7 @@ class DiscordBotManager(object):
                             user = User.find_by_id(db_session, quick_dict[member_id][1].twitch_id)
                             steam_id = quick_dict[member_id][1].steam_id
                             message = (
-                                "Tier {tier} sub removal notification:\nTwitch : {user} (<https://twitch.tv/{user.login}/>)\nDiscord : {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam : <https://steamcommunity.com/profiles/{steam_id}/>"
+                                "Tier {tier} sub removal notification:\nTwitch: {user} (<https://twitch.tv/{user.login}>)\nDiscord: {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam: <https://steamcommunity.com/profiles/{steam_id}>"
                             )
                             for member_to_notify in notify_role.members:
                                 if (
@@ -268,7 +268,7 @@ class DiscordBotManager(object):
                     member_id = str(member.id)
                     if ignore_role is None or ignore_role not in member.roles:
                         if member_id in quick_dict:
-                            message = "New tier {tier} sub notification:\nTwitch: {user} (<https://twitch.tv/{user.login}/>)\nDiscord: {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam: <https://steamcommunity.com/profiles/{steam_id}/>"
+                            message = "New tier {tier} sub notification:\nTwitch: {user} (<https://twitch.tv/{user.login}>)\nDiscord: {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam: <https://steamcommunity.com/profiles/{steam_id}>"
                             user = User.find_by_id(db_session, quick_dict[member_id][1].twitch_id)
                             steam_id = quick_dict[member_id][1].steam_id
                             for member_to_notify in notify_role.members:
