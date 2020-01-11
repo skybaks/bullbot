@@ -281,5 +281,5 @@ class AdminCommandsModule(BaseModule):
         self.commands["unmute"] = self.commands["unsilence"]
 
         self.commands["module"] = Command.raw_command(
-            self.cmd_module, level=500, description="Modify module", delay_all=0, delay_user=0
+            self.cmd_module, level=1500, description="Modify module", delay_all=0, delay_user=0
         )

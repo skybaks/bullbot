@@ -32,6 +32,7 @@ from pajbot.managers.handler import HandlerManager
 from pajbot.managers.irc import IRCManager
 from pajbot.managers.kvi import KVIManager
 from pajbot.managers.redis import RedisManager
+from pajbot.managers.discord_bot import DiscordBotManager
 from pajbot.managers.schedule import ScheduleManager
 from pajbot.managers.twitter import TwitterManager
 from pajbot.managers.user_ranks_refresh import UserRanksRefreshManager
@@ -201,6 +202,7 @@ class Bot:
         self.epm_manager = EpmManager()
         self.ecount_manager = EcountManager()
         self.twitter_manager = TwitterManager(self)
+        self.discord_bot_manager = DiscordBotManager(self, RedisManager.get())
         self.module_manager = ModuleManager(self.socket_manager, bot=self).load()
         self.commands = CommandManager(
             socket_manager=self.socket_manager, module_manager=self.module_manager, bot=self
@@ -270,6 +272,8 @@ class Bot:
             "current_time": self.c_current_time,
             "molly_age_in_years": self.c_molly_age_in_years,
         }
+
+        self.user_agent = f"pajbot1/{VERSION} ({self.nickname})"
 
     @property
     def password(self):
@@ -433,7 +437,7 @@ class Bot:
 
     def privmsg_from_file(self, url, per_chunk=35, chunk_delay=30, target=None):
         try:
-            r = requests.get(url)
+            r = requests.get(url, headers={"User-Agent": self.user_agent})
             r.raise_for_status()
 
             content_type = r.headers["Content-Type"]
@@ -459,7 +463,7 @@ class Bot:
     # Usage: !eval bot.eval_from_file(event, 'https://pastebin.com/raw/LhCt8FLh')
     def eval_from_file(self, event, url):
         try:
-            r = requests.get(url)
+            r = requests.get(url, headers={"User-Agent": self.user_agent})
             r.raise_for_status()
 
             content_type = r.headers["Content-Type"]
