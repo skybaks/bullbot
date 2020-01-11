@@ -25,6 +25,7 @@
 - Bugfix: Fixed linkchecker blacklist commands not working.
 - Bugfix: Fixed linkchecker blacklisted links not timing users out.
 - Bugfix: Fixed strictargs not cancelling message response if a filter was applied to it. (#677)
+- Implemented connection user profiles
 
 ## v1.39
 
