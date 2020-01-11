@@ -36,38 +36,38 @@ class DiscordModule(BaseModule):
             key="tier3_role", label="ID of role given to tier 3 subs", type="text", placeholder="", default=""
         ),
         ModuleSetting(key="notify_role", label="ID of role for notifications", type="text", placeholder="", default=""),
-        ModuleSetting(key="admin_role", label="ID of role for Admins", type="text", placeholder="", default=""),
-        ModuleSetting(key="ignore_role", label="ID of role for ignored users", type="text", placeholder="", default=""),
+        ModuleSetting(key="admin_role", label="ID of role given to Admins", type="text", placeholder="", default=""),
+        ModuleSetting(key="ignore_role", label="ID of role given to ignored users", type="text", placeholder="", default=""),
         ModuleSetting(
             key="grace_time",
-            label="Time after unsub that the discord roles are not changed in days",
+            label="Time after unsub that the discord roles are not purged in days",
             type="number",
             placeholder="",
             default="7",
         ),
         ModuleSetting(
             key="notify_on_unsub",
-            label="Sends a message to users mentioned upon an unsub",
+            label="Sends a message to users with notification role upon an unsub",
             type="boolean",
             placeholder="",
             default=True,
         ),
         ModuleSetting(
             key="notify_on_new_sub",
-            label="Sends a message to role mentioned upon an new sub",
+            label="Sends a message to users with notification role upon an new sub",
             type="boolean",
             placeholder="",
             default=True,
         ),
         ModuleSetting(
             key="pause_bot",
-            label="Enable to stop the bot from removing roles",
+            label="Stop the bot from purging roles",
             type="boolean",
             placeholder="",
             default=False,
         ),
-        ModuleSetting(key="notify_on_tier2", label="Notify by tier 2", type="boolean", placeholder="", default=False),
-        ModuleSetting(key="notify_on_tier3", label="Notify by tier 3", type="boolean", placeholder="", default=True),
+        ModuleSetting(key="notify_on_tier2", label="Notify for tier 2", type="boolean", placeholder="", default=False),
+        ModuleSetting(key="notify_on_tier3", label="Notify for tier 3", type="boolean", placeholder="", default=True),
     ]
 
     def __init__(self, bot):

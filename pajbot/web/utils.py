@@ -10,6 +10,7 @@ from io import BytesIO
 from PIL import Image
 
 from flask import abort
+from flask import redirect
 from flask import make_response
 from flask import request
 from flask import session
