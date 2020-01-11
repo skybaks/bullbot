@@ -9,7 +9,6 @@ from pajbot.managers.db import DBManager
 from pajbot.models.roulette import Roulette
 from pajbot.models.user import User
 from pajbot.models.user_connection import UserConnections
-from pajbot.web.utils import requires_level
 from pajbot.managers.redis import RedisManager
 
 log = logging.getLogger(__name__)
