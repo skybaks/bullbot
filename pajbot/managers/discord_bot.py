@@ -128,7 +128,7 @@ class DiscordBotManager(object):
                 if not userconnections:
                     await self._private_message(
                         author,
-                        f"You have not set up your info yet got to https://{self.bot.bot_domain}/user to add data to your account!",
+                        f"You have not set up your account info yet, go to https://{self.bot.bot_domain}/user to pair your twitch and steam to your discord account!",
                     )
                     return
                 user = User.find_by_id(db_session, userconnections.twitch_id)
@@ -296,7 +296,7 @@ class DiscordBotManager(object):
                             ):
                                 subs_to_return.append(
                                     [
-                                        (utils.now() + timedelta(days=int(self.settings["grace_time"]))).__str__(),
+                                        str(utils.now() + timedelta(days=int(self.settings["grace_time"]))),
                                         member_id,
                                     ]
                                 )
