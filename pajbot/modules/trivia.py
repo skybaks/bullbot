@@ -196,7 +196,7 @@ class TriviaModule(BaseModule):
             while not self.new_question:
                 if self.jservice:
                     # Load from jservice database
-                    r = requests.get("http://jservice.io/api/random")
+                    r = requests.get("http://jservice.io/api/random", headers={"User-Agent": self.bot.user_agent})
                     self.question = r.json()[0]
                     self.check_question()
 
@@ -204,14 +204,17 @@ class TriviaModule(BaseModule):
                     # Load from gazatu and RTD
                     chosenInt = random.randint(0, 10)
                     if chosenInt <= 5:
-                        r = requests.get("http://159.203.60.127/questions?limit=1")
+                        r = requests.get(
+                            "http://159.203.60.127/questions?limit=1", headers={"User-Agent": self.bot.user_agent}
+                        )
                         self.question = r.json()
                         self.question["category"] = self.question["categories"][0]
                         self.check_question()
                     else:
                         self.gazatuService = True
                         r = requests.get(
-                            f"https://api.gazatu.xyz/trivia/questions?count=1&include=[{','.join(self.gazCategories)}]"
+                            f"https://api.gazatu.xyz/trivia/questions?count=1&include=[{','.join(self.gazCategories)}]",
+                            headers={"User-Agent": self.bot.user_agent},
                         )
                         resjson = r.json()[0]
                         if resjson["disabled"]:
@@ -340,6 +343,7 @@ class TriviaModule(BaseModule):
         HandlerManager.add_handler("on_message", self.on_message)
 
     def stop_trivia(self, endStep=False):
+        self.trivia_running = False
         if self.job:
             self.job.pause()
 
@@ -354,7 +358,6 @@ class TriviaModule(BaseModule):
         if endStep:
             self.step_end()
 
-        self.trivia_running = False
         self.correct_dict = {}
 
         HandlerManager.remove_handler("on_message", self.on_message)
@@ -377,8 +380,9 @@ class TriviaModule(BaseModule):
             bot.safe_me(f"{source}, no trivia is active right now")
             return
 
-        self.job.remove()
-        self.job = None
+        if self.job is not None:
+            self.job.remove()
+            self.job = None
         self.check_job.remove()
         self.check_job = None
         self.checkPaused = True

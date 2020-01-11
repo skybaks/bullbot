@@ -65,11 +65,11 @@ class GivePointsModule(BaseModule):
 
         if num_points <= 0:
             # The user tried to specify a negative amount of points
-            bot.whisper(source.username, "You cannot give away negative points admiralCute")
+            bot.whisper(source, "You cannot give away negative points admiralCute")
             return True
-        elif num_points < 250:
-            bot.whisper(source.username, "You must give 250 points or more :) Be charitable :)")
-            return True
+        # elif num_points < 250:
+        #     bot.whisper(source, "You must give 250 points or more :) Be charitable :)")
+        #     return True
 
         if not source.can_afford(num_points):
             # The user tried giving away more points than he owns

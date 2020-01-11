@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
-{% set active_page = 'stats' %}
+{% if user.id == session.user.id %}
+{% set active_page = 'me' %}
+{% endif %}
 {% block title %}Profile - {{ user }}{% endblock %}
 {% block body %}
 <div id="userprofile">

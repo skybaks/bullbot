@@ -68,29 +68,29 @@ class FollowAgeModule(BaseModule):
                 CommandExample(
                     None,
                     "Check your own follow age",
-                    chat="user:!followage\n" "bot:pajlada, you have been following Karl_Kons for 4 months and 24 days",
-                    description="Check how long you have been following the current streamer (Karl_Kons in this case)",
+                    chat="user:!followage\n" "bot:datguy1 has been following admiralbulldog for 4 months and 24 days",
+                    description="Check how long you have been following the current streamer (admiralbulldog in this case)",
                 ).parse(),
                 CommandExample(
                     None,
                     "Check someone elses follow age",
-                    chat="user:!followage NightNacht\n"
-                    "bot:pajlada, NightNacht has been following Karl_Kons for 5 months and 4 days",
-                    description="Check how long any user has been following the current streamer (Karl_Kons in this case)",
+                    chat="user:!followage s4\n"
+                    "bot:datguy1, s4 has been following admiralbulldog for 5 months and 4 days",
+                    description="Check how long any user has been following the current streamer (admiralbulldog in this case)",
                 ).parse(),
                 CommandExample(
                     None,
                     "Check someones follow age for a certain streamer",
-                    chat="user:!followage NightNacht forsenlol\n"
-                    "bot:pajlada, NightNacht has been following forsenlol for 1 year and 4 months",
-                    description="Check how long NightNacht has been following forsenlol",
+                    chat="user:!followage s4 admiralbulldog\n"
+                    "bot:datguy1, s4 has been following admiralbulldog for 1 year and 4 months",
+                    description="Check how long s4 has been following admiralbulldog",
                 ).parse(),
                 CommandExample(
                     None,
                     "Check your own follow age for a certain streamer",
-                    chat="user:!followage pajlada forsenlol\n"
-                    "bot:pajlada, you have been following forsenlol for 1 year and 3 months",
-                    description="Check how long you have been following forsenlol",
+                    chat="user:!followage s4 admiralbulldog\n"
+                    "bot:s4 has been following admiralbulldog for 1 year and 3 months",
+                    description="Check how long you have been following admiralbulldog",
                 ).parse(),
             ],
         )
@@ -106,29 +106,29 @@ class FollowAgeModule(BaseModule):
                     None,
                     "Check your own follow since",
                     chat="user:!followsince\n"
-                    "bot:pajlada, you have been following Karl_Kons since 04 March 2015, 07:02:01 UTC",
-                    description="Check when you first followed the current streamer (Karl_Kons in this case)",
+                    "bot:datguy1, you have been following admiralbulldog since 04 March 2015, 07:02:01 UTC",
+                    description="Check when you first followed the current streamer (admiralbulldog in this case)",
                 ).parse(),
                 CommandExample(
                     None,
                     "Check someone elses follow since",
-                    chat="user:!followsince NightNacht\n"
-                    "bot:pajlada, NightNacht has been following Karl_Kons since 03 July 2014, 04:12:42 UTC",
-                    description="Check when NightNacht first followed the current streamer (Karl_Kons in this case)",
+                    chat="user:!followsince s4\n"
+                    "bot:datguy1, s4 has been following admiralbulldog since 03 July 2014, 04:12:42 UTC",
+                    description="Check when s4 first followed the current streamer (admiralbulldog in this case)",
                 ).parse(),
                 CommandExample(
                     None,
                     "Check someone elses follow since for another streamer",
-                    chat="user:!followsince NightNacht forsenlol\n"
-                    "bot:pajlada, NightNacht has been following forsenlol since 13 June 2013, 13:10:51 UTC",
-                    description="Check when NightNacht first followed the given streamer (forsenlol)",
+                    chat="user:!followsince s4 admiralbulldog\n"
+                    "bot:datguy1, s4 has been following admiralbulldog since 13 June 2013, 13:10:51 UTC",
+                    description="Check when s4 first followed the given streamer (admiralbulldog)",
                 ).parse(),
                 CommandExample(
                     None,
                     "Check your follow since for another streamer",
-                    chat="user:!followsince pajlada forsenlol\n"
-                    "bot:pajlada, you have been following forsenlol since 16 December 1990, 03:06:51 UTC",
-                    description="Check when you first followed the given streamer (forsenlol)",
+                    chat="user:!followsince datguy1 admiralbulldog\n"
+                    "bot:datguy1, you have been following admiralbulldog since 16 December 1990, 03:06:51 UTC",
+                    description="Check when you first followed the given streamer (admiralbulldog)",
                 ).parse(),
             ],
         )
@@ -190,23 +190,23 @@ class FollowAgeModule(BaseModule):
                 return
 
         follow_since = bot.twitch_helix_api.get_follow_since(from_user.id, to_user.id)
-        is_self = source == from_user
-        to_user = to_user.login.replace("admiralbulldog", "admirallbuldog")
+        # is_self = source == from_user
+        to_user = to_user.name.replace("AdmiralBulldog", "AdmeralllBuldogg")
 
         if follow_since is not None:
             # Following
             suffix = f"been following {to_user} {format_cb(follow_since)}"
-            if is_self:
-                message = "You have " + suffix
-            else:
-                message = from_user.name + " has " + suffix
+            # if is_self:
+            #     message = "You have " + suffix
+            # else:
+            message = from_user.name + " has " + suffix
         else:
             # Not following
             suffix = f"not following {to_user}"
-            if is_self:
-                message = "You are " + suffix
-            else:
-                message = from_user.name + " is " + suffix
+            # if is_self:
+            #     message = "You are " + suffix
+            # else:
+            message = from_user.name + " is " + suffix
 
         bot.execute_now(bot.send_message_to_user, source, message, event, method=message_method)
 

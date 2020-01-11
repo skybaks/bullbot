@@ -32,7 +32,7 @@ class APIModuleToggle(Resource):
         self.post_parser = reqparse.RequestParser()
         self.post_parser.add_argument("new_state", required=True)
 
-    @pajbot.web.utils.requires_level(500)
+    @pajbot.web.utils.requires_level(1500)
     def post(self, row_id, **options):
         args = self.post_parser.parse_args()
 

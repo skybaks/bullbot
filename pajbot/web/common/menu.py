@@ -1,3 +1,4 @@
+# from flask import session
 import logging
 
 log = logging.getLogger(__name__)
@@ -24,6 +25,9 @@ def init(app):
         nav_bar_header.append(MenuItem("/playsounds", "user_playsounds", "Playsounds"))
     if "pleblist" in app.bot_modules:
         nav_bar_header.append(MenuItem("/pleblist/history", "pleblist", "Pleblist"))
+    # Would be best but unfortunately impossible
+    # if "user" in session:
+    #     nav_bar_header.append(MenuItem(f'/user/{session["user"]["name"]}', "user_page", "Me"))
 
     nav_bar_admin_header = []
     nav_bar_admin_header.append(MenuItem("/", "home", "Home"))

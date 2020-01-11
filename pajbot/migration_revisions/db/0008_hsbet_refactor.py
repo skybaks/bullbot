@@ -7,9 +7,8 @@ def up(cursor, bot):
     cursor.execute("ALTER TABLE bet_game ALTER COLUMN internal_id DROP NOT NULL")
     cursor.execute("ALTER TABLE bet_game ADD UNIQUE(internal_id)")
 
-    # new: bet_game.bet_closed
+    # new: bet_game.bets_closed
     cursor.execute("ALTER TABLE bet_game ADD COLUMN bets_closed BOOL")
-    cursor.execute("ALTER TABLE bet_game ADD COLUMN message_closed BOOL")
 
     # bet_game.outcome, points_change, win_bettors, loss_bettors: -NOT NULL
     cursor.execute("ALTER TABLE bet_game ALTER COLUMN outcome DROP NOT NULL")

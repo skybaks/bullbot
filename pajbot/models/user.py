@@ -89,6 +89,8 @@ class User(Base):
     ignored = Column(BOOLEAN, nullable=False, server_default="FALSE")
     banned = Column(BOOLEAN, nullable=False, server_default="FALSE")
     timeout_end = Column(UtcDateTime(), nullable=True, server_default="NULL")
+    tier = Column(INT, nullable=True)
+    last_pair = Column(UtcDateTime(), nullable=True, server_default="NULL")
 
     _rank = relationship("UserRank", primaryjoin=foreign(id) == UserRank.user_id, lazy="select")
 
@@ -112,6 +114,17 @@ class User(Base):
     _duel_stats = relationship(
         UserDuelStats, uselist=False, cascade="all, delete-orphan", passive_deletes=True, back_populates="user"
     )
+
+    def _setcd(self, db_session):
+        self.last_pair = utils.now()
+        db_session.merge(self)
+        return self
+
+    @hybrid_property
+    def offcd(self):
+        if self.last_pair:
+            return (self.last_pair + timedelta(days=1)) < utils.now()
+        return True
 
     @hybrid_property
     def username(self):

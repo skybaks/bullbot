@@ -45,9 +45,8 @@ class BetModule(BaseModule):
             if not current_game:
                 return
 
-            if current_game.betting_open:
-                self.bot.me("monkaS 👉 🕒 place your bets people")
-                self.bot.websocket_manager.emit("notification", {"message": "monkaS 👉 🕒 place your bets people"})
+            self.bot.me("monkaS 👉 🕒 place your bets people")
+            self.bot.websocket_manager.emit("notification", {"message": "monkaS 👉 🕒 place your bets people"})
 
     def get_current_game(self, db_session, with_bets=False, with_users=False):
         query = db_session.query(BetGame).filter(BetGame.is_running)
@@ -58,7 +57,7 @@ class BetModule(BaseModule):
             query = query.options(joinedload(BetGame.bets).joinedload(BetBet.user))
 
         current_game = query.one_or_none()
-        if not current_game:
+        if current_game is None:
             current_game = BetGame()
             db_session.add(current_game)
             db_session.flush()
@@ -180,9 +179,15 @@ class BetModule(BaseModule):
 
     def start_game(self, openString=None):
         with DBManager.create_session_scope() as db_session:
-            current_game = self.get_current_game(db_session)
+            current_game = db_session.query(BetGame).filter(BetGame.is_running).one_or_none()
 
-            if current_game.betting_open is False:
+            if current_game is None:
+                current_game = BetGame()
+                db_session.add(current_game)
+                db_session.flush()
+            elif current_game.betting_open is True:
+                current_game.bets_closed = False
+            else:
                 self.bot.say("Betting is already open Pepega")
                 return False
 
@@ -198,7 +203,7 @@ class BetModule(BaseModule):
     def command_open(self, message, **rest):
         openString = "Betting has been opened"
 
-        if message and ["dire", "radi", "spectat"] in message:
+        if message and any(specHint in message for specHint in ["dire", "radi", "spectat"]):
             self.spectating = True
             openString += ". Reminder to bet with radiant/dire instead of win/loss"
 
@@ -219,9 +224,9 @@ class BetModule(BaseModule):
 
     def command_close(self, bot, source, message, **rest):
         with DBManager.create_session_scope() as db_session:
-            current_game = db_session.query(BetGame).filter(BetGame.betting_open).one_or_none()
+            current_game = db_session.query(BetGame).filter(BetGame.is_running).one_or_none()
             if not current_game:
-                bot.say(f"{source} stop pretending WeirdChamp ✋ (bets are already locked)")
+                bot.say(f"{source}, no bet currently exists")
                 return False
 
             if current_game.betting_open:
@@ -242,6 +247,8 @@ class BetModule(BaseModule):
                     return False
 
                 self.spectating = False
+            else:
+                bot.say("WTFF")
 
     def command_restart(self, bot, message, **rest):
         reason = message if message else "No reason given EleGiggle"
@@ -277,10 +284,13 @@ class BetModule(BaseModule):
             return False
 
         with DBManager.create_session_scope() as db_session:
-            current_game = self.get_current_game(db_session)
-            if not current_game.betting_open:
-                if current_game.bets_closed:
-                    bot.whisper(source, "Betting is not currently open. Wait until the next game :\\")
+            current_game = db_session.query(BetGame).filter(BetGame.is_running).one_or_none()
+            if not current_game:
+                bot.whisper(source, "There is currently no bet")
+                return False
+
+            if current_game.betting_open is False:
+                bot.whisper(source, "Betting is not currently open. Wait until the next game :\\")
                 return False
 
             msg_parts = message.split(" ")
@@ -300,6 +310,9 @@ class BetModule(BaseModule):
                     points = self.settings["max_bet"]
             except InvalidPointAmount as e:
                 bot.whisper(source, f"Invalid bet. Usage: !bet win/loss POINTS. {e}")
+                return False
+            except IndexError:
+                bot.whisper(source, "Invalid bet. Usage: !bet win/loss POINTS")
                 return False
 
             if points < 1:
