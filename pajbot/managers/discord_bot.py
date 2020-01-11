@@ -48,7 +48,7 @@ class CustomClient(discord.Client):
         super().__init__()
 
     async def on_ready(self):
-        self.bot.guild =  self.get_guild(int(self.bot.settings["discord_guild"]))
+        self.bot.guild = self.get_guild(int(self.bot.settings["discord_guild"]))
         if not self.bot.guild:
             log.error("Discord Guild not found!")
             return
@@ -295,10 +295,7 @@ class DiscordBotManager(object):
                                 member_assigned_tier2 and quick_dict[member_id][0] != 2
                             ):
                                 subs_to_return.append(
-                                    [
-                                        str(utils.now() + timedelta(days=int(self.settings["grace_time"]))),
-                                        member_id,
-                                    ]
+                                    [str(utils.now() + timedelta(days=int(self.settings["grace_time"]))), member_id,]
                                 )
                         else:
                             if member_assigned_tier2:
