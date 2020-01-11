@@ -20,7 +20,7 @@ class UserConnections(Base):
     disord_username = Column(TEXT, nullable=False)
 
     # steamID64
-    steam_id = Column(TEXT nullable=False)
+    steam_id = Column(TEXT, nullable=False)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
