@@ -193,7 +193,7 @@ class OAuthRemoteAppEdited(OAuthRemoteApp):
             qs = client.prepare_request_body(**remote_args)
             url = self.expand_url(self.access_token_url)
             url += ("?" in url and "&" or "?") + qs
-            resp, content = self.http_request(url, headers=headers, method=self.access_token_method,)
+            resp, content = self.http_request(url, headers=headers, method=self.access_token_method)
         else:
             raise OAuthException("Unsupported access_token_method: %s" % self.access_token_method)
 

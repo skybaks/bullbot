@@ -62,7 +62,7 @@ class DiscordModule(BaseModule):
             default=True,
         ),
         ModuleSetting(
-            key="pause_bot", label="Stop the bot from purging roles", type="boolean", placeholder="", default=False,
+            key="pause_bot", label="Stop the bot from purging roles", type="boolean", placeholder="", default=False
         ),
         ModuleSetting(key="notify_on_tier2", label="Notify for tier 2", type="boolean", placeholder="", default=False),
         ModuleSetting(key="notify_on_tier3", label="Notify for tier 3", type="boolean", placeholder="", default=True),

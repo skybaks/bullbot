@@ -295,7 +295,7 @@ class DiscordBotManager(object):
                                 member_assigned_tier2 and quick_dict[member_id][0] != 2
                             ):
                                 subs_to_return.append(
-                                    [str(utils.now() + timedelta(days=int(self.settings["grace_time"]))), member_id,]
+                                    [str(utils.now() + timedelta(days=int(self.settings["grace_time"]))), member_id]
                                 )
                         else:
                             if member_assigned_tier2:
