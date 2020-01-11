@@ -93,7 +93,7 @@ class DiscordBotManager(object):
             admin_role = self.guild.get_role(int(self.settings["admin_role"]))
             if admin_role in self.guild.get_member(message.author.id).roles:
                 await self.check_discord_roles()
-                await self._private_message(message.author, f"Check Complete!")
+                await self.private_message(message.author, f"Check Complete!")
                 return
 
     async def _connections(self, message):
@@ -112,14 +112,14 @@ class DiscordBotManager(object):
                                 db_session.query(UserConnections).filter_by(twitch_id=user.id).one_or_none()
                             )
                         if not userconnections:
-                            await self._private_message(author, f"Connection data not found for user " + args[0])
+                            await self.private_message(author, f"Connection data not found for user " + args[0])
                             return
                 if not userconnections:
                     userconnections = (
                         db_session.query(UserConnections).filter_by(discord_user_id=str(author.id)).one_or_none()
                     )
                 if not userconnections:
-                    await self._private_message(
+                    await self.private_message(
                         author,
                         f"You have not set up your account info yet, go to https://{self.bot.bot_domain}/connections to pair your twitch and steam to your discord account!",
                     )
@@ -138,6 +138,7 @@ class DiscordBotManager(object):
                 )
 
     async def private_message(self, member, message):
+        message = message.replace("_", "\_")
         await self._private_message(member, message)
 
     async def remove_role(self, member, role):
@@ -167,15 +168,42 @@ class DiscordBotManager(object):
             with DBManager.create_session_scope() as db_session:
                 all_connections = db_session.query(UserConnections).all()
                 for connection in all_connections:
+                    user_linked = User.find_by_id(db_session, connection.twitch_id)
                     quick_dict[connection.discord_user_id] = [
-                        User.find_by_id(db_session, connection.twitch_id).tier,
+                        user_linked.tier,
                         connection,
                     ]
                     member = self.guild.get_member(int(connection.discord_user_id))
+                    if connection.twitch_login != user_linked.login:
+                        twitch_name_changes.append([connection.twitch_login, connection.twitch_id])
+                        if tier2_role is not None:
+                            member_assigned_tier2 = tier2_role in member.roles
+                        if tier3_role is not None:
+                            member_assigned_tier3 = tier3_role in member.roles
+                        for member_to_notify in notify_role.members:
+                            user = User.find_by_id(db_session, unlinks["twitch_id"])
+                            steam_id = unlinks["steam_id"]
+                            message = "Twitch login changed for a tier {tier} sub\nSteam: <https://steamcommunity.com/profiles/{steam_id}>\nOld Twitch: {old}\nNew Twitch: {new}"
+                            if (
+                                member_assigned_tier3
+                                and self.settings["notify_on_name_change"]
+                                and self.settings["notify_on_tier3"]
+                            ):
+                                await self.private_message(
+                                    member_to_notify, message.format(tier=3, steam_id=steam_id, old=connection.twitch_login, steam_id=user_linked.login)
+                                )
+                            if (
+                                member_assigned_tier2
+                                and self.settings["notify_on_name_change"]
+                                and self.settings["notify_on_tier2"]
+                            ):
+                                await self.private_message(
+                                    member_to_notify, message.format(tier=2, steam_id=steam_id, old=connection.twitch_login, steam_id=user_linked.login)
+                                )
                     if member and member.display_name + "#" + member.discriminator != connection.disord_username:
                         connection._update_disord_username(db_session, member.display_name + "#" + member.discriminator)
                 queued_subs = json.loads(self.redis.get("queued-subs-discord"))["array"]
-                unlinkinfo = json.loads(self.redis.get("unlinks-subs-discord"))["array"]
+                unlinkinfo = json.loads(self.redis.get("unlinks-subs-discord"))["array"]                    
                 for unlinks in unlinkinfo:
                     member = self.guild.get_member(int(unlinks["discord_user_id"]))
                     member_id = str(member.id)
