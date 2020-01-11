@@ -1,5 +1,4 @@
 import logging
-from contextlib import contextmanager
 
 from sqlalchemy import TEXT
 from sqlalchemy import Column

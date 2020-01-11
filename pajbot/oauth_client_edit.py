@@ -9,17 +9,11 @@ import oauthlib.oauth2
 from json import loads as jsonify
 from copy import copy
 from oauthlib.common import add_params_to_uri
-from flask import request, redirect, json, session
+from flask import request, session
 from flask_oauthlib.utils import to_bytes
 import requests
 import base64
 
-try:
-    from urlparse import urljoin
-    import urllib2 as http
-except ImportError:
-    from urllib import request as http
-    from urllib.parse import urljoin
 log = logging.getLogger(__name__)
 
 
@@ -190,7 +184,7 @@ class OAuthRemoteAppEdited(OAuthRemoteApp):
             qs = client.prepare_request_body(**remote_args)
             url = self.expand_url(self.access_token_url)
             url += ("?" in url and "&" or "?") + qs
-            resp, content = self.http_request(url, headers=headers, method=self.access_token_method,)
+            resp, content = self.http_request(url, headers=headers, method=self.access_token_method)
         else:
             raise OAuthException("Unsupported access_token_method: %s" % self.access_token_method)
 

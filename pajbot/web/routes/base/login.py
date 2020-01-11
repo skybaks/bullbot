@@ -10,7 +10,6 @@ from pajbot.oauth_client_edit import OAuthEdited
 from flask_oauthlib.client import OAuthException
 from flask_openid import OpenID
 import re
-import requests
 
 from pajbot.apiwrappers.authentication.access_token import UserAccessToken
 from pajbot.managers.db import DBManager
@@ -129,7 +128,7 @@ def init(app):
             session["steam_id"] = match.group(1)
             next_url = session["next_url"]
             session.pop("next_url", None)
-            return redirect(next_url)
+            return redirect(next_url or None)
 
     @app.route("/login/error")
     def login_error():

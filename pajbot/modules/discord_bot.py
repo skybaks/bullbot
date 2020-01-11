@@ -1,18 +1,7 @@
 import logging
-import threading
 
-from pajbot import utils
-from pajbot.exc import InvalidPointAmount
-from pajbot.managers.db import DBManager
-from pajbot.managers.handler import HandlerManager
-from pajbot.managers.schedule import ScheduleManager
-from pajbot.models.bet import BetGame
-from pajbot.models.command import Command
-from pajbot.models.command import CommandExample
-from pajbot.models.user import User
 from pajbot.modules import BaseModule
 from pajbot.modules import ModuleSetting
-import asyncio
 
 log = logging.getLogger(__name__)
 
@@ -68,23 +57,17 @@ class DiscordModule(BaseModule):
             placeholder="",
             default=True,
         ),
-        ModuleSetting(
-            key="pause_bot", label="Stop the bot from purging roles", type="boolean", placeholder="", default=False,
-        ),
+        ModuleSetting(key="pause_bot", label="Stop the bot from purging roles", type="boolean", placeholder="", default=False),
         ModuleSetting(key="notify_on_tier2", label="Notify for tier 2", type="boolean", placeholder="", default=False),
         ModuleSetting(key="notify_on_tier3", label="Notify for tier 3", type="boolean", placeholder="", default=True),
     ]
 
-    def __init__(self, bot):
-        super().__init__(bot)
-        self.bot = bot
-
     def enable(self, bot):
-        if self.bot:
+        if bot:
             log.info("Enabled Discord")
             self.bot.discord_bot_manager.configure(self.settings)
 
     def disable(self, bot):
-        if self.bot:
+        if bot:
             log.info("Disabled Discord")
             self.bot.discord_bot_manager.stop()

@@ -16,7 +16,6 @@ from pajbot.exc import FailedCommand
 from pajbot.managers.db import Base
 from pajbot.managers.redis import RedisManager
 from pajbot.models.duel import UserDuelStats
-from datetime import timedelta
 
 log = logging.getLogger(__name__)
 

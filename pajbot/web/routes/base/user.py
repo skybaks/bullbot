@@ -9,7 +9,6 @@ from pajbot.managers.db import DBManager
 from pajbot.models.roulette import Roulette
 from pajbot.models.user import User
 from pajbot.models.user_connection import UserConnections
-from pajbot.web.utils import requires_level
 from pajbot.managers.redis import RedisManager
 
 log = logging.getLogger(__name__)
@@ -106,6 +105,7 @@ def init(app):
         with DBManager.create_session_scope() as db_session:
             if "user" not in session:
                 return redirect(f"/login?n=/connections/")
+
             user = User.find_by_id(db_session, session["user"]["id"])
             if user is None:
                 return render_template("no_user.html"), 404
@@ -143,8 +143,9 @@ def init(app):
     @app.route("/connections/pair")
     def user_profile_connections_pair():
         with DBManager.create_session_scope() as db_session:
-             if "user" not in session:
+            if "user" not in session:
                 return redirect(f"/login?n=/connections/")
+
             user = User.find_by_id(db_session, session["user"]["id"])
             if user is None:
                 return render_template("no_user.html"), 404
@@ -184,20 +185,12 @@ def init(app):
                         return redirect(f"/connections/")
                     else:
                         return render_template(
-                            "connections.html",
-                            user=user,
-                            data=data,
-                            returnUrl=f"/connections",
-                            pair_failed=True,
+                            "connections.html", user=user, data=data, returnUrl=f"/connections", pair_failed=True,
                         )
                 except Exception as e:
                     log.error(e)
                     return render_template(
-                        "connections.html",
-                        user=user,
-                        data=data,
-                        returnUrl=f"/connections",
-                        pair_failed=True,
+                        "connections.html", user=user, data=data, returnUrl=f"/connections", pair_failed=True,
                     )
             else:
                 return render_template("errors/403.html"), 403
