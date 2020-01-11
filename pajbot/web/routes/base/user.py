@@ -16,13 +16,6 @@ log = logging.getLogger(__name__)
 
 
 def init(app):
-    @app.route("/user")
-    def user():
-        if "user" not in session:
-            return redirect(f"/login?n=/user")
-        else:
-            return redirect(f"/user/{session['user']['name']}/connections")
-
     @app.route("/user/<login>")
     def user_profile(login):
         with DBManager.create_session_scope() as db_session:
@@ -108,17 +101,14 @@ def init(app):
 
             return render_template("user.html", user=user, roulette_stats=roulette_stats, roulettes=roulettes)
 
-    @app.route("/user/<login>/connections")
-    def user_profile_connections(login):
+    @app.route("/connections")
+    def user_profile_connections():
         with DBManager.create_session_scope() as db_session:
-            user = User.find_by_user_input(db_session, login)
+            if "user" not in session:
+                return redirect(f"/login?n=/connections/")
+            user = User.find_by_id(db_session, session["user"]["id"])
             if user is None:
                 return render_template("no_user.html"), 404
-            if "user" not in session:
-                return redirect(f"/login?n=/user/{login}/connections/")
-            second_user = User.find_by_id(db_session, session["user"]["id"])
-            if user != second_user:
-                return render_template("errors/403.html"), 403
             discord = None
             steam = None
             if (
@@ -144,24 +134,21 @@ def init(app):
                     user=user,
                     data=saved_data,
                     twitch_user=session["user"],
-                    returnUrl=f"/user/{login}/connections",
+                    returnUrl=f"/connections",
                 )
             return render_template(
-                "connections.html", user=user, data=data, returnUrl=f"/user/{login}/connections", pair_failed=False
+                "connections.html", user=user, data=data, returnUrl=f"/connections", pair_failed=False
             )
 
-    @app.route("/user/<login>/connections/pair")
-    def user_profile_connections_pair(login):
+    @app.route("/connections/pair")
+    def user_profile_connections_pair():
         with DBManager.create_session_scope() as db_session:
-            user = User.find_by_user_input(db_session, login)
+             if "user" not in session:
+                return redirect(f"/login?n=/connections/")
+            user = User.find_by_id(db_session, session["user"]["id"])
+            if user is None:
+                return render_template("no_user.html"), 404
             if user.offcd:
-                if user is None:
-                    return render_template("no_user.html"), 404
-                if "user" not in session:
-                    return redirect(f"/login?n=/user/{login}/connections/")
-                second_user = User.find_by_id(db_session, session["user"]["id"])
-                if user != second_user:
-                    return render_template("errors/403.html"), 403
                 discord = None
                 steam = None
                 if (
@@ -194,13 +181,13 @@ def init(app):
                         )
                         user._setcd(db_session)
                         db_session.commit()
-                        return redirect(f"/user/{login}/connections/")
+                        return redirect(f"/connections/")
                     else:
                         return render_template(
                             "connections.html",
                             user=user,
                             data=data,
-                            returnUrl=f"/user/{login}/connections",
+                            returnUrl=f"/connections",
                             pair_failed=True,
                         )
                 except Exception as e:
@@ -209,23 +196,20 @@ def init(app):
                         "connections.html",
                         user=user,
                         data=data,
-                        returnUrl=f"/user/{login}/connections",
+                        returnUrl=f"/connections",
                         pair_failed=True,
                     )
             else:
                 return render_template("errors/403.html"), 403
 
-    @app.route("/user/<login>/connections/unpair")
+    @app.route("/connections/unpair")
     def user_profile_connections_unpair(login):
         with DBManager.create_session_scope() as db_session:
             user = User.find_by_user_input(db_session, login)
             if user is None:
                 return render_template("no_user.html"), 404
             if "user" not in session:
-                return redirect(f"/login?n=/user/{login}/connections/")
-            second_user = User.find_by_id(db_session, session["user"]["id"])
-            if user != second_user:
-                return render_template("errors/403.html"), 403
+                return redirect(f"/login?n=/connections/")
             try:
                 saved_data = db_session.query(UserConnections).filter_by(twitch_id=session["user"]["id"]).one()
             except:
@@ -242,4 +226,4 @@ def init(app):
             unlinked_accounts = redis.set("unlinks-subs-discord", json.dumps(unlinked_accounts))
             saved_data._remove(db_session)
             db_session.commit()
-            return redirect(f"/user/{login}/connections/")
+            return redirect(f"/connections/")
