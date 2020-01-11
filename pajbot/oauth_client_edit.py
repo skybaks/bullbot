@@ -1,6 +1,7 @@
 from flask_oauthlib.client import OAuth
 from flask_oauthlib.client import OAuthRemoteApp
 from flask_oauthlib.client import OAuthResponse
+from flask_oauthlib.client import OAuthException
 
 import logging
 import oauthlib.oauth1
@@ -72,7 +73,7 @@ class OAuthRemoteAppEdited(OAuthRemoteApp):
                 data = None
         else:
             if content_type is None:
-                data, content_type = encode_request_data(data, format)
+                data, content_type = OAuth.encode_request_data(data, format)
             if content_type is not None:
                 headers["Content-Type"] = content_type
 
@@ -126,7 +127,7 @@ class OAuthRemoteAppEdited(OAuthRemoteApp):
                 data=to_bytes(body, self.encoding),
             )
             if response.status_code not in (200, 201):
-                raise OAuthException("Invalid response from %s" % self.name, type="invalid_response", data=data)
+                raise OAuthException("Invalid response from %s" % self.name, type="invalid_response", data=to_bytes(body, self.encoding))
             return jsonify(response.text.encode("utf8"))
         elif self.access_token_method == "GET":
             qs = client.prepare_request_body(**remote_args)
@@ -134,14 +135,10 @@ class OAuthRemoteAppEdited(OAuthRemoteApp):
             url += ("?" in url and "&" or "?") + qs
             response = requests.request(self.access_token_method, url, headers=headers)
             if response.status_code not in (200, 201):
-                raise OAuthException("Invalid response from %s" % self.name, type="invalid_response", data=data)
+                raise OAuthException("Invalid response from %s" % self.name, type="invalid_response", data=to_bytes(body, self.encoding))
             return jsonify(response.text.encode("utf8"))
         else:
             raise OAuthException("Unsupported access_token_method: %s" % self.access_token_method)
-        data = parse_response(resp, content, content_type=self.content_type)
-        if resp.code not in (200, 201):
-            raise OAuthException("Invalid response from %s" % self.name, type="invalid_response", data=data)
-        return data
 
     def authorized_response(self, args=None, spotify=False, discord=False):
         """Handles authorization response smartly."""
@@ -191,7 +188,7 @@ class OAuthRemoteAppEdited(OAuthRemoteApp):
         else:
             raise OAuthException("Unsupported access_token_method: %s" % self.access_token_method)
 
-        data = parse_response(resp, content, content_type=self.content_type)
+        data = OAuth.parse_response(resp, content, content_type=self.content_type)
         if resp.code not in (200, 201):
             raise OAuthException("Invalid response from %s" % self.name, type="invalid_response", data=data)
         return data
