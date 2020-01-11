@@ -106,6 +106,7 @@ def init(app):
         with DBManager.create_session_scope() as db_session:
             if "user" not in session:
                 return redirect(f"/login?n=/connections/")
+
             user = User.find_by_id(db_session, session["user"]["id"])
             if user is None:
                 return render_template("no_user.html"), 404

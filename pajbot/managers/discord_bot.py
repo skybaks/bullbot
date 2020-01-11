@@ -1,16 +1,12 @@
 import logging
-from pajbot.managers.handler import HandlerManager
 from pajbot.managers.db import DBManager
-from pajbot.managers.schedule import ScheduleManager
 from pajbot import utils
 from pajbot.models.user_connection import UserConnections
 from pajbot.models.user import User
 import discord
 import asyncio
-import time
 import json
 import threading
-import requests
 from datetime import datetime, timedelta
 
 log = logging.getLogger("pajbot")
@@ -84,10 +80,10 @@ class DiscordBotManager(object):
         self.discord_task = self.schedule_task_periodically(300, self.check_discord_roles)
         queued_subs = self.redis.get("queued-subs-discord")
         unlinkinfo = self.redis.get("unlinks-subs-discord")
-        if unlinkinfo == None:
+        if unlinkinfo is None:
             data = {"array": []}
             self.redis.set("unlinks-subs-discord", json.dumps(data))
-        if queued_subs == None:
+        if queued_subs is None:
             data = {"array": []}
             self.redis.set("queued-subs-discord", json.dumps(data))
 

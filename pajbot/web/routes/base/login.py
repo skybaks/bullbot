@@ -10,7 +10,6 @@ from pajbot.oauth_client_edit import OAuthEdited
 from flask_oauthlib.client import OAuthException
 from flask_openid import OpenID
 import re
-import requests
 
 from pajbot.apiwrappers.authentication.access_token import UserAccessToken
 from pajbot.managers.db import DBManager
