@@ -66,7 +66,7 @@ class CustomClient(discord.Client):
             return
         try:
             await cmd.call(message)
-        except Exception e:
+        except Exception as e:
             log.error(e)
 
 
