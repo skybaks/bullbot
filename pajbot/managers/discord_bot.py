@@ -32,14 +32,7 @@ class Command(object):
         return "<Command {}: admin={}, args={}>".format(self.name, self.admin, len(self.args) > 0)
 
     async def call(self, message):
-        data = " ".join(message.content.split(" ")[1:])
-        if len(self.args) > 0:
-            match = checkMatch(self.args, data)
-            if not match:
-                return
-            await self.handler(message, **match.groupdict())
-        else:
-            await self.handler(message)
+        await self.handler(message)
 
 
 class CustomClient(discord.Client):
