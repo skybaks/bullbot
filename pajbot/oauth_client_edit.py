@@ -127,7 +127,9 @@ class OAuthRemoteAppEdited(OAuthRemoteApp):
                 data=to_bytes(body, self.encoding),
             )
             if response.status_code not in (200, 201):
-                raise OAuthException(f"Invalid response from {self.name}", type="invalid_response", data=to_bytes(body, self.encoding))
+                raise OAuthException(
+                    f"Invalid response from {self.name}", type="invalid_response", data=to_bytes(body, self.encoding)
+                )
             return jsonify(response.text.encode("utf8"))
         elif self.access_token_method == "GET":
             qs = client.prepare_request_body(**remote_args)
@@ -135,7 +137,9 @@ class OAuthRemoteAppEdited(OAuthRemoteApp):
             url += ("?" in url and "&" or "?") + qs
             response = requests.request(self.access_token_method, url, headers=headers)
             if response.status_code not in (200, 201):
-                raise OAuthException(f"Invalid response from {self.name}", type="invalid_response", data=to_bytes(body, self.encoding))
+                raise OAuthException(
+                    f"Invalid response from {self.name}", type="invalid_response", data=to_bytes(body, self.encoding)
+                )
             return jsonify(response.text.encode("utf8"))
         else:
             raise OAuthException(f"Unsupported access_token_method: {self.access_token_method}")

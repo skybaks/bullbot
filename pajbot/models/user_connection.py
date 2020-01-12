@@ -51,7 +51,7 @@ class UserConnections(Base):
         self.twitch_login = twitch_login
         db_session.merge(self)
         return self
-        
+
     @staticmethod
     def _create(db_session, twitch_id, discord_user_id, disord_username, steam_id):
         user_con = UserConnections(

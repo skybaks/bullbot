@@ -180,25 +180,31 @@ class DiscordBotManager(object):
                         for member_to_notify in notify_role.members:
                             message = "Twitch login changed for a tier {tier} sub\nSteam: <https://steamcommunity.com/profiles/{steam_id}>\nOld Twitch: {old}\nNew Twitch: {new}"
                             if self.settings["notify_on_name_change"]:
-                                if (
-                                    member_assigned_tier3
-                                    and self.settings["notify_on_tier3"]
-                                ):
+                                if member_assigned_tier3 and self.settings["notify_on_tier3"]:
                                     await self.private_message(
-                                        member_to_notify, message.format(tier=3, steam_id=connection.steam_id, old=connection.twitch_login, new=user_linked.login)
+                                        member_to_notify,
+                                        message.format(
+                                            tier=3,
+                                            steam_id=steam_id,
+                                            old=connection.twitch_login,
+                                            new=user_linked.login,
+                                        ),
                                     )
-                                if (
-                                    member_assigned_tier2
-                                    and self.settings["notify_on_tier2"]
-                                ):
+                                if member_assigned_tier2 and self.settings["notify_on_tier2"]:
                                     await self.private_message(
-                                        member_to_notify, message.format(tier=2, steam_id=connection.steam_id, old=connection.twitch_login, new=user_linked.login)
+                                        member_to_notify,
+                                        message.format(
+                                            tier=2,
+                                            steam_id=steam_id,
+                                            old=connection.twitch_login,
+                                            new=user_linked.login,
+                                        ),
                                     )
                         connection._update_twitch_login(db_session, user_linked.login)
                     if member and member.display_name + "#" + member.discriminator != connection.disord_username:
                         connection._update_disord_username(db_session, member.display_name + "#" + member.discriminator)
                 queued_subs = json.loads(self.redis.get("queued-subs-discord"))["array"]
-                unlinkinfo = json.loads(self.redis.get("unlinks-subs-discord"))["array"]    
+                unlinkinfo = json.loads(self.redis.get("unlinks-subs-discord"))["array"]
                 for unlinks in unlinkinfo:
                     member = self.guild.get_member(int(unlinks["discord_user_id"]))
                     member_id = str(member.id)
@@ -215,19 +221,15 @@ class DiscordBotManager(object):
                         steam_id = unlinks["steam_id"]
                         message = "Account Data Unlinked: Tier {tier} sub removal notification:\nTwitch: {user} (<https://twitch.tv/{user.login}>)\nDiscord: {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam: <https://steamcommunity.com/profiles/{steam_id}>"
                         if self.settings["notify_on_unsub"]:
-                            if (
-                                member_assigned_tier3
-                                and self.settings["notify_on_tier3"]
-                            ):
+                            if member_assigned_tier3 and self.settings["notify_on_tier3"]:
                                 await self.private_message(
-                                    member_to_notify, message.format(tier=3, user=user, member=member, steam_id=steam_id)
+                                    member_to_notify,
+                                    message.format(tier=3, user=user, member=member, steam_id=steam_id),
                                 )
-                            if (
-                                member_assigned_tier2
-                                and self.settings["notify_on_tier2"]
-                            ):
+                            if member_assigned_tier2 and self.settings["notify_on_tier2"]:
                                 await self.private_message(
-                                    member_to_notify, message.format(tier=2, user=user, member=member, steam_id=steam_id)
+                                    member_to_notify,
+                                    message.format(tier=2, user=user, member=member, steam_id=steam_id),
                                 )
                 subs_to_return = []
                 if not self.settings["pause_bot"]:
