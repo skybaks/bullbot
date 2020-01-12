@@ -13,7 +13,7 @@ class UserConnections(Base):
     __tablename__ = "user_connections"
 
     # Twitch user ID
-    twitch_id = Column(TEXT, ForeignKey("user.id", ondelete=""), primary_key=True, nullable=False)
+    twitch_id = Column(INT, ForeignKey("user.id", ondelete="CASCADE"), primary_key=True, autoincrement=False)
     twitch_login = Column(TEXT, nullable=False)
 
     # Discord user id
