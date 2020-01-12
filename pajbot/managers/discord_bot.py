@@ -173,14 +173,11 @@ class DiscordBotManager(object):
                     if not connection.twitch_login:
                         connection._update_twitch_login(db_session, user_linked.login)
                     if connection.twitch_login != user_linked.login:
-                        twitch_name_changes.append([connection.twitch_login, connection.twitch_id])
                         if tier2_role is not None:
                             member_assigned_tier2 = tier2_role in member.roles
                         if tier3_role is not None:
                             member_assigned_tier3 = tier3_role in member.roles
                         for member_to_notify in notify_role.members:
-                            user = User.find_by_id(db_session, unlinks["twitch_id"])
-                            steam_id = unlinks["steam_id"]
                             message = "Twitch login changed for a tier {tier} sub\nSteam: <https://steamcommunity.com/profiles/{steam_id}>\nOld Twitch: {old}\nNew Twitch: {new}"
                             if self.settings["notify_on_name_change"]:
                                 if (
@@ -188,14 +185,14 @@ class DiscordBotManager(object):
                                     and self.settings["notify_on_tier3"]
                                 ):
                                     await self.private_message(
-                                        member_to_notify, message.format(tier=3, steam_id=steam_id, old=connection.twitch_login, new=user_linked.login)
+                                        member_to_notify, message.format(tier=3, steam_id=connection.steam_id, old=connection.twitch_login, new=user_linked.login)
                                     )
                                 if (
                                     member_assigned_tier2
                                     and self.settings["notify_on_tier2"]
                                 ):
                                     await self.private_message(
-                                        member_to_notify, message.format(tier=2, steam_id=steam_id, old=connection.twitch_login, new=user_linked.login)
+                                        member_to_notify, message.format(tier=2, steam_id=connection.steam_id, old=connection.twitch_login, new=user_linked.login)
                                     )
                         connection._update_twitch_login(db_session, user_linked.login)
                     if member and member.display_name + "#" + member.discriminator != connection.disord_username:
