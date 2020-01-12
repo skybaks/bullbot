@@ -185,7 +185,7 @@ class DiscordBotManager(object):
                                         member_to_notify,
                                         message.format(
                                             tier=3,
-                                            steam_id=steam_id,
+                                            steam_id=connection.steam_id,
                                             old=connection.twitch_login,
                                             new=user_linked.login,
                                         ),
@@ -195,7 +195,7 @@ class DiscordBotManager(object):
                                         member_to_notify,
                                         message.format(
                                             tier=2,
-                                            steam_id=steam_id,
+                                            steam_id=connection.steam_id,
                                             old=connection.twitch_login,
                                             new=user_linked.login,
                                         ),
