@@ -9,7 +9,7 @@ def up(cursor, bot):
         """
         ALTER TABLE "user_connections"
         ADD CONSTRAINT "Twitch ID" FOREIGN KEY (twitch_id)
-            REFERENCES pajbot1_roarfacelol."user" (id) MATCH SIMPLE
+            REFERENCES "user" (id) MATCH SIMPLE
             ON UPDATE NO ACTION
             ON DELETE NO ACTION
             NOT VALID
