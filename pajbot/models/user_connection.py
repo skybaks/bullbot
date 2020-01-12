@@ -2,6 +2,7 @@ import logging
 
 from sqlalchemy import TEXT
 from sqlalchemy import Column
+from sqlalchemy import ForeignKey
 
 from pajbot.managers.db import Base
 
@@ -12,7 +13,7 @@ class UserConnections(Base):
     __tablename__ = "user_connections"
 
     # Twitch user ID
-    twitch_id = Column(TEXT, primary_key=True, nullable=False)
+    twitch_id = Column(TEXT, ForeignKey("user.id", ondelete=""), primary_key=True, nullable=False)
     twitch_login = Column(TEXT, nullable=False)
 
     # Discord user id
