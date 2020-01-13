@@ -165,10 +165,7 @@ class DiscordBotManager(object):
                 all_connections = db_session.query(UserConnections).all()
                 for connection in all_connections:
                     user_linked = User.find_by_id(db_session, connection.twitch_id)
-                    quick_dict[connection.discord_user_id] = [
-                        user_linked.tier,
-                        connection,
-                    ]
+                    quick_dict[connection.discord_user_id] = [user_linked.tier, connection]
                     member = self.guild.get_member(int(connection.discord_user_id))
                     if not connection.twitch_login:
                         connection._update_twitch_login(db_session, user_linked.login)
@@ -202,7 +199,9 @@ class DiscordBotManager(object):
                                     )
                         connection._update_twitch_login(db_session, user_linked.login)
                     if member and member.display_name + "#" + member.discriminator != connection.discord_username:
-                        connection._update_discord_username(db_session, member.display_name + "#" + member.discriminator)
+                        connection._update_discord_username(
+                            db_session, member.display_name + "#" + member.discriminator
+                        )
                 queued_subs = json.loads(self.redis.get("queued-subs-discord"))["array"]
                 unlinkinfo = json.loads(self.redis.get("unlinks-subs-discord"))["array"]
                 for unlinks in unlinkinfo:

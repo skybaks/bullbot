@@ -11,7 +11,7 @@ def up(cursor, bot):
     cursor.execute('ALTER TABLE "user" ADD COLUMN last_pair TIMESTAMPTZ DEFAULT NULL')
 
     cursor.execute(
-    """
+        """
     CREATE TABLE user_connections (
         twitch_id TEXT PRIMARY KEY NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
         twitch_login TEXT DEFAULT NULL,
