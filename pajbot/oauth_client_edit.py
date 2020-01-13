@@ -4,7 +4,6 @@ from flask_oauthlib.client import OAuthResponse
 from flask_oauthlib.client import OAuthException
 
 import logging
-import oauthlib.oauth1
 from json import loads as jsonify
 from copy import copy
 from oauthlib.common import add_params_to_uri
