@@ -18,7 +18,7 @@ class UserConnections(Base):
 
     # Discord user id
     discord_user_id = Column(TEXT, nullable=False)
-    disord_username = Column(TEXT, nullable=False)
+    discord_username = Column(TEXT, nullable=False)
 
     # steamID64
     steam_id = Column(TEXT, nullable=False)
@@ -31,7 +31,7 @@ class UserConnections(Base):
             "twitch_id": self.twitch_id,
             "twitch_login": self.twitch_login,
             "discord_user_id": self.discord_user_id,
-            "disord_username": self.disord_username,
+            "discord_username": self.discord_username,
             "steam_id": self.steam_id,
         }
 
@@ -43,8 +43,8 @@ class UserConnections(Base):
     def _remove(self, db_session):
         db_session.delete(self)
 
-    def _update_disord_username(self, db_session, disord_username):
-        self.disord_username = disord_username
+    def _update_discord_username(self, db_session, discord_username):
+        self.discord_username = discord_username
         db_session.merge(self)
         return self
 
@@ -54,9 +54,9 @@ class UserConnections(Base):
         return self
 
     @staticmethod
-    def _create(db_session, twitch_id, discord_user_id, disord_username, steam_id):
+    def _create(db_session, twitch_id, discord_user_id, discord_username, steam_id):
         user_con = UserConnections(
-            twitch_id=twitch_id, discord_user_id=discord_user_id, disord_username=disord_username, steam_id=steam_id
+            twitch_id=twitch_id, discord_user_id=discord_user_id, discord_username=discord_username, steam_id=steam_id
         )
         db_session.add(user_con)
         return user_con
