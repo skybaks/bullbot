@@ -302,7 +302,6 @@ class DiscordBotManager(object):
                     role = roles_allocated[f"tier{tier}_role"]
                     if role is not None:
                         for member in role.members:
-                            log.info(member.display_name)
                             if ignore_role is None or ignore_role not in member.roles:
                                 connection = UserConnections._from_discord_id(db_session, str(member.id))
                                 if not connection:
@@ -310,7 +309,6 @@ class DiscordBotManager(object):
                                 if connection.tier == tier:
                                     continue
                                 if connection.twitch_id not in subs_to_return:
-                                    log.info(connection.twitch_id)
                                     if connection.tier != 0:
                                         await self.remove_role(member, role)
                                         steam_id = connection.steam_id
@@ -330,10 +328,10 @@ class DiscordBotManager(object):
                                                     ),
                                                 )
                                     else:
-                                        subs_to_return[connection.twitch_id] = str(
-                                            utils.now() + timedelta(days=int(self.settings["grace_time"]))
-                                        )
-            log.info(subs_to_return)
+                                        if not self.settings["pause_bot"]:
+                                            subs_to_return[connection.twitch_id] = str(
+                                                utils.now() + timedelta(days=int(self.settings["grace_time"]))
+                                            )
             self.redis.set("queued-subs-discord", json.dumps(subs_to_return))
             self.redis.set("unlinks-subs-discord", json.dumps({}))
 
