@@ -11,15 +11,13 @@ def up(cursor, bot):
     cursor.execute('ALTER TABLE "user" ADD COLUMN last_pair TIMESTAMPTZ DEFAULT NULL')
 
     cursor.execute(
-        """
+    """
     CREATE TABLE user_connections (
-        twitch_id INT COLLATE pg_catalog."default" NOT NULL,
-        discord_user_id TEXT COLLATE pg_catalog."default",
-        steam_id TEXT COLLATE pg_catalog."default",
-        disord_username TEXT COLLATE pg_catalog."default",
-        CONSTRAINT user_connections_pkey PRIMARY KEY (twitch_id),
-        CONSTRAINT user_connections_discord_user_id_key UNIQUE (discord_user_id),
-        CONSTRAINT user_connections_steam_id_key UNIQUE (steam_id)
+        twitch_id INT PRIMARY KEY NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
+        twitch_login TEXT DEFAULT NULL,
+        discord_user_id TEXT UNIQUE,
+        steam_id TEXT UNIQUE,
+        disord_username TEXT,
     )
     """
     )
