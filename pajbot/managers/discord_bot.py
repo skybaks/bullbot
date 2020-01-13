@@ -187,7 +187,7 @@ class DiscordBotManager(object):
                     if not connection.twitch_login:
                         connection._update_twitch_login(db_session, user_linked.login)
                     if connection.twitch_login != user_linked.login:
-                        if connection.tier:
+                        if connection.tier > 1:
                             for member_to_notify in notify_role.members:
                                 message = "Twitch login changed for a tier {tier} sub\nSteam: <https://steamcommunity.com/profiles/{steam_id}>\nOld Twitch: {old}\nNew Twitch: {new}"
                                 if self.settings["notify_on_name_change"] and connection.tier > 1 and self.settings[f"notify_on_tier{connection.tier}"]:
