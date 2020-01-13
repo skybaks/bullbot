@@ -13,11 +13,11 @@ def up(cursor, bot):
     cursor.execute(
     """
     CREATE TABLE user_connections (
-        twitch_id INT PRIMARY KEY NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
+        twitch_id TEXT PRIMARY KEY NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
         twitch_login TEXT DEFAULT NULL,
         discord_user_id TEXT UNIQUE,
         steam_id TEXT UNIQUE,
-        disord_username TEXT,
+        discord_username TEXT
     )
     """
     )
