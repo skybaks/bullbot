@@ -1,6 +1,6 @@
 import logging
 
-from sqlalchemy import TEXT
+from sqlalchemy import TEXT, INT
 from sqlalchemy import Column
 from sqlalchemy import ForeignKey
 
