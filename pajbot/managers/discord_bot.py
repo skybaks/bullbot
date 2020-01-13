@@ -201,8 +201,8 @@ class DiscordBotManager(object):
                                         ),
                                     )
                         connection._update_twitch_login(db_session, user_linked.login)
-                    if member and member.display_name + "#" + member.discriminator != connection.disord_username:
-                        connection._update_disord_username(db_session, member.display_name + "#" + member.discriminator)
+                    if member and member.display_name + "#" + member.discriminator != connection.discord_username:
+                        connection._update_discord_username(db_session, member.display_name + "#" + member.discriminator)
                 queued_subs = json.loads(self.redis.get("queued-subs-discord"))["array"]
                 unlinkinfo = json.loads(self.redis.get("unlinks-subs-discord"))["array"]
                 for unlinks in unlinkinfo:
