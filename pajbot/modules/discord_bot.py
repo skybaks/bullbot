@@ -51,6 +51,13 @@ class DiscordModule(BaseModule):
             default=True,
         ),
         ModuleSetting(
+            key="notify_on_name_change",
+            label="Sends a message to users with notification role upon a twitch name change",
+            type="boolean",
+            placeholder="",
+            default=True,
+        ),
+        ModuleSetting(
             key="pause_bot", label="Stop the bot from purging roles", type="boolean", placeholder="", default=False
         ),
         ModuleSetting(key="notify_on_tier2", label="Notify for tier 2", type="boolean", placeholder="", default=False),
