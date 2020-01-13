@@ -185,12 +185,12 @@ def init(app):
                         return redirect(f"/connections/")
                     else:
                         return render_template(
-                            "connections.html", user=user, data=data, returnUrl=f"/connections", pair_failed=True,
+                            "connections.html", user=user, data=data, returnUrl=f"/connections", pair_failed=True
                         )
                 except Exception as e:
                     log.error(e)
                     return render_template(
-                        "connections.html", user=user, data=data, returnUrl=f"/connections", pair_failed=True,
+                        "connections.html", user=user, data=data, returnUrl=f"/connections", pair_failed=True
                     )
             else:
                 return render_template("errors/403.html"), 403

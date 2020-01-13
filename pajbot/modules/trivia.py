@@ -479,8 +479,9 @@ class TriviaModule(BaseModule):
 
     def disable(self, bot):
         if bot:
-            self.check_job.remove()
-            self.check_job = None
+            if self.check_job:
+                self.check_job.remove()
+                self.check_job = None
             self.checkPaused = True
 
         HandlerManager.remove_handler("on_quit", self.stop_trivia)
