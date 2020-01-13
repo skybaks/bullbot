@@ -94,8 +94,12 @@ class DiscordBotManager(object):
 
     def get_discord_string(self, id):
         id = int(id)
-        member = self.guild.get_member(id) or  self.client.get_user(id)
-        return f"\nDiscord: {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)" if member else ""
+        member = self.guild.get_member(id) or self.client.get_user(id)
+        return (
+            f"\nDiscord: {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)"
+            if member
+            else ""
+        )
 
     async def _connections(self, message):
         if self.guild:
@@ -166,11 +170,11 @@ class DiscordBotManager(object):
             notify_role = self.guild.get_role(int(self.settings["notify_role"]))
             ignore_role = self.guild.get_role(int(self.settings["ignore_role"]))
             roles_allocated = {
-                "twitch_sub_role" : twitch_sub_role,
-                "tier2_role" : tier2_role,
-                "tier3_role" : tier3_role,
-                "notify_role" : notify_role,
-                "ignore_role" : ignore_role
+                "twitch_sub_role": twitch_sub_role,
+                "tier2_role": tier2_role,
+                "tier3_role": tier3_role,
+                "notify_role": notify_role,
+                "ignore_role": ignore_role,
             }
             if twitch_sub_role is None:
                 return
@@ -180,7 +184,9 @@ class DiscordBotManager(object):
                 for connection in all_connections:
                     user_linked = User.find_by_id(db_session, connection.twitch_id)
                     member = self.guild.get_member(int(connection.discord_user_id))
-                    if not user_linked or (not member and not self.client.get_client(connection.discord_user_id)): # Discord doesnt exist or Somehow the twitch doesnt exist in our database so we prune
+                    if not user_linked or (
+                        not member and not self.client.get_client(connection.discord_user_id)
+                    ):  # Discord doesnt exist or Somehow the twitch doesnt exist in our database so we prune
                         connection._remove(db_session)
                         continue
                     quick_dict[connection.twitch_id] = connection
@@ -190,7 +196,11 @@ class DiscordBotManager(object):
                         if connection.tier > 1:
                             for member_to_notify in notify_role.members:
                                 message = "Twitch login changed for a tier {tier} sub\nSteam: <https://steamcommunity.com/profiles/{steam_id}>\nOld Twitch: {old}\nNew Twitch: {new}"
-                                if self.settings["notify_on_name_change"] and connection.tier > 1 and self.settings[f"notify_on_tier{connection.tier}"]:
+                                if (
+                                    self.settings["notify_on_name_change"]
+                                    and connection.tier > 1
+                                    and self.settings[f"notify_on_tier{connection.tier}"]
+                                ):
                                     await self.private_message(
                                         member_to_notify,
                                         message.format(
@@ -202,7 +212,9 @@ class DiscordBotManager(object):
                                     )
                             connection._update_twitch_login(db_session, user_linked.login)
                     if member and member.display_name + "#" + member.discriminator != connection.discord_username:
-                        connection._update_discord_username(db_session, member.display_name + "#" + member.discriminator)
+                        connection._update_discord_username(
+                            db_session, member.display_name + "#" + member.discriminator
+                        )
                 queued_subs = json.loads(self.redis.get("queued-subs-discord"))
                 unlinkinfo = json.loads(self.redis.get("unlinks-subs-discord"))
                 for twitch_id in unlinkinfo:
@@ -230,10 +242,10 @@ class DiscordBotManager(object):
                         connection = quick_dict[sub]
                         time = queued_subs[sub]
                         user = User.find_by_id(db_session, connection.twitch_id)
-                        if not user: # Idk how this happened but user isnt in our database purging
+                        if not user:  # Idk how this happened but user isnt in our database purging
                             connection._remove(db_session)
                             continue
-                        if user.tier == connection.tier: # they resubbed before grace ended
+                        if user.tier == connection.tier:  # they resubbed before grace ended
                             continue
                         if ":" in time[-5:]:
                             time = f"{time[:-5]}{time[-5:-3]}{time[-2:]}"
@@ -250,11 +262,13 @@ class DiscordBotManager(object):
                                     self.settings["notify_on_unsub"]
                                     and connection.tier > 1
                                     and self.settings[f"notify_on_tier{connection.tier}"]
-                                    ):
+                                ):
                                     for member_to_notify in notify_role.members:
                                         await self.private_message(
                                             member_to_notify,
-                                            message.format(tier=connection.tier, user=user, discord=discord, steam_id=steam_id),
+                                            message.format(
+                                                tier=connection.tier, user=user, discord=discord, steam_id=steam_id
+                                            ),
                                         )
                                 if not member or twitch_sub_role not in memeber.roles:
                                     connection._update_tier(db_session, user.tier)
@@ -307,14 +321,18 @@ class DiscordBotManager(object):
                                             self.settings["notify_on_unsub"]
                                             and tier > 1
                                             and self.settings[f"notify_on_tier{tier}"]
-                                            ):
+                                        ):
                                             for member_to_notify in notify_role.members:
                                                 await self.private_message(
                                                     member_to_notify,
-                                                    message.format(tier=tier, user=user, discord=discord, steam_id=steam_id),
+                                                    message.format(
+                                                        tier=tier, user=user, discord=discord, steam_id=steam_id
+                                                    ),
                                                 )
                                     else:
-                                        subs_to_return[connection.twitch_id] = str(utils.now() + timedelta(days=int(self.settings["grace_time"])))
+                                        subs_to_return[connection.twitch_id] = str(
+                                            utils.now() + timedelta(days=int(self.settings["grace_time"]))
+                                        )
             log.info(subs_to_return)
             self.redis.set("queued-subs-discord", json.dumps(subs_to_return))
             self.redis.set("unlinks-subs-discord", json.dumps({}))

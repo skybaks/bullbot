@@ -32,7 +32,7 @@ class UserConnections(Base):
         return {
             "twitch_id": self.twitch_id,
             "twitch_login": self.twitch_login,
-            "twitch_tier" : self.tier,
+            "twitch_tier": self.tier,
             "discord_user_id": self.discord_user_id,
             "discord_username": self.discord_username,
             "steam_id": self.steam_id,
@@ -64,11 +64,16 @@ class UserConnections(Base):
     @hybrid_property
     def tier(self):
         return self.twitch_tier if self.twitch_tier else 0
-    
+
     @staticmethod
     def _create(db_session, twitch_id, twitch_login, twitch_tier, discord_user_id, discord_username, steam_id):
         user_con = UserConnections(
-            twitch_id=twitch_id, twitch_login=twitch_login, twitch_tier=twitch_tier, discord_user_id=discord_user_id, discord_username=discord_username, steam_id=steam_id
+            twitch_id=twitch_id,
+            twitch_login=twitch_login,
+            twitch_tier=twitch_tier,
+            discord_user_id=discord_user_id,
+            discord_username=discord_username,
+            steam_id=steam_id,
         )
         db_session.add(user_con)
         return user_con
