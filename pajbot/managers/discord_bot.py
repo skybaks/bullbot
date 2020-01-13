@@ -128,9 +128,10 @@ class DiscordBotManager(object):
                 else:
                     tier = 0
                 member = self.guild.get_member(int(userconnections.discord_user_id))
+                discord = f"\nDiscord: {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)" if member else ""
                 await self.private_message(
                     message.author,
-                    f"Tier {tier} sub:\nTwitch: {user} (<https://twitch.tv/{user.login}>) \nDiscord: {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)\nSteam: <https://steamcommunity.com/profiles/{userconnections.steam_id}>",
+                    f"Tier {tier} sub:\nTwitch: {user} (<https://twitch.tv/{user.login}>) {discord}\nSteam: <https://steamcommunity.com/profiles/{userconnections.steam_id}>",
                 )
 
     async def private_message(self, member, message):
