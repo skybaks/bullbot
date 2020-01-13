@@ -109,6 +109,7 @@ def init(app):
             user = User.find_by_id(db_session, session["user"]["id"])
             if user is None:
                 return render_template("no_user.html"), 404
+            user_connection = UserConnections._from_twitch_id(db_session, user.id)
             discord = None
             steam = None
             if (
@@ -122,17 +123,12 @@ def init(app):
                 steam = {"id": session["steam_id"]}
 
             data = {"steam": steam, "discord": discord, "twitch": session["user"], "offcd": user.offcd}
-            try:
-                saved_data = (
-                    db_session.query(UserConnections).filter_by(twitch_id=session["user"]["id"]).one().jsonify()
-                )
-            except:
-                saved_data = None
-            if saved_data:
+            user_connection = UserConnections._from_twitch_id(db_session, user.id)
+            if user_connection:
                 return render_template(
                     "connections_unlink.html",
                     user=user,
-                    data=saved_data,
+                    data=user_connection.jsonify(),
                     twitch_user=session["user"],
                     returnUrl=f"/connections",
                 )
@@ -164,18 +160,12 @@ def init(app):
 
                 data = {"steam": steam, "discord": discord, "twitch": session["user"], "offcd": user.offcd}
                 try:
-                    saved_data = (
-                        db_session.query(UserConnections).filter_by(twitch_id=session["user"]["id"]).one().jsonify()
-                    )
-                except:
-                    saved_data = None
-                if saved_data:
-                    return render_template("errors/403.html"), 403
-                try:
                     if discord is not None and steam is not None:
                         UserConnections._create(
                             db_session,
                             session["user"]["id"],
+                            user.login,
+                            user.tier,
                             session["discord_id"],
                             session["discord_username"],
                             session["steam_id"],
@@ -203,19 +193,16 @@ def init(app):
                 return render_template("no_user.html"), 404
             if "user" not in session:
                 return redirect(f"/login?n=/connections/")
-            try:
-                saved_data = db_session.query(UserConnections).filter_by(twitch_id=session["user"]["id"]).one()
-            except:
-                saved_data = None
+            saved_data = db_session.query(UserConnections).filter_by(twitch_id=session["user"]["id"]).one_or_none()
             if not saved_data:
                 return render_template("errors/403.html"), 403
             redis = RedisManager.get()
             unlinked_accounts = redis.get("unlinks-subs-discord")
             if unlinked_accounts is None:
-                unlinked_accounts = {"array": []}
+                unlinked_accounts = {}
             else:
                 unlinked_accounts = json.loads(unlinked_accounts)
-            unlinked_accounts["array"].append(saved_data.jsonify())
+            unlinked_accounts[saved_data.twitch_id] = saved_data.jsonify()
             unlinked_accounts = redis.set("unlinks-subs-discord", json.dumps(unlinked_accounts))
             saved_data._remove(db_session)
             db_session.commit()
