@@ -43,8 +43,8 @@ class UserConnections(Base):
     def _remove(self, db_session):
         db_session.delete(self)
 
-    def _update_discord_username(self, db_session, disord_username):
-        self.disord_username = disord_username
+    def _update_discord_username(self, db_session, discord_username):
+        self.discord_username = discord_username
         db_session.merge(self)
         return self
 
