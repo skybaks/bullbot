@@ -17,12 +17,12 @@ class UserConnections(Base):
     # Twitch user ID
     twitch_id = Column(INT, ForeignKey("user.id", ondelete="CASCADE"), primary_key=True, autoincrement=False)
     twitch_login = Column(TEXT, nullable=False)
-    twitch_tier = Column(INT, nullable=True)
     twitch_user = relationship("User")
 
     # Discord user id
     discord_user_id = Column(TEXT, nullable=False)
     discord_username = Column(TEXT, nullable=False)
+    discord_tier = Column(INT, nullable=True)
 
     # steamID64
     steam_id = Column(TEXT, nullable=False)
@@ -59,20 +59,20 @@ class UserConnections(Base):
         return self
 
     def _update_tier(self, db_session, tier):
-        self.twitch_tier = tier
+        self.discord_tier = tier
         db_session.merge(self)
         return self
 
     @hybrid_property
     def tier(self):
-        return self.twitch_tier if self.twitch_tier else 0
+        return self.discord_tier if self.discord_tier else 0
 
     @staticmethod
-    def _create(db_session, twitch_id, twitch_login, twitch_tier, discord_user_id, discord_username, steam_id):
+    def _create(db_session, twitch_id, twitch_login, discord_tier, discord_user_id, discord_username, steam_id):
         user_con = UserConnections(
             twitch_id=twitch_id,
             twitch_login=twitch_login,
-            twitch_tier=twitch_tier,
+            discord_tier=discord_tier,
             discord_user_id=discord_user_id,
             discord_username=discord_username,
             steam_id=steam_id,
