@@ -228,7 +228,7 @@ class DiscordBotManager(object):
                     user = User.find_by_id(db_session, twitch_id)
                     steam_id = unlinks["steam_id"]
                     discord = self.get_discord_string(unlinks["discord_user_id"])
-                    tier = unlinks["twitch_tier"]
+                    tier = unlinks["discord_tier"]
                     message = "Account Data Unlinked: Tier {tier} sub removal notification:\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{steam_id}>"
                     for member_to_notify in notify_role.members:
                         if self.settings["notify_on_unsub"] and tier > 1 and self.settings[f"notify_on_tier{tier}"]:

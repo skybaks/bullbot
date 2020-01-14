@@ -34,7 +34,7 @@ class UserConnections(Base):
         return {
             "twitch_id": self.twitch_id,
             "twitch_login": self.twitch_login,
-            "twitch_tier": self.tier,
+            "discord_tier": self.tier,
             "discord_user_id": self.discord_user_id,
             "discord_username": self.discord_username,
             "steam_id": self.steam_id,
