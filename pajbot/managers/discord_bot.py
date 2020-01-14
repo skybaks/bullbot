@@ -182,7 +182,7 @@ class DiscordBotManager(object):
             with DBManager.create_session_scope() as db_session:
                 all_connections = db_session.query(UserConnections).all()
                 for connection in all_connections:
-                    user_linked = User.find_by_id(db_session, connection.twitch_id)
+                    user_linked = connection.twitch_user
                     member = self.guild.get_member(int(connection.discord_user_id))
                     if not user_linked or (
                         not member and not self.client.get_client(connection.discord_user_id)
@@ -210,7 +210,7 @@ class DiscordBotManager(object):
                                             new=user_linked.login,
                                         ),
                                     )
-                            connection._update_twitch_login(db_session, user_linked.login)
+                        connection._update_twitch_login(db_session, user_linked.login)
                     if member and member.display_name + "#" + member.discriminator != connection.discord_username:
                         connection._update_discord_username(
                             db_session, member.display_name + "#" + member.discriminator
