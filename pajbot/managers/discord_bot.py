@@ -119,7 +119,9 @@ class DiscordBotManager(object):
                             return_message += f"\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{user_con.steam_id}>\n\n"
                         await self.private_message(
                             message.author,
-                            f"All tier {requested_tier} subs:\n" + return_message + ("There are none!" if return_message == "" else ""),
+                            f"All tier {requested_tier} subs:\n"
+                            + return_message
+                            + ("There are none!" if return_message == "" else ""),
                         )
 
     def get_discord_string(self, id):
@@ -150,7 +152,9 @@ class DiscordBotManager(object):
                             return
                 if not userconnections:
                     userconnections = (
-                        db_session.query(UserConnections).filter_by(discord_user_id=str(message.author.id)).one_or_none()
+                        db_session.query(UserConnections)
+                        .filter_by(discord_user_id=str(message.author.id))
+                        .one_or_none()
                     )
                 if not userconnections:
                     await self.private_message(
@@ -274,7 +278,9 @@ class DiscordBotManager(object):
                         if not user:  # Idk how this happened but user isnt in our database purging
                             connection._remove(db_session)
                             continue
-                        if user.tier == connection.tier or (not user.tier and connection.tier == 0):  # they resubbed before grace ended
+                        if user.tier == connection.tier or (
+                            not user.tier and connection.tier == 0
+                        ):  # they resubbed before grace ended
                             continue
                         if ":" in time[-5:]:
                             time = f"{time[:-5]}{time[-5:-3]}{time[-2:]}"
@@ -352,7 +358,9 @@ class DiscordBotManager(object):
                 if not self.settings["pause_bot"]:
                     for user_connection in db_session.query(UserConnections).all():
                         if user_connection.twitch_id not in subs_to_return:
-                            if user_connection.twitch_user.tier != user_connection.tier and not (not user_connection.twitch_user.tier and user_connection.tier == 0):
+                            if user_connection.twitch_user.tier != user_connection.tier and not (
+                                not user_connection.twitch_user.tier and user_connection.tier == 0
+                            ):
                                 subs_to_return[user_connection.twitch_id] = str(
                                     utils.now() + timedelta(days=int(self.settings["grace_time"]))
                                 )
