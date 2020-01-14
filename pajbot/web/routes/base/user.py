@@ -186,13 +186,13 @@ def init(app):
                 return render_template("errors/403.html"), 403
 
     @app.route("/connections/unpair")
-    def user_profile_connections_unpair(login):
+    def user_profile_connections_unpair():
         with DBManager.create_session_scope() as db_session:
-            user = User.find_by_user_input(db_session, login)
-            if user is None:
-                return render_template("no_user.html"), 404
             if "user" not in session:
                 return redirect(f"/login?n=/connections/")
+            user = User.find_by_id(db_session, session["user"]["id"])
+            if user is None:
+                return render_template("no_user.html"), 404
             saved_data = db_session.query(UserConnections).filter_by(twitch_id=session["user"]["id"]).one_or_none()
             if not saved_data:
                 return render_template("errors/403.html"), 403
