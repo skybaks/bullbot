@@ -87,3 +87,7 @@ class UserConnections(Base):
     @staticmethod
     def _from_twitch_id(db_session, twitch_id):
         return db_session.query(UserConnections).filter_by(twitch_id=twitch_id).one_or_none()
+
+    @staticmethod
+    def _by_tier(db_session, tier):
+        return db_session.query(UserConnections).filter_by(discord_tier=tier).all()

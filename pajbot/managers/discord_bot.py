@@ -66,6 +66,7 @@ class DiscordBotManager(object):
         self.commands = {}
         self.add_command("connections", self._connections)
         self.add_command("check", self._check)
+        self.add_command("bytier", self._get_users_by_tier)
         self.settings = None
         self.redis = redis
         self.thread = None
@@ -92,6 +93,35 @@ class DiscordBotManager(object):
                 await self.private_message(message.author, f"Check Complete!")
                 return
 
+    async def _get_users_by_tier(self, message):
+        if self.guild:
+            with DBManager.create_session_scope() as db_session:
+                admin_role = self.guild.get_role(int(self.settings["admin_role"]))
+                if admin_role in message.author.roles:
+                    args = message.content.split(" ")[1:]
+                    if len(args) > 0:
+                        requested_tier = args[0]
+                        try:
+                            requested_tier = int(requested_tier)
+                        except:
+                            return
+                        return_message = ""
+                        all_users_con = UserConnections._by_tier(db_session, requested_tier)
+                        for user_con in all_users_con:
+                            user = user_con.twitch_user
+                            if user.tier is None:
+                                tier = 0
+                            elif user.tier >= 1:
+                                tier = user.tier
+                            else:
+                                tier = 0
+                            discord = self.get_discord_string(user_con.discord_user_id)
+                            return_message += f"\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{user_con.steam_id}>\n\n"
+                        await self.private_message(
+                            message.author,
+                            f"All tier {requested_tier} subs:\n" + return_message + ("There are none!" if return_message == "" else ""),
+                        )
+
     def get_discord_string(self, id):
         id = int(id)
         member = self.guild.get_member(id) or self.client.get_user(id)
@@ -105,9 +135,8 @@ class DiscordBotManager(object):
         if self.guild:
             with DBManager.create_session_scope() as db_session:
                 userconnections = None
-                author = self.guild.get_member(message.author.id)
                 admin_role = self.guild.get_role(int(self.settings["admin_role"]))
-                if admin_role in author.roles:
+                if admin_role in message.author.roles:
                     args = message.content.split(" ")[1:]
                     if len(args) > 0:
                         check_user = args[0]
@@ -117,15 +146,15 @@ class DiscordBotManager(object):
                                 db_session.query(UserConnections).filter_by(twitch_id=user.id).one_or_none()
                             )
                         if not userconnections:
-                            await self.private_message(author, f"Connection data not found for user " + args[0])
+                            await self.private_message(message.author, f"Connection data not found for user " + args[0])
                             return
                 if not userconnections:
                     userconnections = (
-                        db_session.query(UserConnections).filter_by(discord_user_id=str(author.id)).one_or_none()
+                        db_session.query(UserConnections).filter_by(discord_user_id=str(message.author.id)).one_or_none()
                     )
                 if not userconnections:
                     await self.private_message(
-                        author,
+                        message.author,
                         f"You have not set up your account info yet, go to https://{self.bot.bot_domain}/connections to pair your twitch and steam to your discord account!",
                     )
                     return
@@ -182,7 +211,7 @@ class DiscordBotManager(object):
             with DBManager.create_session_scope() as db_session:
                 all_connections = db_session.query(UserConnections).all()
                 for connection in all_connections:
-                    user_linked = connection.twitch_user
+                    user_linked = User.find_by_id(db_session, connection.twitch_id)
                     member = self.guild.get_member(int(connection.discord_user_id))
                     if not user_linked or (
                         not member and not self.client.get_client(connection.discord_user_id)
@@ -210,7 +239,7 @@ class DiscordBotManager(object):
                                             new=user_linked.login,
                                         ),
                                     )
-                        connection._update_twitch_login(db_session, user_linked.login)
+                            connection._update_twitch_login(db_session, user_linked.login)
                     if member and member.display_name + "#" + member.discriminator != connection.discord_username:
                         connection._update_discord_username(
                             db_session, member.display_name + "#" + member.discriminator
@@ -245,7 +274,7 @@ class DiscordBotManager(object):
                         if not user:  # Idk how this happened but user isnt in our database purging
                             connection._remove(db_session)
                             continue
-                        if user.tier == connection.tier:  # they resubbed before grace ended
+                        if user.tier == connection.tier or (not user.tier and connection.tier == 0):  # they resubbed before grace ended
                             continue
                         if ":" in time[-5:]:
                             time = f"{time[:-5]}{time[-5:-3]}{time[-2:]}"
@@ -270,8 +299,8 @@ class DiscordBotManager(object):
                                                 tier=connection.tier, user=user, discord=discord, steam_id=steam_id
                                             ),
                                         )
-                                if not member or twitch_sub_role not in memeber.roles:
-                                    connection._update_tier(db_session, user.tier)
+                            if not user.tier or user.tier < 2 or not member or twitch_sub_role not in memeber.roles:
+                                connection._update_tier(db_session, user.tier)
                         else:
                             subs_to_return[sub] = queued_subs[sub]
                     for member in twitch_sub_role.members:
@@ -280,7 +309,6 @@ class DiscordBotManager(object):
                             if not connection:
                                 continue
                             discord = self.get_discord_string(connection.discord_user_id)
-
                             user = connection.twitch_user
                             if user.tier < 2:
                                 continue
@@ -321,6 +349,13 @@ class DiscordBotManager(object):
                             await self.add_role(member, role)
 
             with DBManager.create_session_scope() as db_session:
+                if not self.settings["pause_bot"]:
+                    for user_connection in db_session.query(UserConnections).all():
+                        if user_connection.twitch_id not in subs_to_return:
+                            if user_connection.twitch_user.tier != user_connection.tier and not (not user_connection.twitch_user.tier and user_connection.tier == 0):
+                                subs_to_return[user_connection.twitch_id] = str(
+                                    utils.now() + timedelta(days=int(self.settings["grace_time"]))
+                                )
                 for tier in range(2, 4):
                     role = roles_allocated[f"tier{tier}_role"]
                     if role is not None:
