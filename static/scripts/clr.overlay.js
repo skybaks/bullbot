@@ -294,6 +294,8 @@ function start_emote_counter({emote1, emote2}) {
 
     $('#e1Text').text('0');
     $('#e2Text').text('0');
+
+    $('#emotecounter').fadeIn(1000);
 }
 
 function update_emote_counter({value1, value2}) {
@@ -302,10 +304,15 @@ function update_emote_counter({value1, value2}) {
 }
 
 function close_emote_counter() {
+    $('#emotecounter').fadeOut(6000, function(){
+        $('#e1Text').text('');
+        $('#e2Text').text('');
+    });
+
+    /*
     $('#firstEmote').attr('src', '/static/images/forsenCD.png');
     $('#secondEmote').attr('src', '/static/images/forsenCD.png');
-    $('#e1Text').text('');
-    $('#e2Text').text('');
+    */
 }
 
 function win_percent_change({isRadiant, isDraw, winPct}) {
