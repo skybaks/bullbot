@@ -3,6 +3,7 @@ import logging
 from sqlalchemy import TEXT, INT
 from sqlalchemy import Column
 from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from pajbot.managers.db import Base
@@ -17,6 +18,7 @@ class UserConnections(Base):
     twitch_id = Column(INT, ForeignKey("user.id", ondelete="CASCADE"), primary_key=True, autoincrement=False)
     twitch_login = Column(TEXT, nullable=False)
     twitch_tier = Column(INT, nullable=True)
+    twitch_user = relationship("User")
 
     # Discord user id
     discord_user_id = Column(TEXT, nullable=False)

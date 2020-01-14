@@ -129,7 +129,7 @@ class DiscordBotManager(object):
                         f"You have not set up your account info yet, go to https://{self.bot.bot_domain}/connections to pair your twitch and steam to your discord account!",
                     )
                     return
-                user = User.find_by_id(db_session, userconnections.twitch_id)
+                user = userconnections.twitch_user
                 if user.tier is None:
                     tier = 0
                 elif user.tier >= 1:
@@ -241,7 +241,7 @@ class DiscordBotManager(object):
                     for sub in queued_subs:  # sub "twitch_id" : date_to_be_removed
                         connection = quick_dict[sub]
                         time = queued_subs[sub]
-                        user = User.find_by_id(db_session, connection.twitch_id)
+                        user = connection.twitch_user
                         if not user:  # Idk how this happened but user isnt in our database purging
                             connection._remove(db_session)
                             continue
@@ -251,10 +251,10 @@ class DiscordBotManager(object):
                             time = f"{time[:-5]}{time[-5:-3]}{time[-2:]}"
                         if datetime.strptime(time, "%Y-%m-%d %H:%M:%S.%f%z") < utils.now():  # must be run now
                             member = self.guild.get_member(int(connection.discord_user_id))
-                            role_tier = roles_allocated[f"tier{connection.tier}_role"]
-                            if connection.tier > 1 and role_tier:
-                                if member and role_tier and role_tier in member.roles:
-                                    await self.remove_role(member, role_tier)
+                            if connection.tier > 1:
+                                role = roles_allocated[f"tier{connection.tier}_role"]
+                                if member and role and role in member.roles:
+                                    await self.remove_role(member, role)
                                 steam_id = connection.steam_id
                                 discord = self.get_discord_string(connection.discord_user_id)
                                 message = "Tier {tier} sub removal notification:\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{steam_id}>"
@@ -281,7 +281,7 @@ class DiscordBotManager(object):
                                 continue
                             discord = self.get_discord_string(connection.discord_user_id)
 
-                            user = User.find_by_id(db_session, connection.twitch_id)
+                            user = connection.twitch_user
                             if user.tier < 2:
                                 continue
                             role = roles_allocated[f"tier{user.tier}_role"]
