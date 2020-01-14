@@ -280,7 +280,7 @@ class DiscordBotManager(object):
                             if not connection:
                                 continue
                             discord = self.get_discord_string(connection.discord_user_id)
-                            
+
                             user = User.find_by_id(db_session, connection.twitch_id)
                             if user.tier < 2:
                                 continue
