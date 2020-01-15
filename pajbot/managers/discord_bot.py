@@ -116,7 +116,16 @@ class DiscordBotManager(object):
                             else:
                                 tier = 0
                             discord = self.get_discord_string(user_con.discord_user_id)
-                            return_message += f"\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{user_con.steam_id}>\n\n"
+                            temp_message = f"\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{user_con.steam_id}>\n\n"
+                            if len(return_message) + len(temp_message) > 2000:
+                                await self.private_message(
+                                    message.author,
+                                    f"All tier {requested_tier} subs:\n"
+                                    + return_message
+                                    + ("There are none!" if return_message == "" else ""),
+                                )
+                                return_message = ""
+                            return_message += temp_message
                         await self.private_message(
                             message.author,
                             f"All tier {requested_tier} subs:\n"
