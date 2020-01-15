@@ -117,7 +117,7 @@ class DiscordBotManager(object):
                                 tier = 0
                             discord = self.get_discord_string(user_con.discord_user_id)
                             temp_message = f"\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{user_con.steam_id}>\n\n"
-                            if len(return_message) + len(temp_message) > 1500:
+                            if len(return_message) + len(temp_message) > 1300:
                                 await self.private_message(
                                     message.author,
                                     f"All tier {requested_tier} subs:\n"
