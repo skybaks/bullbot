@@ -99,6 +99,7 @@ class DiscordBotManager(object):
                 admin_role = self.guild.get_role(int(self.settings["admin_role"]))
                 if admin_role in message.author.roles:
                     args = message.content.split(" ")[1:]
+                    page = 1
                     if len(args) > 0:
                         requested_tier = args[0]
                         try:
@@ -120,15 +121,16 @@ class DiscordBotManager(object):
                             if len(return_message) + len(temp_message) > 1300:
                                 await self.private_message(
                                     message.author,
-                                    f"All tier {requested_tier} subs:\n"
+                                    f"All tier {requested_tier} subs (Page {page}):\n"
                                     + return_message
                                     + ("There are none!" if return_message == "" else ""),
                                 )
+                                page += 1
                                 return_message = ""
                             return_message += temp_message
                         await self.private_message(
                             message.author,
-                            f"All tier {requested_tier} subs:\n"
+                            f"All tier {requested_tier} subs (Page {page}):\n"
                             + return_message
                             + ("There are none!" if return_message == "" else ""),
                         )
