@@ -140,9 +140,7 @@ class DiscordBotManager(object):
             return
 
         id = int(id)
-        member = self.guild.get_member(id)
-        if not member:
-            member = await self.get_user_api(id)
+        member = self.guild.get_member(id) or await self.get_user_api(id)
         return (
             f"\nDiscord: {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)"
             if member
