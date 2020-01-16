@@ -151,10 +151,9 @@ class DiscordBotManager(object):
 
     async def get_user_api(self, id):
         try:
-            member = await self.client.fetch_user(id)
-        except:
-            member = None
-        return member
+            return await self.client.fetch_user(id)
+        except (discord.NotFound, discord.HTTPException) as e:
+            return None
  
     async def _connections(self, message):
         if not self.guild:
