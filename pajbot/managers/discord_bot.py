@@ -115,7 +115,7 @@ class DiscordBotManager(object):
                         user = user_con.twitch_user
                         if user.tier is None or user.tier != requested_tier:
                             continue
-                        
+
                         discord = await self.get_discord_string(user_con.discord_user_id)
                         temp_message = f"\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{user_con.steam_id}>\n\n"
                         if len(return_message) + len(temp_message) > 1300:
@@ -154,7 +154,7 @@ class DiscordBotManager(object):
             return await self.client.fetch_user(id)
         except (discord.NotFound, discord.HTTPException) as e:
             return None
- 
+
     async def _connections(self, message):
         if not self.guild:
             return
