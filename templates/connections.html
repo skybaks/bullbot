@@ -25,8 +25,8 @@
                 </tr>
             </tbody>
         </table>
-        {% if data['discord'] and data['steam'] %}   
-        <a href={{ returnUrl + "/pair" if data['offcd'] else '#' }} class="ui twitch button" style={{ "" if data['offcd'] else "background-color:#909090;" }}>{{ 'Pair Accounts' if data['offcd'] else 'Account pair on cooldown' }}</a>
+        {% if data['discord'] and data['steam'] %}
+        <a href={{ returnUrl + "/pair" if data['offcd'] else '#' }} class="ui twitch button" style={{ "" if data['offcd'] else "background-color\: \#909090;" }}>{{ 'Pair Accounts' if data['offcd'] else 'Account pair on cooldown' }}</a>
         {% endif %}
     </div>
 </div>
