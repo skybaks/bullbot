@@ -152,6 +152,7 @@ class DiscordBotManager(object):
             member = await self.client.fetch_user(id)
         except:
             member = None
+        return member
  
     async def _connections(self, message):
         if not self.guild:
