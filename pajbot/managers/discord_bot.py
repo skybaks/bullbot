@@ -112,12 +112,6 @@ class DiscordBotManager(object):
                     all_users_con = UserConnections._by_tier(db_session, requested_tier)
                     for user_con in all_users_con:
                         user = user_con.twitch_user
-                        if user.tier is None:
-                            tier = 0
-                        elif user.tier >= 1:
-                            tier = user.tier
-                        else:
-                            tier = 0
                         discord = self.get_discord_string(user_con.discord_user_id)
                         temp_message = f"\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{user_con.steam_id}>\n\n"
                         if len(return_message) + len(temp_message) > 1300:
@@ -322,7 +316,7 @@ class DiscordBotManager(object):
                                             tier=connection.tier, user=user, discord=discord, steam_id=steam_id
                                         ),
                                     )
-                        if not user.tier or user.tier < 2 or not member or twitch_sub_role not in memeber.roles:
+                        if not user.tier or user.tier < 2 or not member or twitch_sub_role not in member.roles:
                             connection._update_tier(db_session, user.tier)
                     else:
                         subs_to_return[sub] = queued_subs[sub]
