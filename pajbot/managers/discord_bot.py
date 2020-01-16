@@ -388,13 +388,15 @@ class DiscordBotManager(object):
                         if ignore_role is None or ignore_role not in member.roles:
                             connection = UserConnections._from_discord_id(db_session, str(member.id))
                             if not connection:
-                                await self.remove_role(member, role)
+                                if not self.settings["pause_bot"]:
+                                    await self.remove_role(member, role)
                             else:
                                 if connection.tier == tier:
                                     continue
                                 elif connection.twitch_id not in subs_to_return:
                                     if connection.tier != 0:
-                                        await self.remove_role(member, role)
+                                        if not self.settings["pause_bot"]:
+                                            await self.remove_role(member, role)
                                     elif not self.settings["pause_bot"]:
                                         subs_to_return[connection.twitch_id] = str(
                                             utils.now() + timedelta(days=int(self.settings["grace_time"]))
