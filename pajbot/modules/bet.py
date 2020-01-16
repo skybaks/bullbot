@@ -162,6 +162,8 @@ class BetModule(BaseModule):
     def lock_bets(self):
         with DBManager.create_session_scope() as db_session:
             current_game = self.get_current_game(db_session)
+            if current_game.bets_closed:
+                return False
 
             # Currently unused: points_stats = current_game.get_points_by_outcome(db_session)
 

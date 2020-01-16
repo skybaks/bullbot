@@ -93,9 +93,10 @@ class EmoteCounterModule(BaseModule):
             return False
 
         self.votedUsers.append(source.login)
-        self.bot.websocket_manager.emit(
-            "emotecounter_update", {"value1": self.emoteValues[0], "value2": self.emoteValues[1]}
-        )
+
+        payload = {"value1": self.emoteValues[0], "value2": self.emoteValues[1]}
+        # Execute delayed here? setTimeout() there? Who knows
+        self.bot.execute_delayed(5, self.bot.websocket_manager.emit, "emotecounter_update", payload)
 
     def load_commands(self, **options):
         self.commands["emotecounter"] = Command.raw_command(
