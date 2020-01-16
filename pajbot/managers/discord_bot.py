@@ -120,7 +120,7 @@ class DiscordBotManager(object):
                             tier = 0
                         if user.tier is None or user.tier != requested_tier:
                             continue
-                        discord = self.get_discord_string(user_con.discord_user_id)
+                        discord = await self.get_discord_string(user_con.discord_user_id)
                         temp_message = f"\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{user_con.steam_id}>\n\n"
                         if len(return_message) + len(temp_message) > 1300:
                             await self.private_message(
@@ -139,17 +139,23 @@ class DiscordBotManager(object):
                         + ("There are none!" if return_message == "" else ""),
                     )
 
-    def get_discord_string(self, id):
+    async def get_discord_string(self, id):
         if not self.guild:
             return
         id = int(id)
-        member = self.guild.get_member(id) or self.client.get_user(id)
+        member = self.guild.get_member(id) or self.get_user_api(id)
         return (
             f"\nDiscord: {member.display_name}#{member.discriminator} (<https://discordapp.com/users/{member.id}>)"
             if member
             else ""
         )
 
+    async def get_user_api(self, id):
+        try:
+            member = await self.client.fetch_user(id)
+        except:
+            member = None
+ 
     async def _connections(self, message):
         if not self.guild:
             return
@@ -187,7 +193,7 @@ class DiscordBotManager(object):
                 tier = user.tier
             else:
                 tier = 0
-            discord = self.get_discord_string(userconnections.discord_user_id)
+            discord = await self.get_discord_string(userconnections.discord_user_id)
             await self.private_message(
                 message.author,
                 f"Tier {tier} sub:\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{userconnections.steam_id}>",
@@ -237,7 +243,7 @@ class DiscordBotManager(object):
                 user_linked = User.find_by_id(db_session, connection.twitch_id)
                 member = self.guild.get_member(int(connection.discord_user_id))
                 if not user_linked or (
-                    not member and not self.client.get_client(connection.discord_user_id)
+                    not member and not self.get_user_api(int(connection.discord_user_id))
                 ):  # Discord doesnt exist or Somehow the twitch doesnt exist in our database so we prune
                     connection._remove(db_session)
                     continue
@@ -279,7 +285,7 @@ class DiscordBotManager(object):
                         await self.remove_role(member, tier2_role)
                 user = User.find_by_id(db_session, twitch_id)
                 steam_id = unlinks["steam_id"]
-                discord = self.get_discord_string(unlinks["discord_user_id"])
+                discord = await self.get_discord_string(unlinks["discord_user_id"])
                 tier = unlinks["discord_tier"]
                 message = "Account Data Unlinked: Tier {tier} sub removal notification:\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{steam_id}>"
                 for member_to_notify in notify_role.members:
@@ -310,7 +316,7 @@ class DiscordBotManager(object):
                             if member and role and role in member.roles:
                                 await self.remove_role(member, role)
                             steam_id = connection.steam_id
-                            discord = self.get_discord_string(connection.discord_user_id)
+                            discord = await self.get_discord_string(connection.discord_user_id)
                             message = "Tier {tier} sub removal notification:\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{steam_id}>"
                             if (
                                 self.settings["notify_on_unsub"]
@@ -333,7 +339,7 @@ class DiscordBotManager(object):
                         connection = UserConnections._from_discord_id(db_session, str(member.id))
                         if not connection:
                             continue
-                        discord = self.get_discord_string(connection.discord_user_id)
+                        discord = await self.get_discord_string(connection.discord_user_id)
                         user = connection.twitch_user
                         if user.tier < 2:
                             continue
