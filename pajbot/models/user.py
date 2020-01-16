@@ -123,7 +123,7 @@ class User(Base):
     @hybrid_property
     def offcd(self):
         if self.last_pair:
-            return (self.last_pair + timedelta(days=1)) < utils.now()
+            return (self.last_pair + timedelta(days=1)) < utils.now() or self.level >= 500
         return True
 
     @hybrid_property
