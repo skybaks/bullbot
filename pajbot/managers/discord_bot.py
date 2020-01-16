@@ -112,6 +112,14 @@ class DiscordBotManager(object):
                     all_users_con = UserConnections._by_tier(db_session, requested_tier)
                     for user_con in all_users_con:
                         user = user_con.twitch_user
+                        if user.tier is None:
+                            tier = 0
+                        elif user.tier >= 1:
+                            tier = user.tier
+                        else:
+                            tier = 0
+                        if user.tier is None or user.tier != requested_tier:
+                            continue
                         discord = self.get_discord_string(user_con.discord_user_id)
                         temp_message = f"\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{user_con.steam_id}>\n\n"
                         if len(return_message) + len(temp_message) > 1300:
