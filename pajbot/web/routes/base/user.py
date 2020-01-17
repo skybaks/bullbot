@@ -97,7 +97,7 @@ def init(app):
                     "winrate_str": f"{winrate * 100:.2f}%",
                     "roulette_base_winrate": roulette_base_winrate,
                 }
-            paired = bool(UserConnections._from_twitch_id(db_session, user.id))
+            paired = True if UserConnections._from_twitch_id(db_session, user.id) else False
             return render_template(
                 "user.html", user=user, roulette_stats=roulette_stats, roulettes=roulettes, paired=paired
             )
