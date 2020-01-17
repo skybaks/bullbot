@@ -16,6 +16,7 @@ log = logging.getLogger(__name__)
 class asyncSocketIO:
     def __init__(self, bot, settings):
         self.bot = bot
+        log.debug(bot)
         self.settings = settings
         self.currencyConverter = CurrencyConverter()
 

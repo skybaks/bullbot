@@ -109,6 +109,7 @@ class DiscordBotManager(object):
                         requested_tier = int(requested_tier)
                     except:
                         return
+
                     return_message = ""
                     all_users_con = UserConnections._by_tier(db_session, requested_tier)
                     for user_con in all_users_con:
@@ -117,17 +118,20 @@ class DiscordBotManager(object):
                             continue
 
                         discord = await self.get_discord_string(user_con.discord_user_id)
-                        temp_message = f"\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{user_con.steam_id}>\n\n"
+                        temp_message = f"\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{user_con.steam_id}>\n"
+
                         if len(return_message) + len(temp_message) > 1300:
                             await self.private_message(
                                 message.author,
                                 f"All tier {requested_tier} subs (Page {page}):\n"
                                 + return_message
-                                + ("There are none!" if return_message == "" else ""),
+                                + ("There are none!" if return_message else ""),
                             )
                             page += 1
                             return_message = ""
+
                         return_message += temp_message
+
                     await self.private_message(
                         message.author,
                         f"All tier {requested_tier} subs (Page {page}):\n"
@@ -333,7 +337,7 @@ class DiscordBotManager(object):
                         continue
                     discord = await self.get_discord_string(connection.discord_user_id)
                     user = connection.twitch_user
-                    if user.tier < 2:
+                    if not user.tier or user.tier < 2:
                         continue
                     role = roles_allocated[f"tier{user.tier}_role"]
                     if not role:
