@@ -151,6 +151,7 @@ class DiscordBotManager(object):
         try:
             return await self.client.fetch_user(id)
         except (discord.NotFound, discord.HTTPException) as e:
+            log.error(e)
             return None
 
     async def _connections(self, message):
