@@ -70,11 +70,11 @@ class DiscordModule(BaseModule):
                 self.bot.discord_bot_manager.configure(self.settings, start=False)
 
     def enable(self, bot):
-        if self.bot:
+        if bot:
             log.info("Enabled Discord")
             self.bot.discord_bot_manager.configure(self.settings)
 
     def disable(self, bot):
-        if self.bot:
+        if bot:
             log.info("Disabled Discord")
             self.bot.discord_bot_manager.stop()
