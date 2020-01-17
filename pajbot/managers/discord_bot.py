@@ -151,7 +151,7 @@ class DiscordBotManager(object):
         try:
             return await self.client.fetch_user(id)
         except (discord.NotFound, discord.HTTPException) as e:
-            log.error(e)
+            log.warning(e)
             return None
 
     async def _connections(self, message):
@@ -325,50 +325,50 @@ class DiscordBotManager(object):
                             connection._update_tier(db_session, user.tier)
                     else:
                         subs_to_return[sub] = queued_subs[sub]
-                for member in twitch_sub_role.members:
-                    if ignore_role is None or ignore_role not in member.roles:
-                        connection = UserConnections._from_discord_id(db_session, str(member.id))
-                        if not connection:
-                            continue
-                        discord = await self.get_discord_string(connection.discord_user_id)
-                        user = connection.twitch_user
-                        if user.tier < 2:
-                            continue
-                        role = roles_allocated[f"tier{user.tier}_role"]
-                        if not role:
-                            continue
-                        if user.tier == connection.tier:
-                            if role not in member.roles:
-                                await self.add_role(member, role)
-                            continue
-                        steam_id = connection.steam_id
-                        if connection.tier > 1:
-                            if (
-                                self.settings["notify_on_unsub"]
-                                and connection.tier > 1
-                                and self.settings[f"notify_on_tier{connection.tier}"]
-                            ):
-                                message = "Tier {tier} sub removal notification:\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{steam_id}>"
-                                for member_to_notify in notify_role.members:
-                                    await self.private_message(
-                                        member_to_notify,
-                                        message.format(
-                                            tier=connection.tier, user=user, discord=discord, steam_id=steam_id
-                                        ),
-                                    )
+            for member in twitch_sub_role.members:
+                if ignore_role is None or ignore_role not in member.roles:
+                    connection = UserConnections._from_discord_id(db_session, str(member.id))
+                    if not connection:
+                        continue
+                    discord = await self.get_discord_string(connection.discord_user_id)
+                    user = connection.twitch_user
+                    if user.tier < 2:
+                        continue
+                    role = roles_allocated[f"tier{user.tier}_role"]
+                    if not role:
+                        continue
+                    if user.tier == connection.tier:
+                        if role not in member.roles:
+                            await self.add_role(member, role)
+                        continue
+                    steam_id = connection.steam_id
+                    if connection.tier > 1 and not self.settings["pause_bot"]:
                         if (
-                            self.settings["notify_on_new_sub"]
-                            and user.tier > 1
-                            and self.settings[f"notify_on_tier{user.tier}"]
+                            self.settings["notify_on_unsub"]
+                            and connection.tier > 1
+                            and self.settings[f"notify_on_tier{connection.tier}"]
                         ):
-                            message = "Tier {tier} sub notification:\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{steam_id}>"
+                            message = "Tier {tier} sub removal notification:\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{steam_id}>"
                             for member_to_notify in notify_role.members:
                                 await self.private_message(
                                     member_to_notify,
-                                    message.format(tier=user.tier, user=user, discord=discord, steam_id=steam_id),
+                                    message.format(
+                                        tier=connection.tier, user=user, discord=discord, steam_id=steam_id
+                                    ),
                                 )
-                        connection._update_tier(db_session, user.tier)
-                        await self.add_role(member, role)
+                    if (
+                        self.settings["notify_on_new_sub"]
+                        and user.tier > 1
+                        and self.settings[f"notify_on_tier{user.tier}"]
+                    ):
+                        message = "Tier {tier} sub notification:\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{steam_id}>"
+                        for member_to_notify in notify_role.members:
+                            await self.private_message(
+                                member_to_notify,
+                                message.format(tier=user.tier, user=user, discord=discord, steam_id=steam_id),
+                            )
+                    connection._update_tier(db_session, user.tier)
+                    await self.add_role(member, role)
 
         with DBManager.create_session_scope() as db_session:
             if not self.settings["pause_bot"]:
