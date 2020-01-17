@@ -282,7 +282,7 @@ class DiscordBotManager(object):
                 for member_to_notify in notify_role.members:
                     if self.settings["notify_on_unsub"] and tier > 1 and self.settings[f"notify_on_tier{tier}"]:
                         await self.private_message(
-                            member_to_notify, message.format(tier=tier, user=user, discord=discord, steam_id=steam_id),
+                            member_to_notify, message.format(tier=tier, user=user, discord=discord, steam_id=steam_id)
                         )
             subs_to_return = {}
             if not self.settings["pause_bot"]:
