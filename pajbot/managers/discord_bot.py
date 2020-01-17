@@ -235,8 +235,9 @@ class DiscordBotManager(object):
             for connection in all_connections:
                 user_linked = User.find_by_id(db_session, connection.twitch_id)
                 member = self.guild.get_member(int(connection.discord_user_id))
+                discord_user = not await self.get_user_api(int(connection.discord_user_id))
                 if not user_linked or (
-                    not member and not self.get_user_api(int(connection.discord_user_id))
+                    not member and discord_user
                 ):  # Discord doesnt exist or Somehow the twitch doesnt exist in our database so we prune
                     connection._remove(db_session)
                     continue
