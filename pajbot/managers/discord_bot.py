@@ -255,6 +255,8 @@ class DiscordBotManager(object):
         queued_subs = json.loads(self.redis.get("queued-subs-discord"))
         unlinkinfo = json.loads(self.redis.get("unlinks-subs-discord"))
 
+        messages = []
+
         for twitch_id in unlinkinfo:
             unlinks = unlinkinfo[twitch_id]
             member = self.guild.get_member(int(unlinks["discord_user_id"]))
@@ -272,8 +274,6 @@ class DiscordBotManager(object):
                     f"\n\nAccount Data Unlinked: Tier {tier} sub removal notification:\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{steam_id}>"
                 )
         self.redis.set("unlinks-subs-discord", json.dumps({}))
-
-        messages = []
 
         with DBManager.create_session_scope() as db_session:
             all_connections = db_session.query(UserConnections).all()
