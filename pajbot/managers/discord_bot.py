@@ -257,25 +257,25 @@ class DiscordBotManager(object):
 
         messages = []
 
-        for twitch_id in unlinkinfo:
-            unlinks = unlinkinfo[twitch_id]
-            member = self.guild.get_member(int(unlinks["discord_user_id"]))
-            if member:
-                if tier3_role is not None and tier3_role in member.roles:
-                    await self.remove_role(member, tier3_role)
-                if tier2_role is not None and tier2_role in member.roles:
-                    await self.remove_role(member, tier2_role)
-            user = User.find_by_id(db_session, twitch_id)
-            steam_id = unlinks["steam_id"]
-            discord = await self.get_discord_string(unlinks["discord_user_id"])
-            tier = unlinks["discord_tier"]
-            if self.settings["notify_on_unsub"] and tier > 1 and self.settings[f"notify_on_tier{tier}"]:
-                messages.append(
-                    f"\n\nAccount Data Unlinked: Tier {tier} sub removal notification:\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{steam_id}>"
-                )
-        self.redis.set("unlinks-subs-discord", json.dumps({}))
-
         with DBManager.create_session_scope() as db_session:
+            for twitch_id in unlinkinfo:
+                unlinks = unlinkinfo[twitch_id]
+                member = self.guild.get_member(int(unlinks["discord_user_id"]))
+                if member:
+                    if tier3_role is not None and tier3_role in member.roles:
+                        await self.remove_role(member, tier3_role)
+                    if tier2_role is not None and tier2_role in member.roles:
+                        await self.remove_role(member, tier2_role)
+                user = User.find_by_id(db_session, twitch_id)
+                steam_id = unlinks["steam_id"]
+                discord = await self.get_discord_string(unlinks["discord_user_id"])
+                tier = unlinks["discord_tier"]
+                if self.settings["notify_on_unsub"] and tier > 1 and self.settings[f"notify_on_tier{tier}"]:
+                    messages.append(
+                        f"\n\nAccount Data Unlinked: Tier {tier} sub removal notification:\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{steam_id}>"
+                    )
+            self.redis.set("unlinks-subs-discord", json.dumps({}))
+
             all_connections = db_session.query(UserConnections).all()
 
             for connection in all_connections:
