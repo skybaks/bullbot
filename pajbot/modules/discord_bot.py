@@ -65,8 +65,9 @@ class DiscordModule(BaseModule):
         self.bot = bot
 
     def load_commands(self, **options):
-        if self.bot:
-            self.bot.discord_bot_manager.configure(self.settings, start=False)
+        if DiscordModule.is_enabled():
+            if self.bot:
+                self.bot.discord_bot_manager.configure(self.settings, start=False)
 
     def enable(self, bot):
         if self.bot:
