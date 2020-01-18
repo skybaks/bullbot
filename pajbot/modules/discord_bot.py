@@ -56,8 +56,8 @@ class DiscordModule(BaseModule):
             placeholder="",
             default=False,
         ),
-        ModuleSetting(key="notify_on_tier2", label="Notify by tier 2", type="boolean", placeholder="", default=False),
-        ModuleSetting(key="notify_on_tier3", label="Notify by tier 3", type="boolean", placeholder="", default=True),
+        ModuleSetting(key="notify_on_tier2", label="Notify for tier 2", type="boolean", placeholder="", default=False),
+        ModuleSetting(key="notify_on_tier3", label="Notify for tier 3", type="boolean", placeholder="", default=True),
     ]
 
     def __init__(self, bot):
