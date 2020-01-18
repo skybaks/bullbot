@@ -68,6 +68,7 @@ class DiscordBotManager(object):
         self.add_command("check", self._check)
         self.add_command("bytier", self._get_users_by_tier)
         self.settings = None
+        self.guild = None
         self.redis = redis
         self.thread = None
         self.private_loop = asyncio.get_event_loop()
