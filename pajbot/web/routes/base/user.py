@@ -165,12 +165,11 @@ def init(app):
                     if discord is not None and steam is not None:
                         UserConnections._create(
                             db_session,
-                            session["user"]["id"],
-                            user.login,
-                            user.tier,
-                            session["discord_id"],
-                            session["discord_username"],
-                            session["steam_id"],
+                            twitch_id=session["user"]["id"],
+                            twitch_login=user.login,
+                            discord_user_id=session["discord_id"],
+                            discord_username=session["discord_username"],
+                            steam_id=session["steam_id"],
                         )
                         user._setcd(db_session)
                         db_session.commit()

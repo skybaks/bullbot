@@ -68,7 +68,7 @@ class UserConnections(Base):
         return self.discord_tier if self.discord_tier else 0
 
     @staticmethod
-    def _create(db_session, twitch_id, twitch_login, discord_tier, discord_user_id, discord_username, steam_id):
+    def _create(db_session, twitch_id, twitch_login, discord_user_id, discord_username, steam_id, discord_tier=None):
         user_con = UserConnections(
             twitch_id=twitch_id,
             twitch_login=twitch_login,
