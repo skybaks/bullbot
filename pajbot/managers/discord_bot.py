@@ -67,12 +67,15 @@ class DiscordBotManager(object):
         self.add_command("connections", self._connections)
         self.add_command("check", self._check)
         self.add_command("bytier", self._get_users_by_tier)
-        self.settings = None
-        self.guild = None
-        self.redis = redis
-        self.thread = None
+
         self.private_loop = asyncio.get_event_loop()
+        self.redis = redis
+
+        self.guild = None
+        self.settings = None
+        self.thread = None
         self.discord_task = self.schedule_task_periodically(300, self.check_discord_roles)
+
         queued_subs = self.redis.get("queued-subs-discord")
         unlinkinfo = self.redis.get("unlinks-subs-discord")
         if unlinkinfo is None or "array" in json.loads(unlinkinfo):
@@ -89,6 +92,7 @@ class DiscordBotManager(object):
     async def _check(self, message):
         if not self.guild:
             return
+
         admin_role = self.guild.get_role(int(self.settings["admin_role"]))
 
         requestor = self.guild.get_member(message.author.id)
@@ -97,7 +101,7 @@ class DiscordBotManager(object):
 
         if admin_role in requestor.roles:
             await self.check_discord_roles()
-            await self.private_message(requestor, f"Check Complete!")
+            await self.private_message(requestor, f"Check complete!")
             return
 
     async def _get_users_by_tier(self, message):
