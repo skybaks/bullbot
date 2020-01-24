@@ -260,7 +260,9 @@ class DiscordBotManager(object):
         queued_subs = json.loads(self.redis.get("queued-subs-discord"))
         unlinkinfo = json.loads(self.redis.get("unlinks-subs-discord"))
 
-        messages = []
+        messages_add = []
+        messages_remove = []
+        messages_other = []
 
         with DBManager.create_session_scope() as db_session:
             for twitch_id in unlinkinfo:
@@ -276,7 +278,7 @@ class DiscordBotManager(object):
                 discord = await self.get_discord_string(unlinks["discord_user_id"])
                 tier = unlinks["discord_tier"]
                 if self.settings["notify_on_unsub"] and tier > 1 and self.settings[f"notify_on_tier{tier}"]:
-                    messages.append(
+                    messages_other.append(
                         f"\n\nAccount Data Unlinked: Tier {tier} sub removal notification:\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{steam_id}>"
                     )
             self.redis.set("unlinks-subs-discord", json.dumps({}))
@@ -299,7 +301,7 @@ class DiscordBotManager(object):
                 if connection.twitch_login != user_linked.login:
                     if connection.tier > 1:
                         if self.settings["notify_on_name_change"] and self.settings[f"notify_on_tier{connection.tier}"]:
-                            messages.append(
+                            messages_other.append(
                                 f"\n\nTwitch login changed for a tier {connection.tier} sub\nSteam: <https://steamcommunity.com/profiles/{connection.steam_id}>\nOld Twitch: {connection.twitch_login}\nNew Twitch: {user_linked.login}"
                             )
                         connection._update_twitch_login(db_session, user_linked.login)
@@ -329,7 +331,7 @@ class DiscordBotManager(object):
                                 await self.remove_role(member, role)
                             if self.settings["notify_on_unsub"] and self.settings[f"notify_on_tier{connection.tier}"]:
                                 discord = await self.get_discord_string(connection.discord_user_id)
-                                messages.append(
+                                messages_remove.append(
                                     f"\n\nTier {connection.tier} sub removal notification:\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{connection.steam_id}>"
                                 )
                         if not user.tier or user.tier < 2 or not member or twitch_sub_role not in member.roles:
@@ -362,7 +364,7 @@ class DiscordBotManager(object):
                         and not self.settings["pause_bot"]
                         and self.settings[f"notify_on_tier{connection.tier}"]
                     ):
-                        messages.append(
+                        messages_remove.append(
                             f"\n\nTier {connection.tier} sub removal notification:\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{steam_id}>"
                         )
                     if (
@@ -370,7 +372,7 @@ class DiscordBotManager(object):
                         and user.tier > 1
                         and self.settings[f"notify_on_tier{user.tier}"]
                     ):
-                        messages.append(
+                        messages_add.append(
                             f"\n\nTier {user.tier} sub notification:\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{steam_id}>"
                         )
                     connection._update_tier(db_session, user.tier)
@@ -413,13 +415,30 @@ class DiscordBotManager(object):
         if notify_role:
             for member in notify_role.members:
                 return_message = ""
-                for message in messages:
+                for message in messages_other:
                     if len(return_message) + len(message) > 1300:
                         await self.private_message(member, return_message)
                         return_message = ""
                     return_message += message
                 if return_message != "":
                     await self.private_message(member, return_message)
+                    return_message = ""
+                for message in messages_remove:
+                    if len(return_message) + len(message) > 1300:
+                        await self.private_message(member, return_message)
+                        return_message = ""
+                    return_message += message
+                if return_message != "":
+                    await self.private_message(member, return_message)
+                    return_message = ""
+                for message in messages_add:
+                    if len(return_message) + len(message) > 1300:
+                        await self.private_message(member, return_message)
+                        return_message = ""
+                    return_message += message
+                if return_message != "":
+                    await self.private_message(member, return_message)
+                    return_message = ""
         self.redis.set("queued-subs-discord", json.dumps(subs_to_return))
 
     async def run_periodically(self, wait_time, func, *args):
