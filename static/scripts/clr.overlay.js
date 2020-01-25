@@ -54,9 +54,9 @@ function add_emotes({emotes, opacity, 'persistence_time': persistenceTime, 'scal
         // largest URL available
         let {url, needsScale} = getEmoteURL(emote);
 
-        let divsize = 120;
-        let posx = (Math.random() * ($(document).width() - divsize)).toFixed();
-        let posy = (Math.random() * ($(document).height() - divsize)).toFixed();
+        let divsize = 250;
+        let posx = (Math.random() * ($(window).width() - divsize)).toFixed();
+        let posy = (Math.random() * ($(window).height() - divsize)).toFixed();
         let newdiv = $('<img class="absemote">').css({
             'left': posx + 'px',
             'top': posy + 'px',
@@ -285,12 +285,12 @@ function create_graph(win, loss) {
 
 function start_emote_counter({emote1, emote2}) {
     var {url, needsScale} = getEmoteURL(emote1);
-    $('#firstEmote').attr('src', url);
-    $('#firstEmote').css('zoom', String(needsScale));
+    $('#e1Img').attr('src', url);
+    $('#e2Img').css('zoom', String(needsScale));
 
     var {url, needsScale} = getEmoteURL(emote2);
-    $('#secondEmote').attr('src', url);
-    $('#secondEmote').css('zoom', String(needsScale));
+    $('#e2Img').attr('src', url);
+    $('#e2Img').css('zoom', String(needsScale));
 
     $('#e1Text').text('0');
     $('#e2Text').text('0');
@@ -307,12 +307,12 @@ function close_emote_counter() {
     $('#emotecounter').fadeOut(6000, function(){
         $('#e1Text').text('');
         $('#e2Text').text('');
-    });
 
-    /*
-    $('#firstEmote').attr('src', '/static/images/forsenCD.png');
-    $('#secondEmote').attr('src', '/static/images/forsenCD.png');
-    */
+       $('#e1Img').removeAttr('src');
+       $('#e1Img').removeAttr('style');
+       $('#e2Img').removeAttr('src');
+       $('#e2Img').removeAttr('style');
+    });
 }
 
 function win_percent_change({isRadiant, isDraw, winPct}) {
