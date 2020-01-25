@@ -287,7 +287,9 @@ class DiscordBotManager(object):
                 discord = await self.get_discord_string(connection.discord_user_id)
                 steam_id = connection.steam_id
 
-                if not user or discord == "":  # Discord doesnt exist or Somehow the twitch doesnt exist in our database so we prune
+                if (
+                    not user or discord == ""
+                ):  # Discord doesnt exist or Somehow the twitch doesnt exist in our database so we prune
                     connection._remove(db_session)
                     continue
 
@@ -300,7 +302,7 @@ class DiscordBotManager(object):
                     if connection.tier > 1:
                         if self.settings["notify_on_name_change"] and self.settings[f"notify_on_tier{connection.tier}"]:
                             messages_other.append(
-                                f"\n\nTwitch login changed for a tier {connection.tier} sub\nSteam: <https://steamcommunity.com/profiles/{connection.steam_id}>\nOld Twitch: {connection.twitch_login}\nNew Twitch: {user_linked.login}"
+                                f"\n\nTwitch login changed for a tier {connection.tier} sub\nSteam: <https://steamcommunity.com/profiles/{connection.steam_id}>\nOld Twitch: {connection.twitch_login}\nNew Twitch: {user.login}"
                             )
                     connection._update_twitch_login(db_session, user.login)
 
