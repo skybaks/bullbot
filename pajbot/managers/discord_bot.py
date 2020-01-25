@@ -118,9 +118,8 @@ class DiscordBotManager(object):
             if admin_role in requestor.roles:
                 args = message.content.split(" ")[1:]
                 if len(args) > 0:
-                    requested_tier = args[0]
                     try:
-                        requested_tier = int(requested_tier)
+                        requested_tier = int(args[0])
                     except:
                         return
                     count = UserConnections._count_by_tier(db_session, requested_tier)
