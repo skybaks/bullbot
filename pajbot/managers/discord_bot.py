@@ -342,13 +342,13 @@ class DiscordBotManager(object):
 
                 db_session.commit()
 
-                if user.tier and user.tier > 1 and (ignore_role is None or member and ignore_role not in member.roles):
-                    role = roles_allocated[f"tier{user.tier}_role"]
+                if not ignore_role or member and ignore_role not in member.roles:
+                    role = roles_allocated[f"tier{user.tier}_role"] if user.tier and user.tier > 1 else None
                     if user.tier == connection.tier:
-                        if role not in member.roles:
+                        if role and role not in member.roles:
                             await self.add_role(member, role)
                     else:
-                        if role:
+                        if user.tier and user.tier > 1:
                             if (
                                 self.settings["notify_on_unsub"]
                                 and connection.tier > 1
@@ -357,6 +357,8 @@ class DiscordBotManager(object):
                                 messages_remove.append(
                                     f"\n\nTier {connection.tier} sub removal notification:\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{steam_id}>"
                                 )
+                            connection._update_tier(db_session, user.tier)
+                        if role:
                             if (
                                 self.settings["notify_on_new_sub"]
                                 and user.tier > 1
@@ -366,15 +368,21 @@ class DiscordBotManager(object):
                                     f"\n\nTier {user.tier} sub notification:\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{steam_id}>"
                                 )
                             await self.add_role(member, role)
-                        connection._update_tier(db_session, user.tier)
+                            connection._update_tier(db_session, user.tier)
                 db_session.commit()
 
                 if not self.settings["pause_bot"]:
                     if connection.twitch_id not in subs_to_return and not self.settings["pause_bot"]:
-                        if connection.tier != 0 and (not user.tier or user.tier == 0):
-                            subs_to_return[connection.twitch_id] = str(
-                                utils.now() + timedelta(days=int(self.settings["grace_time"]))
-                            )
+                        if connection.tier != user.tier:
+                            if connection.tier != 0 and (not user.tier or user.tier == 0):
+                                subs_to_return[connection.twitch_id] = str(
+                                    utils.now() + timedelta(days=int(self.settings["grace_time"]))
+                                )
+                            else:
+                                subs_to_return[connection.twitch_id] = str(
+                                    utils.now()
+                                )
+
 
             if not self.settings["pause_bot"]:
                 for sub in queued_subs:  # sub "twitch_id" : date_to_be_removed
