@@ -67,6 +67,7 @@ class DiscordBotManager(object):
         self.add_command("connections", self._connections)
         self.add_command("check", self._check)
         self.add_command("bytier", self._get_users_by_tier)
+        self.add_command("count", self._count_by_tier)
 
         self.private_loop = asyncio.get_event_loop()
         self.redis = redis
@@ -104,6 +105,33 @@ class DiscordBotManager(object):
             await self.private_message(requestor, f"Check complete!")
             return
 
+    async def _count_by_tier(self, message):
+        if not self.guild:
+            return
+
+        requestor = self.guild.get_member(message.author.id)
+        if not requestor:
+            return
+
+        with DBManager.create_session_scope() as db_session:
+            admin_role = self.guild.get_role(int(self.settings["admin_role"]))
+            if admin_role in requestor.roles:
+                args = message.content.split(" ")[1:]
+                if len(args) > 0:
+                    try:
+                        requested_tier = int(args[0])
+                    except:
+                        return
+                    count = UserConnections._count_by_tier(db_session, requested_tier)
+                    if requested_tier == 0:
+                        count += UserConnections._count_by_tier(db_session, None)
+                else:
+                    count = UserConnections._count(db_session)
+                await self.private_message(
+                    requestor,
+                    f"There are {count} tier {requested_tier} subs" if len(args) > 0 else f"There are {count} users connected"
+                )   
+
     async def _get_users_by_tier(self, message):
         if not self.guild:
             return
@@ -126,9 +154,11 @@ class DiscordBotManager(object):
 
                     return_message = ""
                     all_users_con = UserConnections._by_tier(db_session, requested_tier)
+                    if requested_tier == 0:
+                        all_users_con = all_users_con + UserConnections._by_tier(db_session, None)
                     for user_con in all_users_con:
                         user = user_con.twitch_user
-                        if user.tier is None or user.tier != requested_tier:
+                        if (not user.tier and requested_tier != 0) or (user.tier and user.tier != requested_tier):
                             continue
 
                         discord = await self.get_discord_string(user_con.discord_user_id)
@@ -311,13 +341,13 @@ class DiscordBotManager(object):
 
                 db_session.commit()
 
-                if user.tier and user.tier > 1 and (ignore_role is None or member and ignore_role not in member.roles):
-                    role = roles_allocated[f"tier{user.tier}_role"]
+                if not ignore_role or member and ignore_role not in member.roles:
+                    role = roles_allocated[f"tier{user.tier}_role"] if user.tier and user.tier > 1 else None
                     if user.tier == connection.tier:
-                        if role not in member.roles:
+                        if role and role not in member.roles:
                             await self.add_role(member, role)
                     else:
-                        if role:
+                        if user.tier and user.tier > 1:
                             if (
                                 self.settings["notify_on_unsub"]
                                 and connection.tier > 1
@@ -326,6 +356,8 @@ class DiscordBotManager(object):
                                 messages_remove.append(
                                     f"\n\nTier {connection.tier} sub removal notification:\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{steam_id}>"
                                 )
+                            connection._update_tier(db_session, user.tier)
+                        if role:
                             if (
                                 self.settings["notify_on_new_sub"]
                                 and user.tier > 1
@@ -335,15 +367,21 @@ class DiscordBotManager(object):
                                     f"\n\nTier {user.tier} sub notification:\nTwitch: {user} (<https://twitch.tv/{user.login}>){discord}\nSteam: <https://steamcommunity.com/profiles/{steam_id}>"
                                 )
                             await self.add_role(member, role)
-                        connection._update_tier(db_session, user.tier)
+                            connection._update_tier(db_session, user.tier)
                 db_session.commit()
 
                 if not self.settings["pause_bot"]:
                     if connection.twitch_id not in subs_to_return and not self.settings["pause_bot"]:
-                        if connection.tier != 0 and (not user.tier or user.tier == 0):
-                            subs_to_return[connection.twitch_id] = str(
-                                utils.now() + timedelta(days=int(self.settings["grace_time"]))
-                            )
+                        if connection.tier != user.tier:
+                            if connection.tier != 0 and (not user.tier or user.tier == 0):
+                                subs_to_return[connection.twitch_id] = str(
+                                    utils.now() + timedelta(days=int(self.settings["grace_time"]))
+                                )
+                            else:
+                                subs_to_return[connection.twitch_id] = str(
+                                    utils.now()
+                                )
+
 
             if not self.settings["pause_bot"]:
                 for sub in queued_subs:  # sub "twitch_id" : date_to_be_removed

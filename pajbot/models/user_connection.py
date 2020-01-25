@@ -3,6 +3,7 @@ import logging
 from sqlalchemy import TEXT, INT
 from sqlalchemy import Column
 from sqlalchemy import ForeignKey
+from sqlalchemy import func
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.hybrid import hybrid_property
 
@@ -90,4 +91,13 @@ class UserConnections(Base):
 
     @staticmethod
     def _by_tier(db_session, tier):
-        return db_session.query(UserConnections).filter_by(discord_tier=tier).all()
+        return db_session.query(UserConnections).filter(UserConnections.tier==tier).order_by(UserConnections.twitch_login).all()
+
+    @staticmethod
+    def _count_by_tier(db_session, tier):
+        return db_session.query(func.count(UserConnections.twitch_id)).filter(UserConnections.tier==tier).scalar()
+
+    @staticmethod
+    def _count(db_session):
+        return db_session.query(func.count(UserConnections.twitch_id)).scalar()
+
