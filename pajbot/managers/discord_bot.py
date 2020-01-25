@@ -404,14 +404,14 @@ class DiscordBotManager(object):
                             if connection.tier == tier:
                                 continue
                             elif connection.twitch_id not in subs_to_return:
-                                if connection.tier != 0:
-                                    if not self.settings["pause_bot"]:
-                                        await self.remove_role(member, role)
-                                elif not self.settings["pause_bot"]:
-                                    subs_to_return[connection.twitch_id] = str(
-                                        utils.now() + timedelta(days=int(self.settings["grace_time"]))
-                                    )
-
+                                if not self.settings["pause_bot"]:
+                                    if connection.tier != 0 and user.tier == 0:
+                                        subs_to_return[connection.twitch_id] = str(
+                                            utils.now() + timedelta(days=int(self.settings["grace_time"]))
+                                        )
+                                    else:
+                                        if not self.settings["pause_bot"]:
+                                            await self.remove_role(member, role)
         if notify_role:
             for member in notify_role.members:
                 return_message = ""
