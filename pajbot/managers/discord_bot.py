@@ -67,6 +67,7 @@ class DiscordBotManager(object):
         self.add_command("connections", self._connections)
         self.add_command("check", self._check)
         self.add_command("bytier", self._get_users_by_tier)
+        self.add_command("count", self._count_by_tier)
 
         self.private_loop = asyncio.get_event_loop()
         self.redis = redis
@@ -104,6 +105,34 @@ class DiscordBotManager(object):
             await self.private_message(requestor, f"Check complete!")
             return
 
+    async def _count_by_tier(self, message):
+        if not self.guild:
+            return
+
+        requestor = self.guild.get_member(message.author.id)
+        if not requestor:
+            return
+
+        with DBManager.create_session_scope() as db_session:
+            admin_role = self.guild.get_role(int(self.settings["admin_role"]))
+            if admin_role in requestor.roles:
+                args = message.content.split(" ")[1:]
+                if len(args) > 0:
+                    requested_tier = args[0]
+                    try:
+                        requested_tier = int(requested_tier)
+                    except:
+                        return
+                    count = UserConnections._count_by_tier(db_session, requested_tier)
+                    if requested_tier == 0:
+                        count += UserConnections._count_by_tier(db_session, None)
+                else:
+                    count = UserConnections._count(db_session)
+                await self.private_message(
+                    requestor,
+                    f"There are {count} tier {requested_tier} subs" if len(args) > 0 else f"There are {count} users connected"
+                )   
+
     async def _get_users_by_tier(self, message):
         if not self.guild:
             return
@@ -126,9 +155,11 @@ class DiscordBotManager(object):
 
                     return_message = ""
                     all_users_con = UserConnections._by_tier(db_session, requested_tier)
+                    if requested_tier == 0:
+                        all_users_con = all_users_con + UserConnections._by_tier(db_session, None)
                     for user_con in all_users_con:
                         user = user_con.twitch_user
-                        if user.tier is None or user.tier != requested_tier:
+                        if (not user.tier and requested_tier != 0) or (user.tier and user.tier != requested_tier):
                             continue
 
                         discord = await self.get_discord_string(user_con.discord_user_id)
