@@ -33,7 +33,7 @@ from pajbot.managers.kvi import KVIManager
 from pajbot.managers.redis import RedisManager
 from pajbot.managers.discord_bot import DiscordBotManager
 from pajbot.managers.schedule import ScheduleManager
-from pajbot.managers.twitter import TwitterManager
+from pajbot.managers.twitter import TwitterManager, PBTwitterManager
 from pajbot.managers.user_ranks_refresh import UserRanksRefreshManager
 from pajbot.managers.websocket import WebSocketManager
 from pajbot.migration.db import DatabaseMigratable
@@ -89,7 +89,10 @@ class Bot:
             TMI.promote_to_verified()
 
         # phrases
-        self.phrases = {"welcome": ["{nickname} {version} running!"], "quit": ["{nickname} {version} shutting down..."]}
+        self.phrases = {
+            "welcome": ["{nickname} {version} running! HeyGuys"],
+            "quit": ["{nickname} {version} shutting down... BibleThump"],
+        }
         if "phrases" in config:
             phrases = config["phrases"]
             if "welcome" in phrases:
@@ -199,7 +202,10 @@ class Bot:
         self.emote_manager = EmoteManager(self.twitch_v5_api, self.action_queue)
         self.epm_manager = EpmManager()
         self.ecount_manager = EcountManager()
-        self.twitter_manager = TwitterManager(self)
+        if "twitter" in self.config and self.config["twitter"].get("streaming_type", "twitter") == "tweet-provider":
+            self.twitter_manager = PBTwitterManager(self)
+        else:
+            self.twitter_manager = TwitterManager(self)
         self.discord_bot_manager = DiscordBotManager(self, RedisManager.get())
         self.module_manager = ModuleManager(self.socket_manager, bot=self).load()
         self.commands = CommandManager(
