@@ -129,8 +129,10 @@ class DiscordBotManager(object):
                     count = UserConnections._count(db_session)
                 await self.private_message(
                     requestor,
-                    f"There are {count} tier {requested_tier} subs" if len(args) > 0 else f"There are {count} users connected"
-                )   
+                    f"There are {count} tier {requested_tier} subs"
+                    if len(args) > 0
+                    else f"There are {count} users connected",
+                )
 
     async def _get_users_by_tier(self, message):
         if not self.guild:
@@ -378,10 +380,7 @@ class DiscordBotManager(object):
                                     utils.now() + timedelta(days=int(self.settings["grace_time"]))
                                 )
                             else:
-                                subs_to_return[connection.twitch_id] = str(
-                                    utils.now()
-                                )
-
+                                subs_to_return[connection.twitch_id] = str(utils.now())
 
             if not self.settings["pause_bot"]:
                 for sub in queued_subs:  # sub "twitch_id" : date_to_be_removed
