@@ -77,6 +77,7 @@ class TriviaModule(BaseModule):
         self.question = None
         self.step = 0
         self.last_step = None
+        self.extra_steps = 0
         self.streptocuckus = 0
         self.correct_dict = {}
 
@@ -230,6 +231,10 @@ class TriviaModule(BaseModule):
             self.step = 0
             self.last_step = None
 
+            # Determine if extra steps should be added after the last
+            # hint is given assuming average user has typing speed of 30wpm
+            self.extra_steps = round((len(self.question["answer"].split()) * (30 / 60)) / self.settings["step_delay"])
+
         # Is it time for the next step?
         condition = self.last_question is None or utils.now() - self.last_question >= datetime.timedelta(
             seconds=self.settings["question_delay"]
@@ -243,8 +248,10 @@ class TriviaModule(BaseModule):
 
             if self.step == 1:
                 self.step_announce()
-            elif self.step < self.settings["hint_count"] + 2:
+            elif self.step <= self.settings["hint_count"] + 1:
                 self.step_hint()
+            elif self.step <= (self.settings["hint_count"] + 1) + self.extra_steps:
+                pass
             else:
                 self.step_end()
 
